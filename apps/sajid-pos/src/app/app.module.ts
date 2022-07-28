@@ -77,6 +77,12 @@ export const appRoutes: Route[] = [
     loadChildren: () =>
       import('@aims-pos/reports').then((m) => m.ReportsModule),
   },
+  {
+    path: 'company',
+    component: TopSideNavComponent,
+    loadChildren: () =>
+      import('@aims-pos/cmis').then((m) => m.CmisModule),
+  },
   { path: '**', redirectTo: 'auth', pathMatch: 'full' },
 ];
 @NgModule({

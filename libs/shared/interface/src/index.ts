@@ -11,6 +11,9 @@ export * from './lib/validation/myFormFields';
 export * from './lib/modules/application-module-interface';
 export * from './lib/modules/menu-item-interface';
 
+// export authentication classes
+export * from './lib/cmis/outlet-interface';
+
 // export umis classes
 export * from './lib/umis/user-login-interface';
 

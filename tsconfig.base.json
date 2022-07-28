@@ -17,6 +17,7 @@
     "paths": {
       "@aims-pos/auth": ["libs/auth/src/index.ts"],
       "@aims-pos/bachat-online": ["libs/bachat-online/src/index.ts"],
+      "@aims-pos/cmis": ["libs/cmis/src/index.ts"],
       "@aims-pos/layouts": ["libs/layouts/src/index.ts"],
       "@aims-pos/material": ["libs/material/src/index.ts"],
       "@aims-pos/pos-core": ["libs/pos-core/src/index.ts"],

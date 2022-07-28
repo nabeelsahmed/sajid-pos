@@ -5,18 +5,19 @@ import { SharedServicesGlobalDataModule } from '@aims-pos/shared/services/global
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 
 @Component({
-  selector: 'aims-pos-product-table',
-  templateUrl: './product-table.component.html',
-  styleUrls: ['./product-table.component.scss']
+  selector: 'aims-pos-outlet-table',
+  templateUrl: './outlet-table.component.html',
+  styleUrls: ['./outlet-table.component.scss']
 })
-export class ProductTableComponent implements OnInit {
+export class OutletTableComponent implements OnInit {
 
   @Output() eventEmitter = new EventEmitter();
   @Output() eventEmitterDelete = new EventEmitter();
 
-  error: any;
   tableData: any = [];
-  
+
+  error: any;
+
   constructor(
     private dataService: SharedServicesDataModule,
     private globalService: SharedServicesGlobalDataModule,
@@ -24,11 +25,11 @@ export class ProductTableComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.getProduct()
+    this.getOutlet();
   }
-  
-  getProduct(){
-    this.dataService.getHttp('core-api/Product/getProduct', '').subscribe((response: any) => {
+
+  getOutlet(){
+    this.dataService.getHttp('cmis-api/Outlet/getOutlet', '').subscribe((response: any) => {
       this.tableData = response;
     }, (error: any) => {
       console.log(error);
@@ -43,13 +44,13 @@ export class ProductTableComponent implements OnInit {
     this.eventEmitterDelete.emit(item);
     
     var pageFields = {
-      productID: '0',
+      outletID: '0',
       userID: '',
     };
 
     var formFields: MyFormField[] = [
       {
-        value: pageFields.productID,
+        value: pageFields.outletID,
         msg: '',
         type: 'hidden',
         required: false,
@@ -62,20 +63,20 @@ export class ProductTableComponent implements OnInit {
       },
     ];
 
-    formFields[0].value = item.productID;
+    formFields[0].value = item.outletID;
     formFields[1].value = this.globalService.getUserId().toString();
 
     this.dataService
       .deleteHttp(
         pageFields,
         formFields,
-        'core-api/Product/deleteProduct'
+        'cmis-api/Outlet/deleteOutlet'
       )
       .subscribe(
         (response: any) => {
           if(response.message == "Success"){
             this.valid.apiInfoResponse('Record deleted successfully');
-            this.getProduct();
+            this.getOutlet();
           }else{
             this.valid.apiErrorResponse(response[0]);
           }

@@ -1,0 +1,42 @@
+<div class="container">    
+    <div class="d-flex flex-row mt-4 mb-3 align-items-center">
+        <div class="saveProductIcon"></div>
+        <h3 class="ms-3 mt-2">Saved Outlets</h3>
+    </div>
+  <div class="table-responsive">
+    <perfect-scrollbar class="bg-light-grey" style="height: 31.5em; max-width: 100%;">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Outlet Name</th>
+            <th>Outlet Short Name</th>
+            <th>Contact Person</th>
+            <th class="text-center">Mobile</th>
+            <th class="text-center">Email</th>
+            <th class="text-center">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of tableData let i=index">
+            <td>{{item.outletName}}</td>
+            <td>{{item.outletShortName}}</td>
+            <td>{{item.contactPerson}}</td>
+            <td class="text-center">{{item.mobileNo}}</td>
+            <td class="text-center">{{item.phoneNo}}</td>
+            <td class="text-center">
+              <span class="txtClrDarkGrey pe-2 cursorPointer border-right-dark" (click)="edit(item)">
+                <mat-icon>edit</mat-icon>
+              </span>
+              <span class="txtClrLightGreen cursorPointer ps-2 pe-2" (click)="delete(item)">
+                <mat-icon>delete</mat-icon>
+              </span>
+              <!-- <span class="ps-2" (click)="edit(item, '2')">
+                <mat-slide-toggle color="warn" value="item.isDeleted"></mat-slide-toggle>
+              </span> -->
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </perfect-scrollbar>
+  </div>
+</div>

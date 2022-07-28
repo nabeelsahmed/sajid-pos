@@ -4,6 +4,7 @@
     "aims-pos-e2e": "apps/aims-pos-e2e",
     "auth": "libs/auth",
     "bachat-online": "libs/bachat-online",
+    "cmis": "libs/cmis",
     "layouts": "libs/layouts",
     "material": "libs/material",
     "pos-core": "libs/pos-core",
