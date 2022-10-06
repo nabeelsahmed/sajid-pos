@@ -28,8 +28,9 @@ export class ProductTableComponent implements OnInit {
   }
   
   getProduct(){
-    this.dataService.getHttp('core-api/Product/getProduct', '').subscribe((response: any) => {
+    this.dataService.getHttp('core-api/Product/getAllProduct', '').subscribe((response: any) => {
       this.tableData = response;
+      console.log(response)
     }, (error: any) => {
       console.log(error);
     });

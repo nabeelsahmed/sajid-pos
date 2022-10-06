@@ -12,14 +12,18 @@ import { Component, OnInit } from '@angular/core';
 export class PartyLedgerReportComponent implements OnInit {
 
   cmbParty = '';
+  cmbOutlet: string = '';
   lblPartyName = '';
   dtpFromDate = '';
   dtpToDate = '';
   lblTotalDebit = 0;
   lblTotalCredit = 0;
   lblTotalBalance = 0;
+  lblOutletName: string = '';
+  outletID:string = '0';
 
   partyList: any = [];
+  outletList: any = [];
   reportList:any = [];
 
   constructor(
@@ -31,8 +35,24 @@ export class PartyLedgerReportComponent implements OnInit {
 
   ngOnInit(): void {
     this.getParty();
+    this.getOutlet();
+    
+    this.outletID = this.globalService.getOutletId().toString();
   }
 
+  getOutlet(){
+    this.dataService.getHttp('cmis-api/Outlet/getOutlet', '').subscribe((response: any) => {
+      this.outletList = response;
+      // console.log(response)
+      if(this.outletID > '1'){
+        var data = response.filter((x: {outletID: any})=> x.outletID == this.globalService.getOutletId());
+        this.lblOutletName = data[0].outletName;
+      }
+    }, (error: any) => {
+      console.log(error);
+    });
+  }
+  
   getParty() {
     this.dataService.getHttp('core-api/Party/getAllParties', '').subscribe(
       (response: any) => {
@@ -68,7 +88,18 @@ export class PartyLedgerReportComponent implements OnInit {
       return;
     }
 
-    this.dataService.getHttp('report-api/FMISReport/getPartyLedgerReport?partyID=' + this.cmbParty + '&fromDate=' + this.datepipe.transform(this.dtpFromDate, 'yyyy-MM-dd') + '&toDate=' + this.datepipe.transform(this.dtpToDate, 'yyyy-MM-dd'), '').subscribe(
+    var params = '';
+    if(this.outletID == '1'){
+      if(this.cmbOutlet == '' || this.cmbOutlet == undefined){
+        params = '?partyID=' + this.cmbParty + '&fromDate=' + this.datepipe.transform(this.dtpFromDate, 'yyyy-MM-dd') + '&toDate=' + this.datepipe.transform(this.dtpToDate, 'yyyy-MM-dd');
+      }else{
+        params = '?partyID=' + this.cmbParty + '&fromDate=' + this.datepipe.transform(this.dtpFromDate, 'yyyy-MM-dd') + '&toDate=' + this.datepipe.transform(this.dtpToDate, 'yyyy-MM-dd') + '&outletid='+ this.cmbOutlet;
+      }
+    }else{
+      params = '?partyID=' + this.cmbParty + '&fromDate=' + this.datepipe.transform(this.dtpFromDate, 'yyyy-MM-dd') + '&toDate=' + this.datepipe.transform(this.dtpToDate, 'yyyy-MM-dd') + '&outletid='+ this.outletID;
+    }
+
+    this.dataService.getHttp('report-api/FMISReport/getPartyLedgerReport' + params, '').subscribe(
       (response: any) => {
         var balance = 0;
         for(var i = 0; i < response.length; i++){

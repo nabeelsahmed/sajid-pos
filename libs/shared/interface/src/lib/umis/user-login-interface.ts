@@ -6,5 +6,6 @@ export interface UserInterface {
     region: string;
     roleId: number;
     isPinCode: string;
+    outletid: number;
     token?: string;
 }

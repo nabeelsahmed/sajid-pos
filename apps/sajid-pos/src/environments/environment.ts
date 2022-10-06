@@ -5,12 +5,12 @@
 export const environment = {
   production: false,
   envName: 'prod',
-  apiUrl: 'http://localhost:7000/',
-  // apiUrl: 'http://135.181.62.34:7000/',
-  // imageUrl: 'C:/inetpub/wwwroot/aims-pos/assets/ui/',
-  imageUrl: 'E:/projects/aims-pos/libs/ui/src/lib/assets/images/',
+  // apiUrl: 'http://localhost:7050/',
+  apiUrl: 'http://135.181.62.34:7050/',
+  imageUrl: 'C:/inetpub/wwwroot/SajidPosProject/sajid-pos/assets/ui/',
+  // imageUrl: 'E:/projects/sajidProject/sajid-pos/libs/ui/src/lib/assets/images/',
   // imageSavedPath: 'http://157.90.101.251:9000/assets/ui/',
-  imageSavedPath: 'E:/projects/aims-pos/libs/ui/src/lib/assets/images/',
+  imageSavedPath: 'E:/projects/sajidProject/sajid-pos/libs/ui/src/lib/assets/images/',
 };
 
 /*

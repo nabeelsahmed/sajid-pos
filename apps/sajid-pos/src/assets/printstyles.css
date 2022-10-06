@@ -1,5 +1,5 @@
 @import '~@angular/material/prebuilt-themes/indigo-pink.css';
-@import './assets/fonts/fonts.scss';
+@import '../../../../libs/ui/src/lib/assets/fonts/fonts.scss';
 
 body {
   background-color: #efefef !important;

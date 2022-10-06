@@ -64,6 +64,10 @@ import { ProductImageUploadingComponent } from './product/product-image-uploadin
 import { PosDashboardComponent } from './pos-dashboard/pos-dashboard.component';
 import { UpdateProductDataComponent } from './update-product-data/update-product-data.component';
 import { ProductImageUpdateComponent } from './product/product-image-update/product-image-update.component';
+import { SaleOutletComponent } from './sale-outlet/sale-outlet.component';
+import { ProductSaleOutletTableComponent } from './sale-outlet/product-sale-outlet-table/product-sale-outlet-table.component';
+import { PrintSaleOutletComponent } from './sale-outlet/print-sale-outlet/print-sale-outlet.component';
+import { SaleTableComponent } from './sale/sale-table/sale-table.component';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true,
@@ -93,6 +97,7 @@ export const posCoreRoutes: Route[] = [
   { path: 'designation', component: DesignationComponent },
   { path: 'dashboard', component: PosDashboardComponent },
   { path: 'updtprod', component: UpdateProductDataComponent },
+  { path: 'saleoutlet', component: SaleOutletComponent },
 
 ];
 
@@ -130,6 +135,9 @@ export const posCoreRoutes: Route[] = [
     EmployeeProfileTableComponent,
     DesignationTableComponent,
     ProductImageUploadingComponent,
+    ProductSaleOutletTableComponent,
+    PrintSaleOutletComponent,
+    SaleTableComponent,
   ],
   declarations: [
     ProductComponent,
@@ -180,6 +188,10 @@ export const posCoreRoutes: Route[] = [
     PosDashboardComponent,
     UpdateProductDataComponent,
     ProductImageUpdateComponent,
+    SaleOutletComponent,
+    ProductSaleOutletTableComponent,
+    PrintSaleOutletComponent,
+    SaleTableComponent,
   ],
   providers: [
     {

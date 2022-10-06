@@ -140,6 +140,7 @@ button {
   background-size: cover;
   // min-height: 41.4em;
   height: 100vh;
+  overflow: hidden !important;
 }
 .homePageHeading{
   font-family: 'Montserrat';
@@ -249,6 +250,23 @@ button {
   transition: all .5s ease-in-out;
 }
 
+.weightLossBtn{
+  position: fixed;
+  right: 0;
+  height: 40px;
+  background-color: #a7a7a7 !important;
+  color: var(--white);
+  font-weight: bold;
+  border-radius: 0 !important;
+}
+.weightLossBtn:hover{
+  height: 40px;
+  background-color: #888a7c !important;
+  color: var(--white);
+  font-weight: bold;
+  border-radius: 0 !important;
+  transition: all .5s ease-in-out;
+}
 .saveBtn{
   position: fixed;
   right: 0;
@@ -698,6 +716,13 @@ button.mat-raised-button.uploadbtn{
 .txtClrDarkGrey{
   color: var(--dark-grey) !important;
 }
+
+.mat-slide-toggle.mat-checked:not(.mat-disabled) .mat-slide-toggle-bar {
+  background-color: var(--dark-grey);
+}
+.mat-slide-toggle.mat-checked:not(.mat-disabled) .mat-slide-toggle-thumb {
+  background-color: var(--light-green);
+}
 ////////////////////////////////////////////////////////
 /******************** end text colors ****************/
 ///////////////////////////////////////////////////////
@@ -813,6 +838,24 @@ button.mat-raised-button.uploadbtn{
 }
 
 .productBox:hover{
+  box-shadow: 0px 0px 6px 0px rgba(0,0,0,0.72);
+  -webkit-box-shadow: 0px 0px 6px 0px rgba(0,0,0,0.72);
+  -moz-box-shadow: 0px 0px 6px 0px rgba(0,0,0,0.72);
+  transition: all .5s ease-in-out;
+}
+
+
+.productSaleBox{
+  background-color: var(--white);
+  // background-color: var(--light-green);
+  // color: white;
+  text-align: center;
+  width: 10em;
+  height: 8em;
+
+}
+
+.productSaleBox:hover{
   box-shadow: 0px 0px 6px 0px rgba(0,0,0,0.72);
   -webkit-box-shadow: 0px 0px 6px 0px rgba(0,0,0,0.72);
   -moz-box-shadow: 0px 0px 6px 0px rgba(0,0,0,0.72);

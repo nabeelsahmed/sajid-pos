@@ -8,23 +8,25 @@
       <table class="table">
         <thead>
           <tr>
+            <th>Sr#</th>
             <th>ProductName</th>
-            <th>Category</th>
-            <th>Brand</th>
+            <!-- <th>Category</th>
+            <th>Brand</th> -->
             <!-- <th>Location</th> -->
-            <th class="text-center">Re-order Level</th>
-            <th class="text-center">Sale Price</th>
+            <!-- <th class="text-center">Cost Price</th>
+            <th class="text-center">Sale Price</th> -->
             <th class="text-center">Actions</th>
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let item of tableData; let i=index">
+            <td>{{i+1}}</td>
             <td>{{item.productName}}</td>
-            <td>{{item.categoryName}}</td>
-            <td>{{item.brandName}}</td>
+            <!-- <td>{{item.categoryName}}</td>
+            <td>{{item.brandName}}</td> -->
             <!-- <td>{{item.locationName}}</td> -->
-            <td class="text-center">{{item.rol | number}}</td>
-            <td class="text-center">{{item.salePrice | number}}</td>
+            <!-- <td class="text-center">{{item.costPrice | number}}</td>
+            <td class="text-center">{{item.salePrice | number}}</td> -->
             <td class="text-center">
               <span class="txtClrDarkGrey pe-2 cursorPointer border-right-dark" (click)="edit(item)">
                 <mat-icon>edit</mat-icon>

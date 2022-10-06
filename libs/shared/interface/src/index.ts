@@ -23,6 +23,7 @@ export * from './lib/core/product-interface';
 export * from './lib/core/sale-interface';
 export * from './lib/core/opening-balance-interface';
 export * from './lib/core/bachat-product-interface';
+export * from './lib/core/sale-outlet-interface';
 
 //export config classes
 export * from './lib/config/category-interface';

@@ -28,7 +28,8 @@ export class PartyComponent implements OnInit {
     phone: '',
     mobile: '',
     description: '',
-    focalPerson: ''
+    focalPerson: '',
+    outletid: ''
   };
 
   formFields: MyFormField[] = [
@@ -60,7 +61,7 @@ export class PartyComponent implements OnInit {
       value: this.pageFields.cnic,
       msg: 'enter cnic',
       type: 'textbox',
-      required: true,
+      required: false,
     },
     {
       value: this.pageFields.type,
@@ -72,7 +73,7 @@ export class PartyComponent implements OnInit {
       value: this.pageFields.rootID,
       msg: 'select route',
       type: 'selectbox',
-      required: true,
+      required: false,
     },
     {
       value: this.pageFields.address,
@@ -116,11 +117,18 @@ export class PartyComponent implements OnInit {
       type: 'textbox',
       required: false,
     },
+    {
+      value: this.pageFields.outletid,
+      msg: '',
+      type: 'selectbox',
+      required: false,
+    },
   ];
   
   cityList: any = [];
   routeList: any = [];
-
+  outletList: any = [];
+  
   tabIndex = 0;
   error: any;
 
@@ -139,6 +147,19 @@ export class PartyComponent implements OnInit {
 
     this.getRoute();
     this.getCity();
+    this.getOutlet();
+  }
+
+  getOutlet(){
+    this.dataService.getHttp('cmis-api/Outlet/getOutlet', '').subscribe(
+      (response: any) => {
+        this.outletList = response;
+        // console.log(response)
+      },
+      (error: any) => {
+        console.log(error);
+      }
+    );
   }
 
   getRoute(){
@@ -162,16 +183,31 @@ export class PartyComponent implements OnInit {
       }
     );
   }
+  outletChange(item: any){
+    var data = this.outletList.filter(
+      (x: { outletID: any }) =>
+        x.outletID == item
+    );
 
+    this.formFields[2].value = data[0].outletName;
+    this.formFields[7].value = data[0].outletAddress;
+    this.formFields[13].value = data[0].contactPerson;
+    this.formFields[11].value = data[0].mobileNo;
+  }
   save() {
 
-    if(this.formFields[4].value == '' || this.formFields[4].value == null){
-      this.valid.apiInfoResponse('enter cnic');return;
-    }
+    // if(this.formFields[4].value == '' || this.formFields[4].value == null){
+    //   this.valid.apiInfoResponse('enter cnic');return;
+    // }
 
-    var strCnic = this.formFields[4].value.replace(/_/g, '')
-    if(strCnic.length < 15){
-      this.valid.apiInfoResponse('enter correct cnic');return;
+    // var strCnic = this.formFields[4].value.replace(/_/g, '')
+    // if(strCnic.length < 15){
+    //   this.valid.apiInfoResponse('enter correct cnic');return;
+    // }
+
+    this.formFields[6].value = '0';
+    if(this.formFields[5].value != 'outlet'){
+      this.formFields[14].value = '0';
     }
 
     if(this.formFields[11].value == '' || this.formFields[11].value == null){
@@ -187,6 +223,12 @@ export class PartyComponent implements OnInit {
       var strPhone = this.formFields[11].value.replace(/_/g, '')
       if(strPhone.length < 11){
         this.valid.apiInfoResponse('enter correct phone no');return;
+      }
+    }
+
+    if(this.formFields[5].value == 'outlet'){
+      if(this.formFields[14].value == '' || this.formFields[14].value == null){
+        this.valid.apiInfoResponse('select outlet');return;
       }
     }
 
@@ -246,6 +288,7 @@ export class PartyComponent implements OnInit {
     this.formFields[11].value = item.mobile;
     this.formFields[12].value = item.description;
     this.formFields[13].value = item.focalperson;
+    this.formFields[14].value = item.outletid;
   }
 
   changeTabHeader(tabNum: any) {

@@ -1,0 +1,46 @@
+<div class="table-responsive">
+    <perfect-scrollbar style="height: 18em; max-width: 100%;">
+      <table class="table">
+      <thead>
+        <tr>
+          <th class="text-center">Sr#</th>
+          <th>Product Name</th>
+          <th>Available Quantity</th>
+          <th>Quantity</th>
+          <th>Cost Price</th>
+          <th>Sale Price</th>
+          <th>Total</th>
+          <th class="text-center">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of tableData; let i=index" [ngClass]="{'changeTblClr': item.status == 'deleted'}">
+          <td class="text-center">{{i+1}}</td>
+          <td>{{item.productName}}</td>
+          <td>{{item.availableqty}}</td>
+          <td>  
+            <mat-form-field class="w-100" floatLabel="never">
+              <input class="text-right" type="number" (keyup)="totalBill(i, item.qty, item)" [(ngModel)]="item.qty" matInput />
+            </mat-form-field>
+          </td>
+          <td>  
+            <mat-form-field class="w-100" floatLabel="never">
+              <input class="text-right" type="number" (keyup)="totalBill(i, item.qty, item)" [(ngModel)]="item.costPrice" matInput />
+            </mat-form-field>
+          </td>
+          <td>
+            <mat-form-field class="w-100" floatLabel="never">
+                <input class="text-right" type="number" (keyup)="totalBill(i, item.qty, item)" [(ngModel)]="item.salePrice" matInput />
+            </mat-form-field>
+        </td>
+          <td>{{item.total}}</td>
+          <td class="text-center">
+            <span class="txtClrLightGreen cursorPointer ps-2 pe-2" (click)="delete(i)">
+              <mat-icon>delete</mat-icon>
+            </span>
+          </td>
+        </tr>
+      </tbody>
+      </table>
+    </perfect-scrollbar>
+</div>

@@ -21,7 +21,7 @@ export class EmployeeProfileComponent implements OnInit {
     partyNameUrdu: '',
     cnic: '',
     designationID: '',
-    branchID: '',
+    outletID: '',
     type: '',
     cityID: '',
     address: '',
@@ -68,8 +68,8 @@ export class EmployeeProfileComponent implements OnInit {
       required: true,
     },
     {
-      value: this.pageFields.branchID,
-      msg: 'select branch',
+      value: this.pageFields.outletID,
+      msg: 'select outlet',
       type: 'selectbox',
       required: true,
     },
@@ -113,7 +113,7 @@ export class EmployeeProfileComponent implements OnInit {
   
   cityList: any = [];
   designationList: any = [];
-  branchList: any = [];
+  outletList: any = [];
 
   tabIndex = 0;
   error: any;
@@ -131,7 +131,7 @@ export class EmployeeProfileComponent implements OnInit {
     this.formFields[1].value = this.globalService.getUserId().toString();
 
     this.getDesignation();
-    this.getBranch();
+    this.getOutlet();
     this.getCity();
   }
 
@@ -146,10 +146,10 @@ export class EmployeeProfileComponent implements OnInit {
     );
   }
 
-  getBranch(){
-    this.dataService.getHttp('cmis-api/Branch/getBranch', '').subscribe(
+  getOutlet(){
+    this.dataService.getHttp('cmis-api/Outlet/getOutlet', '').subscribe(
       (response: any) => {
-        this.branchList = response;
+        this.outletList = response;
       },
       (error: any) => {
         console.log(error);
@@ -222,12 +222,13 @@ export class EmployeeProfileComponent implements OnInit {
   edit(item: any){
     this.tabIndex = 0;
 
+    console.log(item)
     this.formFields[0].value = item.partyID;
     this.formFields[2].value = item.partyName;
     this.formFields[3].value = item.partyNameUrdu;
     this.formFields[4].value = item.cnic;
     this.formFields[5].value = item.designationID;
-    this.formFields[6].value = item.branchID;
+    this.formFields[6].value = item.outletid;
     this.formFields[7].value = item.type;
     this.formFields[8].value = item.cityID;
     this.formFields[9].value = item.address;

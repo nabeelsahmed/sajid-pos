@@ -1,23 +1,40 @@
 <div class="row">
     <div class="col-md-12 text-center mb-2 mt-3">
-        <h1>Bachat Online</h1>
+        <img src="assets/ui/company/logo.png" width="300px" />
+    </div>
+    <div class="col-md-12 text-center mb-3">
+        <h4>
+            Phone # 051-5917112
+        </h4>
     </div>
     <div class="col-md-12 text-center mb-3 borderBottom">
-        <h4>Ph # 03330698127-128</h4>
+        <h4>
+            Mobile # 0311-1444261
+        </h4>
     </div>
 </div>
-<div class="d-flex justify-content-between mt-2 mb-0 border-bottom border-dark">
+<div class="d-flex justify-content-between mt-2 mb-0 border-bottom">
     <h5>Inv. #</h5>
     <h5>Date</h5>
     <h5>Time</h5>
     <h5>Counter</h5>
 </div>
-<div class="d-flex justify-content-between mb-2 mt-2">
-    <h6 class="fw-bold">{{lblInvoice}}</h6>
-    <h6 class="ms-4">{{lblDate | date: 'MMM dd, YYYY'}}</h6>
-    <h6 class="ms-3">{{lblDate | date: 'HH:mm a'}}</h6>
-    <h6>{{lblName}}</h6>
-</div>
+<!-- <div class="d-flex flex-row justify-content-between mb-2 mt-2 border-bottom-1"> -->
+    <div class="row mb-2 mt-1 border-bottom-1">
+        <div class="col-md-2">
+            <h6 class="fw-bold">{{lblInvoice}}</h6>
+        </div>
+        <div class="col-md-2">
+            <h6 class="">{{lblDate | date: 'MMM dd, YYYY'}}</h6>
+        </div>
+        <div class="col-md-2">
+            <h6 class="">{{lblDate | date: 'HH:mm a'}}</h6>
+        </div>
+        <div class="col-md-2">
+            <h6 class="">{{lblName}}</h6>
+        </div>
+    </div>
+<!-- </div> -->
 <table class="table">
     <thead>
         <tr>
@@ -25,6 +42,7 @@
             <th class="col-6">Description</th>
             <th class="col-1 text-center">Qty</th>
             <th class="col-2 text-end">Price</th>
+            <th class="col-2 text-end">Box Price</th>
             <th class="col-2 text-end">Total</th>
         </tr>
     </thead>
@@ -34,18 +52,19 @@
             <td class="col-6">{{item.productName}}</td>
             <td class="col-1 text-center">{{item.qty}}</td>
             <td class="col-2 text-end">{{item.salePrice}}</td>
+            <td class="col-2 text-end">{{item.boxprice}}</td>
             <td class="col-2 text-end">{{item.total}}</td>
         </tr>
     </tbody>
 </table>
-<div class="d-flex justify-content-around border-bottom border-3">
+<div class="d-flex justify-content-around border-bottom">
     <div class="d-flex flex-column flex-fill align-self-center">
         <h1 class="text-center m-0">Thank</h1>
         <h1 class="text-center m-0">You!</h1>
         <h6 class="text-center">FOR VISITING US.</h6>
     </div>
     <div class="flex-fill">
-        <table class="table table-borderless">
+        <table class="table table-borderless ms-1">
             <tbody>
                 <tr>
                     <td class="fw-bold col-8 text-end">Grand Total</td>
@@ -57,7 +76,7 @@
                 </tr>
                 <tr>
                     <td class="col-8 text-end">Cash</td>
-                    <td class="col-4 text-end">{{lblCash | number}}</td>
+                    <td class="col-5 text-end">{{lblCash | number}}</td>
                 </tr>
                 <tr>
                     <td class="col-8 text-end">Change</td>
@@ -67,8 +86,8 @@
         </table>
     </div>
 </div>
-<div class="d-flex flex-column border-bottom border-3 mt-3">
+<!-- <div class="d-flex flex-column border-bottom border-3 mt-3">
     <label class="fw-bold ms-2">Wish to Serve You Again.</label>
     <label class="fw-bold ms-2">No Return Acceptable without Invoice.</label>
     <label class="fw-bold ms-2 mb-3">Return is Acceptable within 3 Days.</label>
-</div>
+</div> -->

@@ -17,6 +17,7 @@ export class PurchaseComponent implements OnInit {
   @ViewChild(ProductPurchaseTableComponent) productPurchaseTable: any;
   
   searchProduct:any = '';
+  searchPurProduct:any = '';
   cmbProduct: any = '';
   lblTotal: any = 0;
   lblCash: any = 0;
@@ -34,6 +35,7 @@ export class PurchaseComponent implements OnInit {
     change: '0',
     description: '',
     branchID: '',
+    outletid: '',
     json: '',
   };
   
@@ -60,7 +62,7 @@ export class PurchaseComponent implements OnInit {
       value: this.pageFields.refInvoiceNo,
       msg: 'enter reference invoice no',
       type: 'textbox',
-      required: true,
+      required: false,
     },
     {
       value: this.pageFields.refInvoiceDate,
@@ -105,6 +107,12 @@ export class PurchaseComponent implements OnInit {
       required: false,
     },
     {
+      value: this.pageFields.outletid,
+      msg: '',
+      type: 'hidden',
+      required: false,
+    },
+    {
       value: this.pageFields.json,
       msg: 'enter products',
       type: 'textBox',
@@ -116,6 +124,7 @@ export class PurchaseComponent implements OnInit {
 
   productList: any = [];
   partyList: any = [];
+  purchaseList: any = [];
 
   constructor(
     private dataService: SharedServicesDataModule,
@@ -130,14 +139,33 @@ export class PurchaseComponent implements OnInit {
     this.formFields[2].value = curDate;
 
     this.formFields[10].value = 1;
-    
+
     this.getProduct();
     this.getParty();
   }
 
   getProduct(){
-    this.dataService.getHttp('core-api/Product/getProduct', '').subscribe((response: any) => {
-      this.productList = response;
+    this.productList = [];
+
+    this.dataService.getHttp('core-api/Product/getAllProduct', '').subscribe((response: any) => {
+      // this.productList = response;
+      this.productList = [];
+      for(var i = 0; i < response.length; i++){
+        this.productList.push({
+          productID: response[i].productID,
+          barcode1: response[i].barcode1,
+          productName: response[i].productName,
+          qty: 1,
+          costPrice: '0',
+          salePrice: '0',
+          laborCost: '0',
+          noOfBoxes: '0',
+          freightCharges: '0',
+          locationID: response[i].locationID,
+          total: response[i].salePrice,
+        })
+      }
+      
     }, (error: any) => {
       console.log(error);
     });
@@ -146,6 +174,17 @@ export class PurchaseComponent implements OnInit {
   getParty(){
     this.dataService.getHttp('core-api/Party/getParty', '').subscribe((response: any) => {
       this.partyList = response;
+    }, (error: any) => {
+      console.log(error);
+    });
+  }
+
+  getWeightLoss(){
+
+    this.dataService.getHttp('core-api/Purchase/getPurchase', '').subscribe((response: any) => {
+      $("#weightLossModal").modal("show");
+      
+      this.purchaseList = response;
     }, (error: any) => {
       console.log(error);
     });
@@ -163,6 +202,9 @@ export class PurchaseComponent implements OnInit {
         qty: 1,
         costPrice: data[0].costPrice,
         salePrice: data[0].salePrice,
+        laborCost: data[0].laborCost,
+        noOfBoxes: data[0].noOfBoxes,
+        freightCharges: data[0].freightCharges,
         locationID: data[0].locationID,
         total: data[0].salePrice,
       })
@@ -179,8 +221,8 @@ export class PurchaseComponent implements OnInit {
       }
 
       if(found == true){
-        this.productPurchaseTable.tableData[index].qty += 1;
-        this.productPurchaseTable.tableData[index].total = this.productPurchaseTable.tableData[index].salePrice * this.productPurchaseTable.tableData[index].qty;
+        this.productPurchaseTable.tableData[index].qty = parseInt(this.productPurchaseTable.tableData[index].qty) + 1;
+        this.productPurchaseTable.tableData[index].total = parseInt(this.productPurchaseTable.tableData[index].costPrice) + (parseInt(this.productPurchaseTable.tableData[index].laborCost) + parseInt(this.productPurchaseTable.tableData[index].freightCharges));
       }else{
         this.productPurchaseTable.tableData.push({
           productID: data[0].productID,
@@ -189,6 +231,9 @@ export class PurchaseComponent implements OnInit {
           qty: 1,
           costPrice: data[0].costPrice,
           salePrice: data[0].salePrice,
+          laborCost: data[0].laborCost,
+          noOfBoxes: data[0].noOfBoxes,
+          freightCharges: data[0].freightCharges,
           locationID: data[0].locationID,
           total: data[0].salePrice,
         })
@@ -197,7 +242,8 @@ export class PurchaseComponent implements OnInit {
 
     this.lblTotal = 0;
     for(var i = 0; i < this.productPurchaseTable.tableData.length; i++){
-      this.lblTotal += this.productPurchaseTable.tableData[i].total;
+
+      this.lblTotal += parseInt(this.productPurchaseTable.tableData[i].total);
     }
 
     this.formFields[8].value = -this.lblTotal;
@@ -206,8 +252,9 @@ export class PurchaseComponent implements OnInit {
   totalBill(){
 
     this.lblTotal = 0;
+
     for(var i = 0; i < this.productPurchaseTable.tableData.length; i++){
-      this.lblTotal += this.productPurchaseTable.tableData[i].total;
+      this.lblTotal += parseInt(this.productPurchaseTable.tableData[i].total);
     }
 
     this.formFields[8].value = -this.lblTotal;
@@ -233,7 +280,8 @@ export class PurchaseComponent implements OnInit {
 
     this.lblCash = this.formFields[7].value;
 
-    this.formFields[11].value = JSON.stringify(this.productPurchaseTable.tableData);
+    this.formFields[12].value = JSON.stringify(this.productPurchaseTable.tableData);
+    this.formFields[11].value = this.globalService.getOutletId().toString();
 
     if(this.productPurchaseTable.tableData.length == 0){
       this.valid.apiInfoResponse("enter products");
@@ -320,9 +368,9 @@ export class PurchaseComponent implements OnInit {
           this.formFields[3].value = this.lblInvoiceNo;
           this.formFields[4].value = new Date();
 
-          this.formFields[11].value = JSON.stringify(this.productPurchaseTable.tableData);
+          this.formFields[12].value = JSON.stringify(this.productPurchaseTable.tableData);
           
-          console.log(this.formFields[11].value)
+          // console.log(this.formFields[11].value)
           this.dataService
           .savetHttp(
             this.pageFields,
@@ -355,6 +403,102 @@ export class PurchaseComponent implements OnInit {
     }, (error: any) => {
       console.log(error);
     });
+  }
+
+  updateWeight(item: any){
+
+    var pageFields = {
+      invoiceNo: '0',
+      userID: '',
+      productID: '0',
+      qty: '0',
+      costPrice: '0',
+      salePrice: '0',
+      laborCost: '0',
+      freightCharges: '0',
+    };
+
+    var formFields: MyFormField[] = [
+      {
+        value: pageFields.invoiceNo,
+        msg: '',
+        type: 'hidden',
+        required: false,
+      },
+      {
+        value: pageFields.userID,
+        msg: '',
+        type: 'hidden',
+        required: false,
+      },
+      {
+        value: pageFields.productID,
+        msg: '',
+        type: 'hidden',
+        required: false,
+      },
+      {
+        value: pageFields.qty,
+        msg: '',
+        type: 'hidden',
+        required: false,
+      },
+      {
+        value: pageFields.costPrice,
+        msg: '',
+        type: 'hidden',
+        required: false,
+      },
+      {
+        value: pageFields.salePrice,
+        msg: '',
+        type: 'hidden',
+        required: false,
+      },
+      {
+        value: pageFields.laborCost,
+        msg: '',
+        type: 'hidden',
+        required: false,
+      },
+      {
+        value: pageFields.freightCharges,
+        msg: '',
+        type: 'hidden',
+        required: false,
+      },
+    ];
+
+    formFields[0].value = item.invoiceNo;
+    formFields[1].value = this.globalService.getUserId().toString();
+    formFields[2].value = item.productID;
+    formFields[3].value = item.qty;
+    formFields[4].value = item.costPrice;
+    formFields[5].value = item.salePrice;
+    formFields[6].value = item.laborcost;
+    formFields[7].value = item.freightcharges;
+
+    this.dataService
+      .savetHttp(
+        pageFields,
+        formFields,
+        'core-api/Purchase/updatePurchase'
+      )
+      .subscribe(
+        (response: any) => {
+          if(response.message == "Success"){
+            this.valid.apiInfoResponse('Record updated successfully');
+            $("#weightLossModal").modal("hide");
+          }else{
+            this.valid.apiErrorResponse(response[0]);
+          }
+          
+        },
+        (error: any) => {
+          this.error = error;
+          this.valid.apiErrorResponse(this.error);
+        }
+      );
   }
 
   reset(){

@@ -56,11 +56,11 @@
                         <div class="col-md-4">
                             <mat-form-field class="w-100 pt-3 pe-4">
                                 <mat-select class="matInput" [(ngModel)]="formFields[6].value"
-                                placeholder="Select branch">
-                                    <mat-option *ngFor="let item of branchList"
-                                        [value]="item.branchID"
+                                placeholder="Select outlet">
+                                    <mat-option *ngFor="let item of outletList"
+                                        [value]="item.outletID"
                                         >
-                                        {{ item.branchName }}
+                                        {{ item.outletName }}
                                     </mat-option>
                                 </mat-select>
                         </mat-form-field>

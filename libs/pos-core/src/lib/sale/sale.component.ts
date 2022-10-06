@@ -1,10 +1,11 @@
 import { SharedHelpersFieldValidationsModule } from '@aims-pos/shared/helpers/field-validations';
-import { MyFormField, SaleInterface } from '@aims-pos/shared/interface';
+import { MyFormField, SaleOutletInterface } from '@aims-pos/shared/interface';
 import { SharedServicesDataModule } from '@aims-pos/shared/services/data';
 import { SharedServicesGlobalDataModule } from '@aims-pos/shared/services/global-data';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { PrintSaleComponent } from './print-sale/print-sale.component';
 import { ProductSaleTableComponent } from './product-sale-table/product-sale-table.component';
+import { SaleTableComponent } from './sale-table/sale-table.component';
 
 declare var $: any;
 
@@ -16,11 +17,13 @@ declare var $: any;
 export class SaleComponent implements OnInit {
 
   @ViewChild(ProductSaleTableComponent) productSaleTable: any;
+  @ViewChild(SaleTableComponent) saleTable: any;
   @ViewChild(PrintSaleComponent) printSale: any;
 
   @ViewChild('txtCash') _txtCash: ElementRef;
   @ViewChild('txtFocusCode') _txtFocusCode: ElementRef;
-  
+
+  tblSearch: any = '';
   searchProduct:any = '';
   cmbProduct: any = '';
   txtCode: any = '';
@@ -28,7 +31,9 @@ export class SaleComponent implements OnInit {
   lblCash: any = 0;
   lblInvoiceNo: any = 0;
 
-  pageFields: SaleInterface = {
+  sldSwitch = '1';
+
+  pageFields: SaleOutletInterface = {
     invoiceNo: '0',
     userID: '',
     invoiceDate: '',
@@ -41,6 +46,7 @@ export class SaleComponent implements OnInit {
     description: '',
     branchID: '',
     json: '',
+    outletid: '',
   };
   
   formFields: MyFormField[] = [
@@ -116,8 +122,15 @@ export class SaleComponent implements OnInit {
       type: 'textBox',
       required: true,
     },
+    {
+      value: this.pageFields.outletid,
+      msg: '',
+      type: '',
+      required: false,
+    },
   ];
 
+  tabIndex = 0;
   error: any;
 
   productList: any = [];
@@ -132,6 +145,7 @@ export class SaleComponent implements OnInit {
   ngOnInit(): void {
     // this.globalService.setHeaderTitle("Sale");
     this.formFields[1].value = this.globalService.getUserId().toString();
+    this.formFields[12].value = this.globalService.getOutletId().toString();
 
     this.formFields[10].value = 1;
     
@@ -140,9 +154,30 @@ export class SaleComponent implements OnInit {
   }
 
   getProduct(){
-    this.dataService.getHttp('core-api/Product/getProduct', '').subscribe((response: any) => {
-      this.productList = response;
-      // console.log(response)
+    this.dataService.getHttp('core-api/Product/getAvailProduct?outletID=' + this.globalService.getOutletId().toString(), '').subscribe((response: any) => {
+      // this.productList = response;
+      this.productList = [];
+      for(var i = 0; i < response.length; i++){
+        var img = "";
+        if(response[i].applicationedoc == ""){
+          img = "http://135.181.62.34:7060/assets/ui/productPictures/noImage.png";
+        }else{
+          img = "http://135.181.62.34:7060/assets/ui/productPictures/" + response[i].productID + ".png";
+        }
+        this.productList.push({
+          availableqty: response[i].availableqty,
+          costPrice: response[i].costPrice,
+          invoiceDate: response[i].invoiceDate,
+          outletid: response[i].outletid,
+          pPriceID: response[i].pPriceID,
+          productID: response[i].productID,
+          productName: response[i].productName,
+          salePrice: response[i].salePrice,
+          imgUrl: img,
+        })
+      }
+      // console.log(this.productList)
+
     }, (error: any) => {
       console.log(error);
     });
@@ -169,143 +204,162 @@ export class SaleComponent implements OnInit {
 
   pushProductByCode(item: any, e: any){
 
-    // alert(e.ctrlKey);
+    // // alert(e.ctrlKey);
 
-    if(e.ctrlKey == true){
-      //   // alert(e.keyCode);
-        this._txtCash.nativeElement.focus();
-        this.formFields[7].value = '';
-        this.txtCode = '';
-    }
-    if(e.keyCode == 13){
+    // if(e.ctrlKey == true){
+    //   //   // alert(e.keyCode);
+    //     this._txtCash.nativeElement.focus();
+    //     this.formFields[7].value = '';
+    //     this.txtCode = '';
+    // }
+    // if(e.keyCode == 13){
     
-      return;
-    }
-    var data = this.productList.filter((x: {barcode1: any, barcode2: any, barcode3: any}) => 
-      x.barcode1 == item.toString() && x.barcode2 == '' && x.barcode3 == '');
+    //   return;
+    // }
+    // var data = this.productList.filter((x: {barcode1: any, barcode2: any, barcode3: any}) => 
+    //   x.barcode1 == item.toString() && x.barcode2 == '' && x.barcode3 == '');
     
-    if(data.length == 0 && item.toString() != ''){
-      data = this.productList.filter((x: {barcode1: any, barcode2: any, barcode3: any}) => 
-      x.barcode2 == item.toString() && x.barcode3 == '');
+    // if(data.length == 0 && item.toString() != ''){
+    //   data = this.productList.filter((x: {barcode1: any, barcode2: any, barcode3: any}) => 
+    //   x.barcode2 == item.toString() && x.barcode3 == '');
     
-      if(data.length == 0 && item.toString() != ''){
-        var data = this.productList.filter((x: {barcode1: any, barcode2: any, barcode3: any}) => 
-        x.barcode3 == item.toString());
+    //   if(data.length == 0 && item.toString() != ''){
+    //     var data = this.productList.filter((x: {barcode1: any, barcode2: any, barcode3: any}) => 
+    //     x.barcode3 == item.toString());
         
-        if(data.length == 0){
-          return;
-        }
-      }
-    }
-    if(this.productSaleTable.tableData.length == 0){
-      this.productSaleTable.tableData.push({
-        barcode1: data[0].barcode1,
-        barcode2: data[0].barcode2,
-        barcode3: data[0].barcode3,
-        productID: data[0].productID,
-        productName: data[0].productName,
-        qty: 1,
-        costPrice: data[0].costPrice,
-        salePrice: data[0].salePrice,
-        locationID: data[0].locationID,
-        total: data[0].salePrice,
-        packing: data[0].packing,
-        packingSalePrice: data[0].packingSalePrice,
-        status: ''
-      })
-    }else{
+    //     if(data.length == 0){
+    //       return;
+    //     }
+    //   }
+    // }
+    // if(this.productSaleTable.tableData.length == 0){
+    //   this.productSaleTable.tableData.push({
+    //     barcode1: data[0].barcode1,
+    //     barcode2: data[0].barcode2,
+    //     barcode3: data[0].barcode3,
+    //     productID: data[0].productID,
+    //     productName: data[0].productName,
+    //     qty: 1,
+    //     costPrice: data[0].costPrice,
+    //     salePrice: data[0].salePrice,
+    //     // locationID: data[0].locationID,
+    //     boxprice: data[0].boxprice,
+    //     pPriceID: data[0].pPriceID,
+    //     outletid: data[0].outletid,
+    //     availableqty: data[0].availableqty,
+    //     total: data[0].salePrice,
+    //     // packing: data[0].packing,
+    //     // packingSalePrice: data[0].packingSalePrice,
+    //     // status: ''
+    //   })
+    // }else{
 
-      var found = false;
-      var index = 0;
-      for(var i = 0; i < this.productSaleTable.tableData.length; i++){
-        if(this.productSaleTable.tableData[i].barcode1 == item || 
-          this.productSaleTable.tableData[i].barcode2 == item || 
-          this.productSaleTable.tableData[i].barcode3 == item){
+    //   var found = false;
+    //   var index = 0;
+    //   for(var i = 0; i < this.productSaleTable.tableData.length; i++){
+    //     if(this.productSaleTable.tableData[i].barcode1 == item || 
+    //       this.productSaleTable.tableData[i].barcode2 == item || 
+    //       this.productSaleTable.tableData[i].barcode3 == item){
 
-          found = true;
-          index = i;
-          i = this.productSaleTable.tableData.length + 1;
-        }
-      }
-      if(found == true){
+    //       found = true;
+    //       index = i;
+    //       i = this.productSaleTable.tableData.length + 1;
+    //     }
+    //   }
+    //   if(found == true){
 
-        if(this.productSaleTable.tableData[index].status == 'deleted'){
-          this.productSaleTable.tableData[index].status = '';
-        }else{
-          this.productSaleTable.tableData[index].qty += 1;
-          this.productSaleTable.tableData[index].total = this.productSaleTable.tableData[index].salePrice * this.productSaleTable.tableData[index].qty;
-        }
-      }else{
+    //     // if(this.productSaleTable.tableData[index].status == 'deleted'){
+    //     //   this.productSaleTable.tableData[index].status = '';
+    //     // }else{
+    //       this.productSaleTable.tableData[index].qty += 1;
+    //       this.productSaleTable.tableData[index].total = this.productSaleTable.tableData[index].salePrice * this.productSaleTable.tableData[index].qty;
+    //     // }
+    //   }else{
 
-        this.productSaleTable.tableData.push({
-          barcode1: data[0].barcode1,
-          barcode2: data[0].barcode2,
-          barcode3: data[0].barcode3,
-          productID: data[0].productID,
-          productName: data[0].productName,
-          qty: 1,
-          costPrice: data[0].costPrice,
-          salePrice: data[0].salePrice,
-          locationID: data[0].locationID,
-          total: data[0].salePrice,
-          packing: data[0].packing,
-          packingSalePrice: data[0].packingSalePrice,
-          status: ''
-        })
-      }
-    }
+    //     this.productSaleTable.tableData.push({
+    //       barcode1: data[0].barcode1,
+    //       barcode2: data[0].barcode2,
+    //       barcode3: data[0].barcode3,
+    //       productID: data[0].productID,
+    //       productName: data[0].productName,
+    //       qty: 1,
+    //       costPrice: data[0].costPrice,
+    //       salePrice: data[0].salePrice,
+    //       // locationID: data[0].locationID,
+    //       boxprice: data[0].boxprice,
+    //       pPriceID: data[0].pPriceID,
+    //       outletid: data[0].outletid,
+    //       availableqty: data[0].availableqty,
+    //       total: data[0].salePrice,
+    //       // packing: data[0].packing,
+    //       // packingSalePrice: data[0].packingSalePrice,
+    //       // status: ''
+    //     })
+    //   }
+    // }
 
-    this.lblTotal = 0;
-    for(var i = 0; i < this.productSaleTable.tableData.length; i++){
-      this.lblTotal += this.productSaleTable.tableData[i].total;
-    }
+    // this.lblTotal = 0;
+    // for(var i = 0; i < this.productSaleTable.tableData.length; i++){
+    //   this.lblTotal += this.productSaleTable.tableData[i].total;
+    // }
 
-    this.formFields[8].value = -this.lblTotal;
-    this.txtCode = '';
+    // this.formFields[8].value = -this.lblTotal;
+    // this.txtCode = '';
     
   }
 
   pushProduct(item: any){
-    var data = this.productList.filter((x: {productID: any}) => 
-                                        x.productID == item );
-    
-    if(this.productSaleTable.tableData.length == 0){
-      this.productSaleTable.tableData.push({
-        barcode1: data[0].barcode1,
-        barcode2: data[0].barcode2,
-        barcode3: data[0].barcode3,
-        productID: data[0].productID,
-        productName: data[0].productName,
-        qty: 1,
-        costPrice: data[0].costPrice,
-        salePrice: data[0].salePrice,
-        locationID: data[0].locationID,
-        total: data[0].salePrice,
-        packing: data[0].packing,
-        packingSalePrice: data[0].packingSalePrice,
-        status:''
-      })
-    }else{
+
+    this.dataService.getScale('Scale/getScaleWeight', '').subscribe((response: any) => {
+      
+      var data = this.productList.filter((x: {pPriceID: any}) => 
+      x.pPriceID == item );
+
+          
+      if(this.productSaleTable.tableData.length == 0){
+        this.productSaleTable.tableData.push({
+          barcode1: data[0].barcode1,
+          barcode2: data[0].barcode2,
+          barcode3: data[0].barcode3,
+          productID: data[0].productID,
+          productName: data[0].productName,
+          qty: response,
+          costPrice: data[0].costPrice,
+          salePrice: data[0].salePrice,
+          // locationID: data[0].locationID,
+          boxprice: data[0].boxprice,
+          pPriceID: data[0].pPriceID,
+          outletid: data[0].outletid,
+          availableqty: data[0].availableqty,
+          total: parseInt(data[0].salePrice),
+          // packing: data[0].packing,
+          // packingSalePrice: data[0].packingSalePrice,
+          // status:''
+        })
+      }else{
 
       var found = false;
       var index = 0;
       for(var i = 0; i < this.productSaleTable.tableData.length; i++){
-        if(this.productSaleTable.tableData[i].productID == item){
-          found = true;
-          index = i;
-          i = this.productSaleTable.tableData.length + 1;
-        }
+      if(this.productSaleTable.tableData[i].pPriceID == item){
+        found = true;
+        index = i;
+        i = this.productSaleTable.tableData.length + 1;
+      }
       }
 
       if(found == true){
-        
-        if(this.productSaleTable.tableData[index].status == 'deleted'){
-          this.productSaleTable.tableData[index].status = '';
-        }else{
-          this.productSaleTable.tableData[index].qty += 1;
-          this.productSaleTable.tableData[index].total = this.productSaleTable.tableData[index].salePrice * this.productSaleTable.tableData[index].qty;
-        }
-        
+
+      // if(this.productSaleTable.tableData[index].status == 'deleted'){
+      //   this.productSaleTable.tableData[index].status = '';
+      // }else{
+      if(this.productSaleTable.tableData[index].qty >= this.productSaleTable.tableData[index].availableqty){
+        this.valid.apiErrorResponse("Available quantity exceed");return;
+      }else{
+        this.productSaleTable.tableData[index].qty=  parseFloat(this.productSaleTable.tableData[index].qty) + response;
+        this.productSaleTable.tableData[index].total = this.productSaleTable.tableData[index].salePrice * parseFloat(this.productSaleTable.tableData[index].qty);
+      }
+      // }
       }else{
         this.productSaleTable.tableData.push({
           barcode1: data[0].barcode1,
@@ -313,32 +367,39 @@ export class SaleComponent implements OnInit {
           barcode3: data[0].barcode3,
           productID: data[0].productID,
           productName: data[0].productName,
-          qty: 1,
+          qty: response,
           costPrice: data[0].costPrice,
           salePrice: data[0].salePrice,
-          locationID: data[0].locationID,
+          // locationID: data[0].locationID,
+          boxprice: data[0].boxprice,
           total: data[0].salePrice,
-          packing: data[0].packing,
-          packingSalePrice: data[0].packingSalePrice,
-          status: ''
+          pPriceID: data[0].pPriceID,
+          outletid: data[0].outletid,
+          availableqty: data[0].availableqty,
+          // packing: data[0].packing,
+          // packingSalePrice: data[0].packingSalePrice,
+          // status: ''
         })
       }
-    }
+      }
 
-    this.lblTotal = 0;
-    for(var i = 0; i < this.productSaleTable.tableData.length; i++){
-      this.lblTotal += this.productSaleTable.tableData[i].total;
-    }
+      this.lblTotal = 0;
+      for(var i = 0; i < this.productSaleTable.tableData.length; i++){
+        this.lblTotal += parseInt(this.productSaleTable.tableData[i].total);
+      }
 
-    this.formFields[8].value = -this.lblTotal;
+      this.formFields[8].value = -this.lblTotal;
+    }, (error: any) => {
+      console.log(error);
+    });
   }
 
   totalBill(){
 
     this.lblTotal = 0;
     for(var i = 0; i < this.productSaleTable.tableData.length; i++){
-      if(this.productSaleTable.tableData[i].status != 'deleted')
-        this.lblTotal += this.productSaleTable.tableData[i].total;
+      // if(this.productSaleTable.tableData[i].status != 'deleted')
+        this.lblTotal += parseInt(this.productSaleTable.tableData[i].total);
     }
 
     this.formFields[8].value = -this.lblTotal;
@@ -356,7 +417,7 @@ export class SaleComponent implements OnInit {
     // }
     if(this.formFields[7].value == '' || this.formFields[7].value == null){
       this.valid.apiInfoResponse("enter cash");
-      this.formFields[8].value = 0 - this.lblTotal;
+      this.formFields[8].value = (- this.lblTotal);
       return;
     }
     this.formFields[8].value = (parseInt(this.formFields[6].value) + parseInt(this.formFields[7].value)) - this.lblTotal;
@@ -376,18 +437,25 @@ export class SaleComponent implements OnInit {
     var prodTableData: any = [];
     
     for(var i = 0; i < this.productSaleTable.tableData.length; i++){
-      if(this.productSaleTable.tableData[i].status != 'deleted'){
+      if(this.productSaleTable.tableData[i].boxprice == undefined){
+        this.productSaleTable.tableData[i].boxprice = 0;
+      }
+      // if(this.productSaleTable.tableData[i].status != 'deleted'){
         prodTableData.push({
           productID: this.productSaleTable.tableData[i].productID,
           productName: this.productSaleTable.tableData[i].productName,
           qty: this.productSaleTable.tableData[i].qty,
           costPrice: this.productSaleTable.tableData[i].costPrice,
           salePrice: this.productSaleTable.tableData[i].salePrice,
-          locationID: this.productSaleTable.tableData[i].locationID,
-          total: this.productSaleTable.tableData[i].salePrice,
-          status: ''
+          // locationID: this.productSaleTable.tableData[i].locationID,
+          total: ((parseFloat(this.productSaleTable.tableData[i].qty) * parseFloat(this.productSaleTable.tableData[i].salePrice)) + parseInt(this.productSaleTable.tableData[i].boxprice)),
+          boxprice: this.productSaleTable.tableData[i].boxprice,
+          pPriceID: this.productSaleTable.tableData[i].pPriceID,
+          outletid: this.productSaleTable.tableData[i].outletid,
+          availableqty: this.productSaleTable.tableData[i].availableqty,
+        // status: ''
         })
-      }
+      // }
     }
     this.formFields[11].value = JSON.stringify(prodTableData);
 
@@ -405,9 +473,12 @@ export class SaleComponent implements OnInit {
       this.valid.apiInfoResponse("enter cash");
       return;
     }
-    if(this.formFields[3].value == ''){
+    if(this.formFields[3].value == '' || this.formFields[3].value == '0'){
       var cash = parseInt(this.formFields[6].value) + parseInt(this.formFields[7].value);
       if(this.lblTotal > cash){
+        this.valid.apiInfoResponse("enter correct cash");
+        return;
+      }else if(this.lblTotal > this.formFields[7].value){
         this.valid.apiInfoResponse("enter correct cash");
         return;
       }
@@ -439,11 +510,14 @@ export class SaleComponent implements OnInit {
           this.printSale.lblDiscount = this.formFields[6].value;
           this.printSale.lblCash = this.lblCash;
           this.printSale.lblChange = this.formFields[8].value;
-      
+
           setTimeout(()=> this.globalService.printData(printSection), 200);
           this.reset();
-          setTimeout(()=> this._txtFocusCode.nativeElement.focus(), 1000);
-      
+          // setTimeout(()=> this._txtFocusCode.nativeElement.focus(), 1000);
+          
+          this.getProduct();
+          this.saleTable.getSale();
+          
         }else{
           this.valid.apiErrorResponse(response.toString());
         }
@@ -548,6 +622,10 @@ export class SaleComponent implements OnInit {
     if(e.keyCode == 13){
       this.save(printSection);
     }
+  }
+  
+  changeTabHeader(tabNum: any) {
+    this.tabIndex = tabNum;
   }
 
 }

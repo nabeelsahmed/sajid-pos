@@ -11,4 +11,5 @@ export interface SaleInterface {
     branchID: '';
     json: '';
     userID: '';
+    outletid: '';
 }

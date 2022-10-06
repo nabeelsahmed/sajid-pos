@@ -3,7 +3,7 @@ export interface EmployeeInterface {
     // rootID: '';
     cityID: '';
     designationID: '';
-    branchID: '';
+    outletID: '';
     partyName: '';
     partyNameUrdu: '';
     address: '';

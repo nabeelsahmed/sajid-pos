@@ -11,7 +11,19 @@
 </div>
 <div class="container">
     <div class="row">
-        <div class="col-md-4">
+        <div class="col-md-3">
+            <mat-form-field class="w-100 pt-3 pe-4" *ngIf="outletID == '1'">
+                <mat-select class="matInput" [(ngModel)]="cmbOutlet" placeholder="Select outlet">
+                    <mat-option *ngFor="let item of outletList"
+                        [value]="item.outletID"
+                        >
+                        {{ item.outletName }}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+            <h3 class="pt-4 ps-3" *ngIf="outletID > '1'">{{lblOutletName}}</h3>
+        </div>
+        <div class="col-md-3">
             <mat-form-field class="w-100 pt-3 pe-4">
                 <mat-select class="matInput" [(ngModel)]="cmbParty" placeholder="Select party name" (ngModelChange)="getPartyName(cmbParty)">
                     <mat-option *ngFor="let item of partyList"
@@ -22,7 +34,7 @@
                 </mat-select>
             </mat-form-field>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-3">
             <mat-form-field class="w-100 pt-3 pe-4">
                 <mat-label>From date</mat-label>
                 <input matInput [matDatepicker]="picker" [(ngModel)]="dtpFromDate"/>
@@ -30,7 +42,7 @@
                 <mat-datepicker #picker></mat-datepicker>
             </mat-form-field>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-3">
             <mat-form-field class="w-100 pt-3 pe-4">
                 <mat-label>To date</mat-label>
                 <input matInput [matDatepicker]="picker2" [(ngModel)]="dtpToDate"/>

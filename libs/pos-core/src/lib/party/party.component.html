@@ -25,9 +25,15 @@
                     <div class="row">
                         <div class="col-md-4">
                             <mat-form-field class="w-100 pt-3 pe-4">
-                                <input matInput 
-                                [(ngModel)]="formFields[2].value" placeholder="Enter party name" autofocus>
+                                <mat-select class="matInput"
+                                    placeholder="Select party type"
+                                    [(ngModel)]="formFields[5].value">
+                                    <mat-option value="customer">Customer</mat-option>
+                                    <mat-option value="supplier">Supplier</mat-option>
+                                    <mat-option value="outlet">Outlet</mat-option>
+                                </mat-select>
                             </mat-form-field>
+                            
                         </div>
                         <!-- <div class="col-md-4">
                             <mat-form-field class="w-100 pt-3 pe-4">
@@ -35,36 +41,54 @@
                                 [(ngModel)]="formFields[3].value" placeholder="Enter party name in Urdu" [disabled]="true">
                             </mat-form-field>
                         </div> -->
+                        <div class="col-md-4" *ngIf="formFields[5].value == 'outlet'">
+                            <mat-form-field class="w-100 pt-3 pe-4">
+                                <mat-select class="matInput"
+                                [(ngModel)]="formFields[14].value" (ngModelChange)="outletChange(formFields[14].value)"
+                                    placeholder="Select outlet">
+                                    <mat-option *ngFor="let item of outletList"
+                                        [value]="item.outletID"
+                                        >
+                                        {{ item.outletName }}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-4" *ngIf="formFields[5].value != 'outlet'">
+                            <mat-form-field class="w-100 pt-3 pe-4">
+                                <input matInput 
+                                [(ngModel)]="formFields[2].value" placeholder="Enter party name" autofocus>
+                            </mat-form-field>
+                        </div>
                         <div class="col-md-4">
                             <mat-form-field class="w-100 pt-3 pe-4">
                                 <input matInput
                                 [(ngModel)]="formFields[4].value" placeholder="Enter CNIC number" [textMask]="{mask: cnicMask}">
                             </mat-form-field>
-                        </div>
-                        <div class="col-md-4">
-                            <mat-form-field class="w-100 pt-3 pe-4">
+                            <!-- <mat-form-field class="w-100 pt-3 pe-4">
                                 <mat-select class="matInput"
-                                    placeholder="Enter party type"
+                                    placeholder="Select party type"
                                     [(ngModel)]="formFields[5].value">
                                     <mat-option value="customer">Customer</mat-option>
                                     <mat-option value="supplier">Supplier</mat-option>
+                                    <mat-option value="outlet">Outlet</mat-option>
                                 </mat-select>
-                            </mat-form-field>
+                            </mat-form-field> -->
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-4">
-                            <mat-form-field class="w-100 pt-3 pe-4">
+                            <!-- <mat-form-field class="w-100 pt-3 pe-4">
                                 <mat-select class="matInput"
                                 [(ngModel)]="formFields[6].value"
-                                    placeholder="Enter party route">
+                                    placeholder="Select party route">
                                     <mat-option *ngFor="let item of routeList"
                                         [value]="item.rootID"
                                         >
                                         {{ item.rootName }}
                                     </mat-option>
                                 </mat-select>
-                            </mat-form-field>
+                            </mat-form-field> -->
                         </div>
                     </div>
                 </div>
@@ -96,7 +120,7 @@
                             <mat-form-field class="w-100 pt-3 pe-4">
                                 <mat-select class="matInput"
                                 [(ngModel)]="formFields[9].value"
-                                    placeholder="Enter City">
+                                    placeholder="Select city">
                                     <mat-option *ngFor="let item of cityList"
                                         [value]="item.cityID"
                                         >

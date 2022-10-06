@@ -38,6 +38,13 @@ export class SharedServicesDataModule {
   }
 
   //Http GET
+  public getScale(functionName: string, params: any): Observable<any> {
+    return this.http
+      .get('http://localhost:30701/' + functionName + params)
+      .pipe(retry(0), catchError(this.handleError));
+  }
+
+  //Http GET
   public getRequest(functionName: string, params: any): Observable<any> {
     return this.http
       .get(this.baseURL + functionName + params)

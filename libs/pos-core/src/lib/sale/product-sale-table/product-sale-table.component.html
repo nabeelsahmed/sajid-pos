@@ -6,6 +6,7 @@
           <th class="text-center">Sr#</th>
           <th>Product Name</th>
           <th>Quantity</th>
+          <th>Box Price</th>
           <th>Price</th>
           <th>Total</th>
           <th class="text-center">Actions</th>
@@ -20,7 +21,17 @@
               <input class="text-right" (keyup)="totalBill(i, item.qty, item)" [(ngModel)]="item.qty" matInput />
             </mat-form-field>
           </td>
-          <td>{{item.salePrice}}</td>
+          <td>  
+            <mat-form-field class="w-100" floatLabel="never">
+              <input class="text-right" (keyup)="totalBill(i, item.qty, item)" [(ngModel)]="item.boxprice" matInput />
+            </mat-form-field>
+          </td>
+          <!-- <td>{{item.salePrice}}</td> -->
+          <td>  
+            <mat-form-field class="w-100" floatLabel="never">
+              <input class="text-right" (keyup)="totalBill(i, item.qty, item)" [(ngModel)]="item.salePrice" matInput />
+            </mat-form-field>
+          </td>
           <td>{{item.total}}</td>
           <td class="text-center">
             <span class="txtClrLightGreen cursorPointer ps-2 pe-2" (click)="delete(i)">

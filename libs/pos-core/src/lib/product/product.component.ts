@@ -71,7 +71,7 @@ export class ProductComponent implements OnInit {
       value: this.pageFields.categoryID,
       msg: 'select category',
       type: 'selectBox',
-      required: true,
+      required: false,
     },
     {
       value: this.pageFields.productName,
@@ -89,7 +89,7 @@ export class ProductComponent implements OnInit {
       value: this.pageFields.brandID,
       msg: 'enter brand',
       type: 'selectBox',
-      required: true,
+      required: false,
     },
     {
       value: this.pageFields.locationID,
@@ -137,13 +137,13 @@ export class ProductComponent implements OnInit {
       value: this.pageFields.costPrice,
       msg: 'enter cost price',
       type: 'textBox',
-      required: true,
+      required: false,
     },
     {
       value: this.pageFields.salePrice,
       msg: 'enter sale price',
       type: 'textBox',
-      required: true,
+      required: false,
     },
     {
       value: this.pageFields.retailPrice,
@@ -263,7 +263,11 @@ export class ProductComponent implements OnInit {
     this.formFields[24].value = '-';
     this.formFields[19].value = 0;
     this.formFields[20].value = 0;
+    this.formFields[5].value = 0;
+    this.formFields[5].value = 0;
     
+    this.formFields[23].value = 4;
+
     this.cmbBarcode = 1;
     this.cmbCategory = 1;
     this.getSubCategory(1);
@@ -272,6 +276,7 @@ export class ProductComponent implements OnInit {
     this.getCategory();
     this.getLocation();
     this.getUOM();
+    
   }
 
   getBrand() {
@@ -332,11 +337,13 @@ export class ProductComponent implements OnInit {
   save() {
     // this.formFields[15].value = (this.formFields[11].value / this.formFields[10].value);
     
-    if(this.cmbSubCategory == '' || this.cmbSubCategory == undefined){
-      this.formFields[2].value = this.cmbCategory;
-    }else{
-      this.formFields[2].value = this.cmbSubCategory;
-    }
+    this.formFields[2].value = '0';
+    this.formFields[5].value = '0';
+    // if(this.cmbSubCategory == '' || this.cmbSubCategory == undefined){
+    //   this.formFields[2].value = this.cmbCategory;
+    // }else{
+    //   this.formFields[2].value = this.cmbSubCategory;
+    // }
 
     if(this.cmbBarcode == 2){
       if(this.formFields[7].value == '' && this.formFields[8].value == '' && this.formFields[9].value == '')
@@ -349,11 +356,18 @@ export class ProductComponent implements OnInit {
 
     if(this.formFields[6].value == ''){
       this.formFields[6].value = '0';
-    }if(this.formFields[12].value == ''){
-      this.formFields[12].value = '0';
     }
     if(this.formFields[11].value == ''){
       this.formFields[11].value = '0';
+    }
+    if(this.formFields[12].value == ''){
+      this.formFields[12].value = '0';
+    }
+    if(this.formFields[13].value == ''){
+      this.formFields[13].value = '0';
+    }
+    if(this.formFields[14].value == ''){
+      this.formFields[14].value = '0';
     }
     if(this.formFields[15].value == ''){
       this.formFields[15].value = '0';
@@ -464,7 +478,20 @@ export class ProductComponent implements OnInit {
     this.formFields[19].value = 0;
     this.formFields[20].value = 0;
     this.formFields[21].value = 1;
-    this.formFields[22].value = '';
+    this.formFields[22].value = '0';
+    this.formFields[13].value = '0';
+    this.formFields[14].value = '0';
+
+    this.formFields[23].value = 4;
+
+    this.formFields[27].value = '';
+    this.formFields[29].value = '';
+    this.formFields[28].value = '';
+
+    this.productPic = "";
+    this.imageUpload.imageUrl = "";
+    this.imageUpload.image = "";
+    // this.selec
   }
 
   edit(item: any){
@@ -474,13 +501,13 @@ export class ProductComponent implements OnInit {
     this.tabIndex = 0;
 
     this.formFields[0].value = item.productID;
-    this.formFields[2].value = item.categoryID;
+    // this.formFields[2].value = item.categoryID;
     
     this.formFields[3].value = item.productName;
-    this.formFields[4].value = item.productNameUrdu;
+    // this.formFields[4].value = item.productNameUrdu;
     
-    this.formFields[5].value = item.brandID;
-    this.formFields[6].value = item.locationID;
+    // this.formFields[5].value = item.brandID;
+    // this.formFields[6].value = item.locationID;
     
     if(item.barcode1 != "null"){
     this.formFields[7].value = item.barcode1;
@@ -499,29 +526,32 @@ export class ProductComponent implements OnInit {
 
     // this.formFields[11].value = item.colorID;
     // this.formFields[12].value = item.sizeID;
-    this.formFields[13].value = item.costPrice;
-    this.formFields[14].value = item.salePrice;
+    // this.formFields[13].value = item.costPrice;
+    // this.formFields[14].value = item.salePrice;
     // this.formFields[15].value = item.retailPrice;
     // this.formFields[16].value = item.wholeSalePrice;
-    this.formFields[17].value = item.rol;
-    this.formFields[18].value = item.maxLimit;
-    this.formFields[19].value = item.gst;
-    this.formFields[20].value = item.et;
-    this.formFields[21].value = item.packing;
-    this.formFields[22].value = item.packingSalePrice;
+    // this.formFields[17].value = item.rol;
+    // this.formFields[18].value = item.maxLimit;
+    // this.formFields[19].value = item.gst;
+    // this.formFields[20].value = item.et;
+    // this.formFields[21].value = item.packing;
+    // this.formFields[22].value = item.packingSalePrice;
     this.formFields[23].value = item.uomID;
-    this.formFields[24].value = item.pctCode;
+    // this.formFields[24].value = item.pctCode;
     this.formFields[25].value = item.barcodeID;
-    this.formFields[26].value = item.pPriceID;
-    this.cmbCategory = item.parentCategoryID;
+    // this.formFields[26].value = item.pPriceID;
+    // this.cmbCategory = item.parentCategoryID;
 
-    if(item.parentCategoryID != 0){
-      this.getSubCategory(item.parentCategoryID);
-      this.cmbCategory = item.parentCategoryID;
-      this.cmbSubCategory = item.categoryID;
-    }else{
-      this.cmbCategory = item.categoryID;
+    if(item.applicationedoc != ""){
+      this.productPic = "http://135.181.62.34:7060/assets/ui/productPictures/" + item.productID + ".png";
     }
+    // if(item.parentCategoryID != 0){
+    //   this.getSubCategory(item.parentCategoryID);
+    //   this.cmbCategory = item.parentCategoryID;
+    //   this.cmbSubCategory = item.categoryID;
+    // }else{
+    //   this.cmbCategory = item.categoryID;
+    // }
     // this.formFields[12].value = item.parentLocationID;
     
   }

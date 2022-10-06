@@ -14,4 +14,5 @@ export interface PartyInterface {
     cnic: '';
     focalPerson: '';
     userID: '';
+    outletid: '';
 }
