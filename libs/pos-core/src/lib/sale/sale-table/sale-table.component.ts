@@ -14,6 +14,8 @@ export class SaleTableComponent implements OnInit {
 
   @ViewChild(PrintSaleComponent) printSale: any;
 
+  tblSearch: any = '';
+  
   error: any;
   tableData: any = [];
   detailTableData: any = [];
@@ -46,6 +48,7 @@ export class SaleTableComponent implements OnInit {
       else{
         var tempList: any = [];
         for(var i = 0; i < response.length; i++){
+          // console.log(response)
           tempList.push({
             productID: response[i].productID,
             productName: response[i].productName,
@@ -60,9 +63,10 @@ export class SaleTableComponent implements OnInit {
         
         this.printSale.tableData = tempList;
 
+        console.log(item)
         this.printSale.lblInvoice = invoiceNo;
         this.printSale.lblDate = item.invoiceDate;
-        this.printSale.lblGTotal = parseInt(item.cashReceived) + parseInt(item.change) ;
+        this.printSale.lblGTotal = parseInt(item.cashReceived) - parseInt(item.change) ;
         this.printSale.lblDiscount = item.discount;
         this.printSale.lblCash = item.cashReceived;
         this.printSale.lblChange = item.change;

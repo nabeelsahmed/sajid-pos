@@ -357,7 +357,9 @@ export class SaleComponent implements OnInit {
         this.valid.apiErrorResponse("Available quantity exceed");return;
       }else{
         this.productSaleTable.tableData[index].qty=  parseFloat(this.productSaleTable.tableData[index].qty) + response;
-        this.productSaleTable.tableData[index].total = this.productSaleTable.tableData[index].salePrice * parseFloat(this.productSaleTable.tableData[index].qty);
+        this.productSaleTable.tableData[index].total = (this.productSaleTable.tableData[index].salePrice) * parseFloat(this.productSaleTable.tableData[index].qty);
+        // var fltNum = parseFloat("20.99999").toFixed(3);
+
       }
       // }
       }else{
