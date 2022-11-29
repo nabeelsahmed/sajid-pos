@@ -39,12 +39,33 @@ export class MainPageComponent implements OnInit {
   }
 
   getOnlineProduct(){
-    this.dataService.getHttp('bachat-online-api/Product/getOnlineProduct', '').subscribe((response: any) => {
-      this.productList = response;
+    this.dataService.getHttp('bachat-online-api/Product/getAvailProduct?outletID=1', '').subscribe((response: any) => {
+      this.productList = [];
+      for(var i = 0; i < response.length; i++){
+        var img = "";
+        if(response[i].applicationedoc == ""){
+          img = "http://135.181.62.34:7060/assets/ui/productPictures/noImage.png";
+        }else{
+          img = "http://135.181.62.34:7060/assets/ui/productPictures/" + response[i].productID + ".png";
+        }
+        this.productList.push({
+          availableqty: response[i].availableqty,
+          costPrice: response[i].costPrice,
+          invoiceDate: response[i].invoiceDate,
+          outletid: response[i].outletid,
+          pPriceID: response[i].pPriceID,
+          productID: response[i].productID,
+          productName: response[i].productName,
+          salePrice: response[i].salePrice,
+          imgUrl: img,
+          qty: 1
+        })
+      }
     }, (error: any) => {
       console.log(error);
     });
   }
+
   addCartItem(item: any){
     item.qty = parseInt(item.qty) + 1;
 
@@ -52,14 +73,14 @@ export class MainPageComponent implements OnInit {
       this.found = false;
           this.index = 0;
           for(var i = 0; i < this.cartList.length; i++){
-            if(this.cartList[i].productName == item.productName){
+            if(this.cartList[i].pPriceID == item.pPriceID){
               this.found = true;
               this.index = i;
               i = this.cartList.length + 1;
             }
           }
           if(this.found == true){
-            this.dataService.getHttp('bachat-online-api/Product/getCheckQty?invoiceDetailID=' + item.invoiceDetailID + '&qty=' + item.qty, '').subscribe((response: any) => {
+            this.dataService.getHttp('bachat-online-api/Product/getCheckQty?pPriceID=' + item.pPriceID + '&qty=' + item.qty, '').subscribe((response: any) => {
         
               if(response['msg'] == true){
                 this.cartList[this.index].qty = parseInt(item.qty);
@@ -98,7 +119,7 @@ export class MainPageComponent implements OnInit {
         this.found = false;
         this.index = 0;
         for(var i = 0; i < this.cartList.length; i++){
-          if(this.cartList[i].productName == item.productName){
+          if(this.cartList[i].pPriceID == item.pPriceID){
             this.found = true;
             this.index = i;
             i = this.cartList.length + 1;
@@ -128,19 +149,18 @@ export class MainPageComponent implements OnInit {
   }
 
   pushCartItem(item: any){
-    this.dataService.getHttp('bachat-online-api/Product/getCheckQty?invoiceDetailID=' + item.invoiceDetailID + '&qty=' + item.qty, '').subscribe((response: any) => {
+    this.dataService.getHttp('bachat-online-api/Product/getCheckQty?pPriceID=' + item.pPriceID + '&qty=' + item.qty, '').subscribe((response: any) => {
 
       if(response['msg'] == true){
         if(this.cartList.length == 0){
           this.cartList.push({
-            applicationedoc: item.applicationedoc,
-            invoiceDetailID: item.invoiceDetailID,
-            invoiceNo: item.invoiceNo,
+            imgUrl: item.imgUrl,
+            pPriceID: item.pPriceID,
             productID: item.productID,
             productName: item.productName,
             salePrice: item.salePrice,
             qty: item.qty,
-            availQty: item.availQty
+            availQty: item.availableqty
           });
     
           this.total = parseInt(item.salePrice) * parseInt(item.qty);
@@ -151,7 +171,7 @@ export class MainPageComponent implements OnInit {
           this.index = 0;
           
           for(var i = 0; i < this.cartList.length; i++){
-            if(this.cartList[i].productName == item.productName){
+            if(this.cartList[i].pPriceID == item.pPriceID){
               this.found = true;
               this.index = i;
               i = this.cartList.length + 1;
@@ -166,14 +186,13 @@ export class MainPageComponent implements OnInit {
             }
           }else{
             this.cartList.push({
-              applicationedoc: item.applicationedoc,
-              invoiceDetailID: item.invoiceDetailID,
-              invoiceNo: item.invoiceNo,
+              imgUrl: item.imgUrl,
+              pPriceID: item.pPriceID,
               productID: item.productID,
               productName: item.productName,
               salePrice: item.salePrice,
               qty: item.qty,
-              availQty: item.availQty
+              availQty: item.availableqty
             });
           }
     

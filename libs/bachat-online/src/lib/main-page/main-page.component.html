@@ -9,8 +9,7 @@
 <div class="container" *ngIf="checkoutFound == false">
     <div class="d-flex flex-wrap ms-5 ps-3 mt-3 mb-3">
         <div class="productBox d-flex flex-column align-items-center me-3 mt-3" *ngFor="let item of productList">
-            <img class="mt-2 mb-1" *ngIf="item.applicationedoc != '' && item.applicationedoc != null" [src]="'../assets/ui/productPictures/' + item.productID + '.png'" height="150px" width="140px" />
-            <img class="mt-2 mb-1" *ngIf="item.applicationedoc == '' || item.applicationedoc == null" [src]="tempImg" height="150px" width="150px" />
+            <img class="mt-2 mb-1" [src]="item.imgUrl" height="130px" width="100px" />
             <label class="bachatLblItem">{{item.productName}}</label>
             <label class="bachatLblPrice">PKR {{item.salePrice}}</label>
             <div class="d-flex flex-row mt-1 mb-1">
@@ -23,7 +22,7 @@
     </div>
 </div>
 
-<aims-pos-checkout *ngIf="checkoutFound == true" [checkOutList]="cartList" [totalPrice]="total"></aims-pos-checkout>
+<aims-pos-checkout *ngIf="checkoutFound == true" [checkOutList]="cartList" [totalPrice]="total" (eventEmitter)="getOnlineProduct()"></aims-pos-checkout>
 
 <!-- Modal -->
 <div class="modal right animate__animated animate__fadeInRight" id="cartModal" role="dialog" aria-labelledby="myModalLabel">
@@ -44,8 +43,8 @@
                 </div>
                 <perfect-scrollbar style="max-width: 100%; max-height: 25em;">
                     <div class="d-flex flex-row align-items-center mb-3" *ngFor="let item of cartList">
-                        <img class="mt-2 mb-1" *ngIf="item.applicationedoc != '' && item.applicationedoc != null" [src]="'../assets/ui/productPictures/' + item.productID + '.png'" height="130px" width="100px" />
-                        <img class="mt-2 mb-1" *ngIf="item.applicationedoc == '' || item.applicationedoc == null" [src]="tempImg" height="110px" width="110px" />
+                        <img class="mt-2 mb-1" [src]="item.imgUrl" height="130px" width="100px" />
+                        <!-- <img class="mt-2 mb-1" *ngIf="item.applicationedoc == '' || item.applicationedoc == null" [src]="tempImg" height="110px" width="110px" /> -->
                         <!-- <img class="mt-2 mb-1" [src]="item.applicationedoc" height="130px" width="100px" /> -->
                         <div class="d-flex flex-column ms-3">
                             <label class="bachatLblItem">{{item.productName}}</label>

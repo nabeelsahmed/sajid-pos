@@ -14,6 +14,10 @@ p {
   background-color: #fff !important;
 }
 
+.bgDark {
+  background-color: #565845 !important;
+}
+
 .buttonSquare {
   border-radius: 0 !important;
   outline: none !important;
@@ -481,6 +485,12 @@ th {
 .mb-2 {
   margin-bottom: 2em;
 }
+.n-mb-2 {
+  margin-bottom: -2em;
+}
+.n-mt-2 {
+  margin-top: -2em;
+}
 .pt-1 {
   padding-top: 0.5em;
 }
@@ -560,7 +570,16 @@ th {
   font-weight: 500 !important;
   padding-bottom: 2px !important;
 }
-
+.h1Main {
+  font-size: 3em !important;
+  font-weight: 500 !important;
+  padding-bottom: 2px !important;
+}
+.h1ReportMain {
+  font-size: 2em !important;
+  font-weight: 500 !important;
+  padding-bottom: 2px !important;
+}
 .h2Report {
   font-size: 1.5em !important;
   font-weight: 300 !important;
@@ -644,11 +663,19 @@ div.divFooter .label {
   font-size: 0.5em !important;
 }
 
+.text-start {
+  text-align: left !important;
+}
+
 .text-left {
   text-align: left !important;
 }
 
 .text-right {
+  text-align: right !important;
+}
+
+.text-end {
   text-align: right !important;
 }
 
@@ -670,6 +697,10 @@ div.divFooter .label {
 
 .border-bottom {
   border-bottom: 1px solid #dee2e6 !important;
+}
+
+.border-bottom-4px {
+  border-bottom: 4px solid #565845 !important;
 }
 
 .border-left {

@@ -2,7 +2,7 @@ import { SharedHelpersFieldValidationsModule } from '@aims-pos/shared/helpers/fi
 import { CheckoutInterface, MyFormField } from '@aims-pos/shared/interface';
 import { SharedServicesDataModule } from '@aims-pos/shared/services/data';
 import { SharedServicesGlobalDataModule } from '@aims-pos/shared/services/global-data';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 @Component({
   selector: 'aims-pos-checkout',
@@ -11,6 +11,8 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class CheckoutComponent implements OnInit {
   
+  @Output() eventEmitter = new EventEmitter();
+
   @Input() checkOutList: any = [];
   @Input() totalPrice: any = 0;
 
@@ -33,7 +35,7 @@ export class CheckoutComponent implements OnInit {
     {
       value: this.pageFields.email,
       msg: 'enter email',
-      type: 'textBox',
+      type: 'email',
       required: true,
     },
     {
@@ -98,6 +100,7 @@ export class CheckoutComponent implements OnInit {
 
           this.valid.apiInfoResponse('Your order placed successfully');
 
+          this.eventEmitter.emit();
           this.reset();
         }else{
           this.valid.apiErrorResponse(response.toString());

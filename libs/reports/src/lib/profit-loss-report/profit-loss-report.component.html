@@ -44,27 +44,18 @@
 </div>
 <div class="container mt-5" id="section">
 
-    <div class="row d-none">
+    <div class="row d-none border-bottom-4px">
         <div class="col-md-6 text-left">
-            <div class="h1Report">Profit & Loss Summary Statement</div>
-            <div class="h4Report"><b>{{dtpFromDate | date:'dd-MM-yyyy'}} to {{dtpToDate | date:'dd-MM-yyyy'}}</b></div>
+            <div class="h1ReportMain">Profit & Loss Summary Statement</div>
+            <div class="h3Report txtDarkGrey">From Date: <b>{{dtpFromDate | date: 'MMM dd, yyyy'}}</b></div>
+            <div class="h3Report txtDarkGrey">To Date: <b>{{dtpToDate | date: 'MMM dd, yyyy'}}</b></div>
         </div>
         <div class="col-md-6 text-right">
-            <img src="assets/ui/ReportPictures/Logo.svg" width="80px" />
+            <img src="assets/ui/company/logo.png" width="300px" />
             <!-- <div class="posReportIcon"></div> -->
-            <div class="h1Report txtDarkGrey">Bachat Online</div>
+            <div class="h1Report txtDarkGrey">Phone # 051-5917112</div>
+            <div class="h1Report txtDarkGrey">Mobile # 0311-1444261</div>
         </div>
-    </div>
-    <!-- <div class="row d-none">
-        <div class="col-md-3">
-            <div class="h4Report"><b>{{cmbCOA}}</b></div>
-        </div>
-        <div class="col-md-3">
-            <div class="h4Report"><b>{{lblAccountHead}}</b></div>
-        </div>
-    </div> -->
-    <div class="row d-none">
-        <img src="assets/ui/ReportPictures/GradientBar.svg" height="20px" width="100%" />
     </div>
     <div class="row">
         <div class="col-md-12">

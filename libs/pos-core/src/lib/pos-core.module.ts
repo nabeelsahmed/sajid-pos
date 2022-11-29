@@ -68,6 +68,7 @@ import { SaleOutletComponent } from './sale-outlet/sale-outlet.component';
 import { ProductSaleOutletTableComponent } from './sale-outlet/product-sale-outlet-table/product-sale-outlet-table.component';
 import { PrintSaleOutletComponent } from './sale-outlet/print-sale-outlet/print-sale-outlet.component';
 import { SaleTableComponent } from './sale/sale-table/sale-table.component';
+import { PortalPriceConfigComponent } from './portal-price-config/portal-price-config.component';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true,
@@ -98,6 +99,7 @@ export const posCoreRoutes: Route[] = [
   { path: 'dashboard', component: PosDashboardComponent },
   { path: 'updtprod', component: UpdateProductDataComponent },
   { path: 'saleoutlet', component: SaleOutletComponent },
+  { path: 'portalprice', component: PortalPriceConfigComponent },
 
 ];
 
@@ -192,6 +194,7 @@ export const posCoreRoutes: Route[] = [
     ProductSaleOutletTableComponent,
     PrintSaleOutletComponent,
     SaleTableComponent,
+    PortalPriceConfigComponent,
   ],
   providers: [
     {

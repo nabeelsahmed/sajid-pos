@@ -66,13 +66,14 @@ export const reportsRoutes: Route[] = [
     PeriodicCategorySaleReportComponent,
     TrialBalanceComponent,
     JournalVoucherComponent,
-    BalanceSheetComponent
+    BalanceSheetComponent,
   ],
   providers: [
     {
       provide: PERFECT_SCROLLBAR_CONFIG,
       useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG,
     },
+    
   ],
 })
 export class ReportsModule {}
