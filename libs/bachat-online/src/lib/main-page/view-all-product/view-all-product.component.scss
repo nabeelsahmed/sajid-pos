@@ -1,0 +1,25 @@
+.child {
+  // height: 26.4em;
+  height: 19.625em;
+  width: 14.5em;
+  // margin: 1px 10px;
+  background-color: #f8f8f8 !important;
+}
+.child:hover {
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  transition: all 0.5s ease-in-out;
+}
+
+.sm-child {
+  height: 11.125em;
+  width: auto;
+  // margin: 1px 10px;
+  background-color: #f8f8f8 !important;
+  border: 2px solid transparent;
+
+  // border: 2px solid greenyellow;
+}
+.sm-child:hover {
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  transition: all 0.5s ease-in-out;
+}

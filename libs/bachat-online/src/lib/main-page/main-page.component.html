@@ -1,72 +1,589 @@
-<div class="mt-3" *ngIf="checkoutFound == false">
-    <div class="bachatBgImg mb-2"></div>
-    <div class="bachatBgImgHeader">
-        <div class="d-flex flex-row justify-content-center">
-            <label class="bachatLblHeader pt-2 mt-1">Members get free shipping* with no order minimum! *Restrictions apply.</label>
-        </div>
-    </div>
-</div>
-<div class="container" *ngIf="checkoutFound == false">
-    <div class="d-flex flex-wrap ms-5 ps-3 mt-3 mb-3">
-        <div class="productBox d-flex flex-column align-items-center me-3 mt-3" *ngFor="let item of productList">
-            <img class="mt-2 mb-1" [src]="item.imgUrl" height="130px" width="100px" />
-            <label class="bachatLblItem">{{item.productName}}</label>
-            <label class="bachatLblPrice">PKR {{item.salePrice}}</label>
-            <div class="d-flex flex-row mt-1 mb-1">
-                <mat-icon class="iconColor" (click)="removeCartItem(item)">remove_circle</mat-icon>
-                <label class="bachatLblQty ms-2 me-2 ps-1 pe-1">{{item.qty}}</label>
-                <mat-icon class="iconColor" (click)="addCartItem(item)">add_circle</mat-icon>
+<div class="w-100" *ngIf="viewProduct == false">
+  <div *ngIf="checkoutFound == false">
+    <!--start slider div-->
+    <div class="context-relative">
+      <div
+        id="carouselExampleFade"
+        class="carousel slide carousel-fade"
+        data-bs-ride="carousel"
+      >
+        <div class="carousel-inner">
+          <div class="carousel-item active">
+            <!--show div on small screen-->
+            <div class="d-block d-xl-none">
+              <div class="smSliderImg1"></div>
             </div>
-            <button mat-button class="saveBtn ps-5 pe-5 mb-3" (click)="pushCartItem(item)">Add to Cart</button>
+            <!--show div on large screen-->
+            <div class="d-none d-xl-block">
+              <div class="sliderImg1"></div>
+            </div>
+          </div>
+          <div class="carousel-item">
+            <!--show div on small screen-->
+            <div class="d-block d-xl-none">
+              <div class="smSliderImg2"></div>
+            </div>
+            <!--show div on large screen-->
+            <div class="d-none d-xl-block">
+              <div class="sliderImg2"></div>
+            </div>
+          </div>
+          <div class="carousel-item">
+            <!--show div on small screen-->
+            <div class="d-block d-xl-none">
+              <div class="smSliderImg3"></div>
+            </div>
+            <!--show div on large screen-->
+            <div class="d-none d-xl-block">
+              <div class="sliderImg3"></div>
+            </div>
+          </div>
         </div>
+
+        <!--show div on small screen-->
+        <div class="d-block d-xl-none">
+          <button
+            class="carousel-control-prev ms-1 cursorPointer"
+            type="button"
+            data-bs-target="#carouselExampleFade"
+            data-bs-slide="prev"
+          >
+            <span
+              class="sm-carousel-control-prev-icon"
+              aria-hidden="true"
+            ></span>
+            <span class="visually-hidden">Previous</span>
+          </button>
+          <button
+            class="carousel-control-next me-1 cursorPointer"
+            type="button"
+            data-bs-target="#carouselExampleFade"
+            data-bs-slide="next"
+          >
+            <span
+              class="sm-carousel-control-next-icon"
+              aria-hidden="true"
+            ></span>
+            <span class="visually-hidden">Next</span>
+          </button>
+        </div>
+        <!--show div on large screen-->
+        <div class="d-none d-xl-block">
+          <button
+            class="carousel-control-prev ms-3 cursorPointer"
+            type="button"
+            data-bs-target="#carouselExampleFade"
+            data-bs-slide="prev"
+          >
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+          </button>
+          <button
+            class="carousel-control-next me-3 cursorPointer"
+            type="button"
+            data-bs-target="#carouselExampleFade"
+            data-bs-slide="next"
+          >
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+          </button>
+        </div>
+      </div>
     </div>
+    <!--end slider div-->
+
+    <div *ngIf="checkoutFound == false">
+      <!--show div on large screen-->
+      <div class="d-none d-xl-block">
+        <!--div contains heading label and button-->
+        <div class="d-flex justify-content-between ms-5 me-5 mt-5">
+          <label class="portalLblHeading">Fruits</label>
+          <button
+            class="activeButton"
+            id="activeBtn"
+            (click)="viewAllProduct('Fruit')"
+          >
+            View All
+          </button>
+        </div>
+      </div>
+
+      <!--show div on large screen-->
+      <div class="d-none d-xl-block main-scroll-div mt-3">
+        <!--div contains product images, name and price with scroll left and right button -->
+        <div class="d-flex justify-content-center align-items-center">
+          <div
+            *ngIf="productList.length > 4"
+            class="portalLeftArrow cursorPointer ms-1"
+            (click)="scrollFruitRight()"
+          ></div>
+          <div class="d-none d-xl-block cover mb-5">
+            <div class="scroll-fruit">
+              <div
+                class="child d-flex flex-column align-items-center me-3 rounded"
+                *ngFor="let item of fruitList"
+              >
+                <img
+                  class="mt-2 ms-2 me-2 bgWhite rounded"
+                  [src]="item.imgUrl"
+                  height="195px"
+                  width="220px"
+                />
+                <label class="ms-4 portalProductLbl text-truncate mt-2">{{
+                  item.productName
+                }}</label>
+                <div class="d-flex flex-row justify-content-center">
+                  <div class="d-flex me-4">
+                    <div class="priceTagIcon me-2"></div>
+                    <label class="portalPriceLbl"
+                      >Rs: {{ item.salePrice }}</label
+                    >
+                  </div>
+                </div>
+
+                <button
+                  mat-button
+                  class="btnAddToCart mt-1"
+                  (click)="pushCartItem(item)"
+                >
+                  ADD TO CART
+                </button>
+              </div>
+            </div>
+          </div>
+          <div
+            *ngIf="productList.length > 4"
+            class="portalRightArrow cursorPointer me-3"
+            (click)="scrollFruitLeft()"
+          ></div>
+        </div>
+      </div>
+
+      <!--show div on small screen-->
+      <div
+        class="d-flex justify-content-between d-block d-xl-none ms-5 me-5 mt-5"
+      >
+        <!--div contains heading label and button-->
+        <label class="sm-portalLblHeading">Fruits</label>
+        <button
+          class="sm-activeButton"
+          id="activeBtn"
+          (click)="viewAllProduct('Fruit')"
+        >
+          View All
+        </button>
+      </div>
+
+      <!--show div on small screen-->
+      <div class="d-block d-xl-none main-scroll-div mt-3">
+        <!--div contains product images, name and price with scroll left and right button -->
+        <div class="d-flex justify-content-center align-items-center">
+          <div
+            *ngIf="productList.length > 4"
+            class="portalLeftArrow cursorPointer ms-1"
+            (click)="scrollSmFruitRight()"
+          ></div>
+          <div class="smCover mb-5">
+            <div class="sm-scroll-fruit">
+              <div
+                class="sm-child d-flex flex-column align-items-center me-3 rounded"
+                *ngFor="let item of fruitList"
+              >
+                <img
+                  class="mt-1 ms-1 me-1 bgWhite rounded"
+                  [src]="item.imgUrl"
+                  height="111px"
+                  width="125px"
+                />
+                <label class="sm-portalProductLbl text-truncate mt-1">{{
+                  item.productName
+                }}</label>
+                <div class="d-flex flex-row justify-content-center">
+                  <div class="d-flex me-4">
+                    <div class="sm-priceTagIcon me-2"></div>
+                    <label class="sm-portalPriceLbl"
+                      >Rs: {{ item.salePrice }}</label
+                    >
+                  </div>
+                </div>
+
+                <button
+                  class="sm-btnAddToCart mt-1"
+                  (click)="pushCartItem(item)"
+                >
+                  ADD TO CART
+                </button>
+              </div>
+            </div>
+          </div>
+          <div
+            *ngIf="productList.length > 4"
+            class="portalRightArrow cursorPointer me-1"
+            (click)="scrollSmFruitLeft()"
+          ></div>
+        </div>
+      </div>
+
+      <!--show div on large screen-->
+      <div class="d-none d-xl-block">
+        <!--div contains heading label and button-->
+        <div class="d-flex justify-content-between ms-5 me-5 mt-5">
+          <label class="portalLblHeading">Vegetables</label>
+          <button
+            class="activeButton"
+            id="activeBtn"
+            (click)="viewAllProduct('Vegetable')"
+          >
+            View All
+          </button>
+        </div>
+      </div>
+
+      <!--show div on large screen-->
+      <div class="d-none d-xl-block main-scroll-div mt-3">
+        <!--div contains product images, name and price with scroll left and right button -->
+        <div class="d-flex justify-content-center align-items-center">
+          <div
+            *ngIf="productList.length > 4"
+            class="portalLeftArrow cursorPointer ms-1"
+            (click)="scrollVegetableRight()"
+          ></div>
+          <div class="d-none d-xl-block cover mb-5">
+            <div class="scroll-vegetable">
+              <div
+                class="child d-flex flex-column align-items-center me-3 rounded"
+                *ngFor="let item of vegetableList"
+              >
+                <img
+                  class="mt-2 ms-2 me-2 bgWhite rounded"
+                  [src]="item.imgUrl"
+                  height="195px"
+                  width="220px"
+                />
+                <label class="ms-4 portalProductLbl text-truncate mt-2">{{
+                  item.productName
+                }}</label>
+                <div class="d-flex flex-row justify-content-center">
+                  <div class="d-flex me-4">
+                    <div class="priceTagIcon me-2"></div>
+                    <label class="portalPriceLbl"
+                      >Rs: {{ item.salePrice }}</label
+                    >
+                  </div>
+                </div>
+
+                <button
+                  mat-button
+                  class="btnAddToCart mt-1"
+                  (click)="pushCartItem(item)"
+                >
+                  ADD TO CART
+                </button>
+              </div>
+            </div>
+          </div>
+          <div
+            *ngIf="productList.length > 4"
+            class="portalRightArrow cursorPointer me-3"
+            (click)="scrollVegetableLeft()"
+          ></div>
+        </div>
+      </div>
+
+      <!--show div on small screen-->
+      <div
+        class="d-flex justify-content-between d-block d-xl-none ms-5 me-5 mt-5"
+      >
+        <!--div contains heading label and button-->
+        <label class="sm-portalLblHeading">Vegetables</label>
+        <button
+          class="sm-activeButton"
+          id="activeBtn"
+          (click)="viewAllProduct('Vegetable')"
+        >
+          View All
+        </button>
+      </div>
+
+      <!--show div on small screen-->
+      <div class="d-block d-xl-none main-scroll-div mt-3">
+        <!--div contains product images, name and price with scroll left and right button -->
+        <div class="d-flex justify-content-center align-items-center">
+          <div
+            *ngIf="productList.length > 4"
+            class="portalLeftArrow cursorPointer ms-1"
+            (click)="scrollSmVegetableRight()"
+          ></div>
+          <div class="smCover mb-5">
+            <div class="sm-scroll-vegetable">
+              <div
+                class="sm-child d-flex flex-column align-items-center me-3 rounded"
+                *ngFor="let item of vegetableList"
+              >
+                <img
+                  class="mt-1 ms-1 me-1 bgWhite rounded"
+                  [src]="item.imgUrl"
+                  height="111px"
+                  width="125px"
+                />
+                <label class="sm-portalProductLbl text-truncate mt-1">{{
+                  item.productName
+                }}</label>
+                <div class="d-flex flex-row justify-content-center">
+                  <div class="d-flex me-4">
+                    <div class="sm-priceTagIcon me-2"></div>
+                    <label class="sm-portalPriceLbl"
+                      >Rs: {{ item.salePrice }}</label
+                    >
+                  </div>
+                </div>
+
+                <button
+                  class="sm-btnAddToCart mt-1"
+                  (click)="pushCartItem(item)"
+                >
+                  ADD TO CART
+                </button>
+              </div>
+            </div>
+          </div>
+          <div
+            *ngIf="productList.length > 4"
+            class="portalRightArrow cursorPointer me-1"
+            (click)="scrollSmVegetableLeft()"
+          ></div>
+        </div>
+      </div>
+
+      <!--show div on large screen-->
+      <div class="d-none d-xl-block">
+        <!--div contains heading label and button-->
+        <div class="d-flex justify-content-between ms-5 me-5 mt-5">
+          <label class="portalLblHeading">Sungreen Special</label>
+          <button
+            class="activeButton"
+            id="activeBtn"
+            (click)="viewAllProduct('Sungreen Special')"
+          >
+            View All
+          </button>
+        </div>
+      </div>
+
+      <!--show div on large screen-->
+      <div class="d-none d-xl-block main-scroll-div mt-3">
+        <!--div contains product images, name and price with scroll left and right button -->
+        <div class="d-flex justify-content-center align-items-center">
+          <div
+            *ngIf="productList.length > 4"
+            class="portalLeftArrow cursorPointer ms-1"
+            (click)="scrollSpecialRight()"
+          ></div>
+          <div class="d-none d-xl-block cover mb-5">
+            <div class="scroll-special">
+              <div
+                class="child d-flex flex-column align-items-center me-3 rounded"
+                *ngFor="let item of specialList"
+              >
+                <img
+                  class="mt-2 ms-2 me-2 bgWhite rounded"
+                  [src]="item.imgUrl"
+                  height="195px"
+                  width="220px"
+                />
+                <label class="ms-4 portalProductLbl text-truncate mt-2">{{
+                  item.productName
+                }}</label>
+                <div class="d-flex flex-row justify-content-center">
+                  <div class="d-flex me-4">
+                    <div class="priceTagIcon me-2"></div>
+                    <label class="portalPriceLbl"
+                      >Rs: {{ item.salePrice }}</label
+                    >
+                  </div>
+                </div>
+
+                <button
+                  mat-button
+                  class="btnAddToCart mt-1"
+                  (click)="pushCartItem(item)"
+                >
+                  ADD TO CART
+                </button>
+              </div>
+            </div>
+          </div>
+          <div
+            *ngIf="productList.length > 4"
+            class="portalRightArrow cursorPointer me-3"
+            (click)="scrollSpecialLeft()"
+          ></div>
+        </div>
+      </div>
+
+      <!--show div on small screen-->
+      <div
+        class="d-flex justify-content-between d-block d-xl-none ms-5 me-5 mt-5"
+      >
+        <!--div contains heading label and button-->
+        <label class="sm-portalLblHeading">Sungreen Special</label>
+        <button
+          class="sm-activeButton"
+          id="activeBtn"
+          (click)="viewAllProduct('Sungreen Special')"
+        >
+          View All
+        </button>
+      </div>
+
+      <!--show div on small screen-->
+      <div class="d-block d-xl-none main-scroll-div mt-3">
+        <!--div contains product images, name and price with scroll left and right button -->
+        <div class="d-flex justify-content-center align-items-center">
+          <div
+            *ngIf="productList.length > 4"
+            class="portalLeftArrow cursorPointer ms-1"
+            (click)="scrollSmSpecialRight()"
+          ></div>
+          <div class="smCover mb-5">
+            <div class="sm-scroll-special">
+              <div
+                class="sm-child d-flex flex-column align-items-center me-3 rounded"
+                *ngFor="let item of specialList"
+              >
+                <img
+                  class="mt-1 ms-1 me-1 bgWhite rounded"
+                  [src]="item.imgUrl"
+                  height="111px"
+                  width="125px"
+                />
+                <label class="portalProductLbl text-truncate mt-1">{{
+                  item.productName
+                }}</label>
+                <div class="d-flex flex-row justify-content-center">
+                  <div class="d-flex me-4">
+                    <div class="sm-priceTagIcon me-2"></div>
+                    <label class="sm-portalPriceLbl"
+                      >Rs: {{ item.salePrice }}</label
+                    >
+                  </div>
+                </div>
+
+                <button
+                  class="sm-btnAddToCart mt-1"
+                  (click)="pushCartItem(item)"
+                >
+                  ADD TO CART
+                </button>
+              </div>
+            </div>
+          </div>
+          <div
+            *ngIf="productList.length > 4"
+            class="portalRightArrow cursorPointer me-1"
+            (click)="scrollSmSpecialLeft()"
+          ></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--checkout page component-->
+  <aims-pos-checkout
+    *ngIf="checkoutFound == true"
+    [checkOutList]="cartList"
+    [totalPrice]="total"
+    (eventEmitter)="getOnlineProduct(); resetCart()"
+  ></aims-pos-checkout>
 </div>
 
-<aims-pos-checkout *ngIf="checkoutFound == true" [checkOutList]="cartList" [totalPrice]="total" (eventEmitter)="getOnlineProduct()"></aims-pos-checkout>
+<!--view-all-product page component-->
+<aims-pos-view-all-product
+  *ngIf="viewProduct == true"
+  (eventEmitter)="pushCartItem($event)"
+></aims-pos-view-all-product>
 
 <!-- Modal -->
-<div class="modal right animate__animated animate__fadeInRight" id="cartModal" role="dialog" aria-labelledby="myModalLabel">
-    <div class="modal-dialog shadow-lg" role="document">
-        <div class="modal-content">
+<div
+  class="modal right animate__animated animate__fadeInRight"
+  id="cartModal"
+  role="dialog"
+  data-bs-backdrop="false"
+  aria-labelledby="myModalLabel"
+>
+  <div class="modal-dialog shadow-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header d-flex flex-row-reverse">
+        <mat-icon class="portal-green-text" data-bs-dismiss="modal"
+          >cancel</mat-icon
+        >
+      </div>
 
-            <div class="modal-header d-flex flex-row-reverse">
-                <mat-icon class="text-white" data-bs-dismiss="modal">close</mat-icon>
+      <div class="modal-body overflow-hidden">
+        <div class="d-flex flex-column mt-2 mb-4">
+          <div class="d-flex flex-row justify-content-center">
+            <label class="bachatLblCart">Add to Cart!</label>
+          </div>
+          <label class="bachatLblPrice mt-4"
+            >Here are your added products.</label
+          >
+        </div>
+        <perfect-scrollbar style="max-width: 100%; max-height: 65%">
+          <div
+            class="d-flex flex-row justify-content-between mb-3"
+            *ngFor="let item of cartList; let i = index"
+          >
+            <div class="d-flex align-items-center">
+              <img
+                class="mt-2 mb-1 bg-light-grey rounded"
+                [src]="item.imgUrl"
+                height="131px"
+                width="131px"
+              />
+              <!-- <img class="mt-2 mb-1" *ngIf="item.applicationedoc == '' || item.applicationedoc == null" [src]="tempImg" height="110px" width="110px" /> -->
+              <!-- <img class="mt-2 mb-1" [src]="item.applicationedoc" height="130px" width="100px" /> -->
+              <div class="d-flex flex-column ms-3">
+                <label class="bachatLblItem">{{ item.productName }}</label>
+                <label class="bachatLblItem mt-2 mb-2"
+                  >PKR {{ item.salePrice }}</label
+                >
+                <div class="d-flex flex-row mt-1 mb-1">
+                  <mat-icon class="iconColor" (click)="removeCartItem(item)"
+                    >remove_circle</mat-icon
+                  >
+                  <label class="portalLblQty ms-2 me-2 ps-1 pe-1">{{
+                    item.qty
+                  }}</label>
+                  <mat-icon class="iconColor" (click)="addCartItem(item)"
+                    >add_circle</mat-icon
+                  >
+                </div>
+              </div>
             </div>
 
-            <div class="modal-body overflow-hidden">
-                <div class="d-flex flex-column mt-2 mb-4">
-                    <div class="d-flex flex-row justify-content-center">
-                        <div class="bachatCheckIcon me-3"></div>
-                        <label class="bachatLblCart">Added to cart!</label>
-                    </div>
-                    <label class="bachatLblPrice mt-4">Here are your added products.</label>
-                </div>
-                <perfect-scrollbar style="max-width: 100%; max-height: 25em;">
-                    <div class="d-flex flex-row align-items-center mb-3" *ngFor="let item of cartList">
-                        <img class="mt-2 mb-1" [src]="item.imgUrl" height="130px" width="100px" />
-                        <!-- <img class="mt-2 mb-1" *ngIf="item.applicationedoc == '' || item.applicationedoc == null" [src]="tempImg" height="110px" width="110px" /> -->
-                        <!-- <img class="mt-2 mb-1" [src]="item.applicationedoc" height="130px" width="100px" /> -->
-                        <div class="d-flex flex-column ms-3">
-                            <label class="bachatLblItem">{{item.productName}}</label>
-                            <label class="bachatLblPrice">PKR {{item.salePrice}}</label>
-                            <div class="d-flex flex-row mt-1 mb-1">
-                                <mat-icon class="iconColor" (click)="removeCartItem(item)">remove_circle</mat-icon>
-                                <label class="bachatLblQty ms-2 me-2 ps-1 pe-1">{{item.qty}}</label>
-                                <mat-icon class="iconColor" (click)="addCartItem(item)">add_circle</mat-icon>
-                            </div>
-                        </div>
-                    </div>
-                </perfect-scrollbar>
-                <div class="d-flex flex-row justify-content-center mt-3">
-                    <label class="bachatLblTotal">Total:</label>
-                    <label class="bachatLblTotalPrice ms-2">PKR {{total}}</label>
-                </div>
-                <div class="d-flex justify-content-center">
-                    <button mat-button class="checkoutBtn mb-1 mt-1" (click)="checkout()">CHECKOUT</button>
-                </div>
-            </div>
-
-        </div><!-- modal-content -->
-    </div><!-- modal-dialog -->
-</div><!--modal-->
-
+            <mat-icon
+              class="portal-green-text me-2 cursorPointer"
+              (click)="removeProduct(i)"
+              >close</mat-icon
+            >
+          </div>
+        </perfect-scrollbar>
+        <div class="d-flex flex-row justify-content-center mt-3">
+          <label class="bachatLblTotal">Total:</label>
+          <label class="bachatLblTotalPrice ms-2">PKR {{ total }}</label>
+        </div>
+        <div class="d-flex justify-content-center">
+          <button
+            mat-button
+            class="portalCheckoutBtn mb-1 mt-1 rounded"
+            (click)="checkout()"
+          >
+            CHECKOUT
+          </button>
+        </div>
+      </div>
+    </div>
+    <!-- modal-content -->
+  </div>
+  <!-- modal-dialog -->
+</div>
+<!--modal-->

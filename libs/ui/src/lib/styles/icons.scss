@@ -1,334 +1,525 @@
-.newProductIcon{
-    background:url(../assets/images/icons/NewProductIcon.svg);
-    height: 2em;
-    width: 2em;
-    background-position: center;
-    background-size: cover;
+.newProductIcon {
+  background: url(../assets/images/icons/NewProductIcon.svg);
+  height: 2em;
+  width: 2em;
+  background-position: center;
+  background-size: cover;
 }
 
-.saveProductIcon{
-    background:url(../assets/images/icons/SavedProductsIcon.svg);
-    height: 2em;
-    width: 2em;
-    background-position: center;
-    background-size: cover;
+.saveProductIcon {
+  background: url(../assets/images/icons/SavedProductsIcon.svg);
+  height: 2em;
+  width: 2em;
+  background-position: center;
+  background-size: cover;
 }
 
-.productSaleIcon{
-    background:url(../assets/images/icons/Sales.svg);
-    height: 2em;
-    width: 2em;
-    background-position: center;
-    background-size: cover;
+.productSaleIcon {
+  background: url(../assets/images/icons/Sales.svg);
+  height: 2em;
+  width: 2em;
+  background-position: center;
+  background-size: cover;
 }
 
-.bachatOnlineIcon{
-    background:url(../assets/images/icons/PlaceOrderMainIcon.svg);
-    background-position: center;
-    background-size: cover;
-    height: 2em;
-    width: 2em;
+.bachatOnlineIcon {
+  background: url(../assets/images/icons/PlaceOrderMainIcon.svg);
+  background-position: center;
+  background-size: cover;
+  height: 2em;
+  width: 2em;
 }
 
-.cashReceivedIcon{
-    background:url(../assets/images/icons/CashRecievedIcon.svg);
-    background-position: center;
-    background-size: cover;
-    height: 1.5em;
-    width: 1.5em;
+.cashReceivedIcon {
+  background: url(../assets/images/icons/CashRecievedIcon.svg);
+  background-position: center;
+  background-size: cover;
+  height: 1.5em;
+  width: 1.5em;
 }
 
-.placeOrderIcon{
-    background:url(../assets/images/icons/PlaceOrderIcon.svg);
-    background-position: center;
-    background-size: cover;
-    height: 1.5em;
-    width: 1.5em;
+.placeOrderIcon {
+  background: url(../assets/images/icons/PlaceOrderIcon.svg);
+  background-position: center;
+  background-size: cover;
+  height: 1.5em;
+  width: 1.5em;
 }
-.openStockIcon{
-    background:url(../assets/images/icons/OpeningStockIcon.svg);
-    height: 2em;
-    width: 2em;
-    background-position: center;
-    background-size: cover;
-}
-
-.cancelIcon{
-    background:url(../assets/images/icons/CancelIcon.svg);
-    height: 1.35em;
-    width: 1.35em;
-    background-position: center;
-    background-size: cover;
+.openStockIcon {
+  background: url(../assets/images/icons/OpeningStockIcon.svg);
+  height: 2em;
+  width: 2em;
+  background-position: center;
+  background-size: cover;
 }
 
-.saleReturnIcon{
-    background:url(../assets/images/icons/SalesReturn.svg);
-    height: 6.5em;
-    width: 6.5em;
-    background-position: center;
-    background-size: cover;
+.cancelIcon {
+  background: url(../assets/images/icons/CancelIcon.svg);
+  height: 1.35em;
+  width: 1.35em;
+  background-position: center;
+  background-size: cover;
 }
 
-.coreIcon{
-    background:url(../assets/images/icons/core.svg);
-    height: 1.5em;
-    width: 1.5em;
-    background-position: center;
-    background-size: cover;
+.saleReturnIcon {
+  background: url(../assets/images/icons/SalesReturn.svg);
+  height: 6.5em;
+  width: 6.5em;
+  background-position: center;
+  background-size: cover;
 }
-.settingIcon{
-    background:url(../assets/images/icons/settings.svg);
-    height: 1.5em;
-    width: 1.5em;
-    background-position: center;
-    background-size: cover;
+
+.coreIcon {
+  background: url(../assets/images/icons/core.svg);
+  height: 1.5em;
+  width: 1.5em;
+  background-position: center;
+  background-size: cover;
 }
-.moduleIcon{
-    background:url(../assets/images/icons/modules.svg);
-    height: 1.5em;
-    width: 1.5em;
-    background-position: center;
-    background-size: cover;
+.settingIcon {
+  background: url(../assets/images/icons/settings.svg);
+  height: 1.5em;
+  width: 1.5em;
+  background-position: center;
+  background-size: cover;
 }
-.companyIcon{
-    background:url(../assets/images/icons/companyIcon.svg);
-    height: 1.5em;
-    width: 1.5em;
-    background-position: center;
-    background-size: cover;
+.moduleIcon {
+  background: url(../assets/images/icons/modules.svg);
+  height: 1.5em;
+  width: 1.5em;
+  background-position: center;
+  background-size: cover;
 }
-.reportIcon{
-    background:url(../assets/images/icons/ReportIcon.svg);
-    height: 1.5em;
-    width: 1.5em;
-    background-position: center;
-    background-size: cover;
+.companyIcon {
+  background: url(../assets/images/icons/companyIcon.svg);
+  height: 1.5em;
+  width: 1.5em;
+  background-position: center;
+  background-size: cover;
 }
-.categoryIcon{
-    background:url(../assets/images/icons/CategoryIcon.svg);
-    height: 1.5em;
-    width: 1.5em;
-    background-position: center;
-    background-size: cover;
+.reportIcon {
+  background: url(../assets/images/icons/ReportIcon.svg);
+  height: 1.5em;
+  width: 1.5em;
+  background-position: center;
+  background-size: cover;
 }
-.SubCategoryIcon{
-    background:url(../assets/images/icons/SubCategoryIcon.svg);
-    height: 1.5em;
-    width: 1.5em;
-    background-position: center;
-    background-size: cover;
+.categoryIcon {
+  background: url(../assets/images/icons/CategoryIcon.svg);
+  height: 1.5em;
+  width: 1.5em;
+  background-position: center;
+  background-size: cover;
 }
-.BrandPageIcon{
-    background:url(../assets/images/icons/BrandPageIcon.svg);
-    height: 1.5em;
-    width: 1.5em;
-    background-position: center;
-    background-size: cover;
+.SubCategoryIcon {
+  background: url(../assets/images/icons/SubCategoryIcon.svg);
+  height: 1.5em;
+  width: 1.5em;
+  background-position: center;
+  background-size: cover;
 }
-.LocationIcon{
-    background:url(../assets/images/icons/LocationIcon.svg);
-    height: 1.5em;
-    width: 1.5em;
-    background-position: center;
-    background-size: cover;
+.BrandPageIcon {
+  background: url(../assets/images/icons/BrandPageIcon.svg);
+  height: 1.5em;
+  width: 1.5em;
+  background-position: center;
+  background-size: cover;
 }
-.RouteIcon{
-    background:url(../assets/images/icons/RouteIcon.svg);
-    height: 1.5em;
-    width: 1.5em;
-    background-position: center;
-    background-size: cover;
+.LocationIcon {
+  background: url(../assets/images/icons/LocationIcon.svg);
+  height: 1.5em;
+  width: 1.5em;
+  background-position: center;
+  background-size: cover;
 }
-.ChartofAccountIcon{
-    background:url(../assets/images/icons/ChartofAccountIcon.svg);
-    height: 1.5em;
-    width: 1.5em;
-    background-position: center;
-    background-size: cover;
-} 
-.CityIcon{
-    background:url(../assets/images/icons/CityIcon.svg);
-    height: 1.5em;
-    width: 1.5em;
-    background-position: center;
-    background-size: cover;
+.RouteIcon {
+  background: url(../assets/images/icons/RouteIcon.svg);
+  height: 1.5em;
+  width: 1.5em;
+  background-position: center;
+  background-size: cover;
 }
-.AddPartyIcon{
-    background:url(../assets/images/icons/AddPartyIcon.svg);
-    height: 1.5em;
-    width: 1.5em;
-    background-position: center;
-    background-size: cover;
+.ChartofAccountIcon {
+  background: url(../assets/images/icons/ChartofAccountIcon.svg);
+  height: 1.5em;
+  width: 1.5em;
+  background-position: center;
+  background-size: cover;
 }
-.AddEmployeeIcon{
-    background:url(../assets/images/icons/AddEmployeeIcon.svg);
-    height: 1.5em;
-    width: 1.5em;
-    background-position: center;
-    background-size: cover;
+.CityIcon {
+  background: url(../assets/images/icons/CityIcon.svg);
+  height: 1.5em;
+  width: 1.5em;
+  background-position: center;
+  background-size: cover;
 }
-.SavedPartiesIcon{
-    background:url(../assets/images/icons/SavedPartiesIcon.svg);
-    height: 1.5em;
-    width: 1.5em;
-    background-position: center;
-    background-size: cover;
+.AddPartyIcon {
+  background: url(../assets/images/icons/AddPartyIcon.svg);
+  height: 1.5em;
+  width: 1.5em;
+  background-position: center;
+  background-size: cover;
 }
-.SavedEmployeesIcon{
-    background:url(../assets/images/icons/SavedEmployeesIcon.svg);
-    height: 1.5em;
-    width: 1.5em;
-    background-position: center;
-    background-size: cover;
+.AddEmployeeIcon {
+  background: url(../assets/images/icons/AddEmployeeIcon.svg);
+  height: 1.5em;
+  width: 1.5em;
+  background-position: center;
+  background-size: cover;
 }
-.BankDetailsIcon{
-    background:url(../assets/images/icons/BankDetailsIcon.svg);
-    height: 1.5em;
-    width: 1.5em;
-    background-position: center;
-    background-size: cover;
+.SavedPartiesIcon {
+  background: url(../assets/images/icons/SavedPartiesIcon.svg);
+  height: 1.5em;
+  width: 1.5em;
+  background-position: center;
+  background-size: cover;
 }
-.SavedEmployeesIcon{
-    background:url(../assets/images/icons/SavedEmployeesIcon.svg);
-    height: 1.5em;
-    width: 1.5em;
-    background-position: center;
-    background-size: cover;
+.SavedEmployeesIcon {
+  background: url(../assets/images/icons/SavedEmployeesIcon.svg);
+  height: 1.5em;
+  width: 1.5em;
+  background-position: center;
+  background-size: cover;
 }
-.PaymentsIcon{
-    background:url(../assets/images/icons/PaymentsIcon.svg);
-    height: 1.5em;
-    width: 1.5em;
-    background-position: center;
-    background-size: cover;
+.BankDetailsIcon {
+  background: url(../assets/images/icons/BankDetailsIcon.svg);
+  height: 1.5em;
+  width: 1.5em;
+  background-position: center;
+  background-size: cover;
 }
-.SavedPaymentsIcon{
-    background:url(../assets/images/icons/SavedPaymentsIcon.svg);
-    height: 1.5em;
-    width: 1.5em;
-    background-position: center;
-    background-size: cover;
+.SavedEmployeesIcon {
+  background: url(../assets/images/icons/SavedEmployeesIcon.svg);
+  height: 1.5em;
+  width: 1.5em;
+  background-position: center;
+  background-size: cover;
 }
-.padLockIcon{
-    background:url(../assets/images/icons/padlock.svg);
-    height: 6.5em;
-    width: 6.5em;
-    background-position: center;
-    background-size: cover;
+.PaymentsIcon {
+  background: url(../assets/images/icons/PaymentsIcon.svg);
+  height: 1.5em;
+  width: 1.5em;
+  background-position: center;
+  background-size: cover;
+}
+.SavedPaymentsIcon {
+  background: url(../assets/images/icons/SavedPaymentsIcon.svg);
+  height: 1.5em;
+  width: 1.5em;
+  background-position: center;
+  background-size: cover;
+}
+.padLockIcon {
+  background: url(../assets/images/icons/padlock.svg);
+  height: 6.5em;
+  width: 6.5em;
+  background-position: center;
+  background-size: cover;
 }
 ////////////////////////////////////// Bachat Icons /////////////////////////////////////////
-.bachatCartIcon{
-    background:url(../assets/images/BachatPictures/BachatCartIcon.svg);
-    height: 1.5em;
-    width: 1.5em;
-    background-position: center;
-    background-size: cover;
+.bachatCartIcon {
+  background: url(../assets/images/BachatPictures/BachatCartIcon.svg);
+  height: 1.5em;
+  width: 1.5em;
+  background-position: center;
+  background-size: cover;
 }
-.bachatLocationIcon{
-    background:url(../assets/images/BachatPictures/BachatLocationIcon.svg);
-    height: 1.2em;
-    width: 1.2em;
-    background-position: center;
-    background-size: cover;
+.bachatLocationIcon {
+  background: url(../assets/images/BachatPictures/BachatLocationIcon.svg);
+  height: 1.2em;
+  width: 1.2em;
+  background-position: center;
+  background-size: cover;
 }
-.bachatProductIcon{
-    background:url(../assets/images/BachatPictures/BachatProductIcon.svg);
-    height: 1em;
-    width: 1.5em;
-    background-position: center;
-    background-size: cover;
+.bachatProductIcon {
+  background: url(../assets/images/BachatPictures/BachatProductIcon.svg);
+  height: 1em;
+  width: 1.5em;
+  background-position: center;
+  background-size: cover;
 }
-.bachatSearchIcon{
-    background:url(../assets/images/BachatPictures/BachatSearchIcon.svg);
-    height: 1.5em;
-    width: 1.5em;
-    background-position: center;
-    background-size: cover;
+.bachatSearchIcon {
+  background: url(../assets/images/BachatPictures/BachatSearchIcon.svg);
+  height: 1.5em;
+  width: 1.5em;
+  background-position: center;
+  background-size: cover;
 }
-.bachatCheckIcon{
-    background:url(../assets/images/BachatPictures/CheckMarkIcon.svg);
-    height: 2em;
-    width: 2em;
-    background-position: center;
-    background-size: cover;
+.bachatCheckIcon {
+  background: url(../assets/images/BachatPictures/CheckMarkIcon.svg);
+  height: 2em;
+  width: 2em;
+  background-position: center;
+  background-size: cover;
 }
-.bachatCheckoutIcon{
-    background:url(../assets/images/BachatPictures/CheckOutIcon.svg);
-    height: 2em;
-    width: 2em;
-    background-position: center;
-    background-size: cover;
+.bachatCheckoutIcon {
+  background: url(../assets/images/BachatPictures/CheckOutIcon.svg);
+  height: 2em;
+  width: 2em;
+  background-position: center;
+  background-size: cover;
 }
-.bachatHomeIcon{
-    background:url(../assets/images/BachatPictures/HomeIcon.svg);
-    height: 1em;
-    width: 1em;
-    background-position: center;
-    background-size: cover;
+.bachatHomeIcon {
+  background: url(../assets/images/BachatPictures/HomeIcon.svg);
+  height: 1em;
+  width: 1em;
+  background-position: center;
+  background-size: cover;
 }
-.bachatCashIcon{
-    background:url(../assets/images/BachatPictures/CashOnDeliveryIcon.svg);
-    height: 1em;
-    width: 1em;
-    background-position: center;
-    background-size: cover;
+.bachatCashIcon {
+  background: url(../assets/images/portalPictures/CashOnDeliveryIcon.svg);
+  height: 1em;
+  width: 1.5em;
+  background-position: center;
+  background-size: cover;
 }
-.bachatOrderIcon{
-    background:url(../assets/images/icons/OrderList.svg);
-    height: 1.5em;
-    width: 1.5em;
-    background-position: center;
-    background-size: cover;
+.bachatOrderIcon {
+  background: url(../assets/images/icons/OrderList.svg);
+  height: 1.5em;
+  width: 1.5em;
+  background-position: center;
+  background-size: cover;
 }
-.posReportIcon{
-    background:url(../assets/images/ReportPictures/Logo.svg);
-    height: 2em;
-    width: 2em;
-    background-position: center;
-    background-size: cover;
+.posReportIcon {
+  background: url(../assets/images/ReportPictures/Logo.svg);
+  height: 2em;
+  width: 2em;
+  background-position: center;
+  background-size: cover;
 }
-
 
 /******************** Dashboard Icons **************************/
-.expenseIcon{
-    background:url(../assets/images/icons/expensesIcon.svg);
-    height: 3.5em;
-    width: 3.5em;
-    background-position: center;
-    background-size: cover;
-    opacity: 0.4 !important;
+.expenseIcon {
+  background: url(../assets/images/icons/expensesIcon.svg);
+  height: 3.5em;
+  width: 3.5em;
+  background-position: center;
+  background-size: cover;
+  opacity: 0.4 !important;
 }
 
-.todaySaleIcon{
-    background:url(../assets/images/icons/todaySaleIcon.svg);
-    height: 3.5em;
-    width: 3.5em;
-    background-position: center;
-    background-size: cover;
-    opacity: 0.4 !important;
+.todaySaleIcon {
+  background: url(../assets/images/icons/todaySaleIcon.svg);
+  height: 3.5em;
+  width: 3.5em;
+  background-position: center;
+  background-size: cover;
+  opacity: 0.4 !important;
 }
 
-.todayTransactionIcon{
-    background:url(../assets/images/icons/todayTransactionIcon.svg);
-    height: 3.5em;
-    width: 3.5em;
-    background-position: center;
-    background-size: cover;
-    opacity: 0.4 !important;
+.todayTransactionIcon {
+  background: url(../assets/images/icons/todayTransactionIcon.svg);
+  height: 3.5em;
+  width: 3.5em;
+  background-position: center;
+  background-size: cover;
+  opacity: 0.4 !important;
 }
 
-.incomeIcon{
-    background:url(../assets/images/icons/incomeIcon.svg);
-    height: 3.5em;
-    width: 3.5em;
-    background-position: center;
-    background-size: cover;
-    opacity: 0.4 !important;
+.incomeIcon {
+  background: url(../assets/images/icons/incomeIcon.svg);
+  height: 3.5em;
+  width: 3.5em;
+  background-position: center;
+  background-size: cover;
+  opacity: 0.4 !important;
 }
-.dashboardIcon{
-    background:url(../assets/images/icons/DashboardIcon.svg);
-    height: 2.5em;
-    width: 2.5em;
-    background-position: center;
-    background-size: cover;
+.dashboardIcon {
+  background: url(../assets/images/icons/DashboardIcon.svg);
+  height: 2.5em;
+  width: 2.5em;
+  background-position: center;
+  background-size: cover;
+}
+
+/*************************************portal icons************************************/
+.portalCartIcon {
+  background: url(../assets/images/portalPictures/portalCart.svg);
+  height: 2.3em;
+  width: 2.5em;
+  background-position: center;
+  background-size: cover;
+}
+.sm-portalCartIcon {
+  background: url(../assets/images/portalPictures/portalCart.svg);
+  height: 2em;
+  width: 2em;
+  background-position: center;
+  background-size: cover;
+}
+
+.bananaImg {
+  background: url(../assets/images/portalPictures/banana.svg);
+  height: 2em;
+  width: 2em;
+  background-position: center;
+  background-size: cover;
+}
+
+.appleImg {
+  background: url(../assets/images/portalPictures/apple.svg);
+  height: 2em;
+  width: 2em;
+  background-position: center;
+  background-size: cover;
+}
+
+.priceTagIcon {
+  background: url(../assets/images/portalPictures/priceTag.svg);
+  height: 1.2em;
+  width: 1.2em;
+  background-position: center;
+  background-size: cover;
+}
+
+.sm-priceTagIcon {
+  background: url(../assets/images/portalPictures/priceTag.svg);
+  height: 0.65375em;
+  width: 0.65375em;
+  background-position: center;
+  background-size: cover;
+}
+
+.sliderImg1 {
+  background: url(../assets/images/portalPictures/sliderImg1.png);
+  height: 50em;
+  width: auto;
+  background-position: center;
+  background-size: cover;
+}
+.sliderImg2 {
+  background: url(../assets/images/portalPictures/sliderImg2.png);
+  height: 50em;
+  width: auto;
+  background-position: center;
+  background-size: cover;
+}
+.sliderImg3 {
+  background: url(../assets/images/portalPictures/sliderImg3.png);
+  height: 50em;
+  width: auto;
+  background-position: center;
+  background-size: cover;
+}
+
+.smSliderImg1 {
+  background: url(../assets/images/portalPictures/sm-sliderImg1.png);
+  height: 20em;
+  width: auto;
+  background-position: center;
+  background-size: cover;
+}
+.smSliderImg2 {
+  background: url(../assets/images/portalPictures/sm-sliderImg2.png);
+  height: 20em;
+  width: auto;
+  background-position: center;
+  background-size: cover;
+}
+.smSliderImg3 {
+  background: url(../assets/images/portalPictures/sm-sliderImg3.png);
+  height: 20em;
+  width: auto;
+  background-position: center;
+  background-size: cover;
+}
+.portalMainBg {
+  background: url(../assets/images/portalPictures/mainBg.png);
+  height: 27em;
+  width: auto;
+  background-position: center;
+  background-size: cover;
+}
+.portalLeftArrow {
+  background: url(../assets/images/portalPictures/leftArrow.svg);
+  height: 2em;
+  width: 2em;
+  background-position: center;
+  background-size: cover;
+}
+.portalRightArrow {
+  background: url(../assets/images/portalPictures/rightArrow.svg);
+  height: 2em;
+  width: 2em;
+  background-position: center;
+  background-size: cover;
+}
+.portalLocationIcon {
+  background: url(../assets/images/portalPictures/location.svg);
+  height: 1em;
+  width: 0.9em;
+  background-position: center;
+  background-size: cover;
+}
+.portalMailIcon {
+  background: url(../assets/images/portalPictures/mail.svg);
+  height: 0.8em;
+  width: 1em;
+  background-position: center;
+  background-size: cover;
+}
+.portalPhoneIcon {
+  background: url(../assets/images/portalPictures/phone.svg);
+  height: 1em;
+  width: 0.9em;
+  background-position: center;
+  background-size: cover;
+}
+.portalFacebookIcon {
+  background: url(../assets/images/portalPictures/facebook.svg);
+  height: 1em;
+  width: 1.05em;
+  background-position: center;
+  background-size: cover;
+}
+.portalWhatsappIcon {
+  background: url(../assets/images/portalPictures/whatsapp.svg);
+  height: 1em;
+  width: 1.05em;
+  background-position: center;
+  background-size: cover;
+}
+.portalInstagramIcon {
+  background: url(../assets/images/portalPictures/instagram.svg);
+  height: 1em;
+  width: 1em;
+  background-position: center;
+  background-size: cover;
+}
+.portalLinkedInIcon {
+  background: url(../assets/images/portalPictures/linkedin.svg);
+  height: 1em;
+  width: 1em;
+  background-position: center;
+  background-size: cover;
+}
+
+.portalCartSmallIcon {
+  background: url(../assets/images/portalPictures/smallCart.svg);
+  height: 1em;
+  width: 1em;
+  background-position: center;
+  background-size: cover;
+}
+.portalHomelIcon {
+  background: url(../assets/images/portalPictures/home.svg);
+  height: 1em;
+  width: 1em;
+  background-position: center;
+  background-size: cover;
+}
+.leftportalImg {
+  background: url(../assets/images/portalPictures/leftPortalImg.svg);
+  height: 12em;
+  width: 12em;
+  background-position: center;
+  background-size: cover;
+}
+
+.rightportalImg {
+  background: url(../assets/images/portalPictures/rightPortalImg.svg);
+  height: 12em;
+  width: 12em;
+  background-position: center;
+  background-size: cover;
 }

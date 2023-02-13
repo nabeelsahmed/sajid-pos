@@ -11,6 +11,7 @@ import { SharedHelpersJwtInterceptorModule } from '@aims-pos/shared/helpers/jwt-
 import { SharedServicesGlobalDataModule } from '@aims-pos/shared/services/global-data';
 import { AuthGuard } from '@aims-pos/shared/helpers/guards';
 import { HttpClientModule } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
 
 import { ChartModule } from 'angular-highcharts';
 
@@ -63,25 +64,26 @@ export const appRoutes: Route[] = [
     component: TopSideNavComponent,
     loadChildren: () =>
       import('@aims-pos/pos-core').then((m) => m.PosCoreModule),
-    // canLoad: [AuthGuard],
+    canLoad: [AuthGuard],
   },
-  {
-    path: 'bachat',
-    component: BachatTopSideNavComponent,
-    loadChildren: () =>
-      import('@aims-pos/bachat-online').then((m) => m.BachatOnlineModule),
-  },
+  // {
+  //   path: 'bachat',
+  //   component: BachatTopSideNavComponent,
+  //   loadChildren: () =>
+  //     import('@aims-pos/bachat-online').then((m) => m.BachatOnlineModule),
+  // },
   {
     path: 'report',
     component: TopSideNavComponent,
     loadChildren: () =>
       import('@aims-pos/reports').then((m) => m.ReportsModule),
+    canLoad: [AuthGuard],
   },
   {
     path: 'company',
     component: TopSideNavComponent,
-    loadChildren: () =>
-      import('@aims-pos/cmis').then((m) => m.CmisModule),
+    loadChildren: () => import('@aims-pos/cmis').then((m) => m.CmisModule),
+    canLoad: [AuthGuard],
   },
   { path: '**', redirectTo: 'auth', pathMatch: 'full' },
 ];
@@ -94,6 +96,7 @@ export const appRoutes: Route[] = [
     LayoutsModule,
     PosCoreModule,
     AuthModule,
+    FormsModule,
     ReportsModule,
     SharedHelpersFieldValidationsModule,
     SharedServicesAuthModule,

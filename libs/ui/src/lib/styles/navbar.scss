@@ -1,22 +1,27 @@
-.side-nav-default{
+.side-nav-default {
   background-color: var(--dark-grey);
   color: #484e4a;
   overflow-y: hidden;
 }
-.nav-header{
+.side-nav-default-portal {
+  background-color: var(--white);
+  color: #484e4a;
+  overflow-y: hidden;
+}
+.nav-header {
   height: 5em;
   // background-color: var(--dark);
 }
 
-.header img{
+.header img {
   // content: url(../assets/images/ssechs.png) !important;
 }
-.mat-drawer{
+.mat-drawer {
   background-color: transparent !important;
   box-shadow: 5px 0 5px -5px black;
   // border: solid 2px red;
 }
-.nha-logo{
+.nha-logo {
   background-position: center;
   // height: 3em;
   // width: 3em;
@@ -29,7 +34,7 @@
   border-radius: 50%;
 }
 
-.nav-menu-heading{
+.nav-menu-heading {
   font-family: 'Montserrat';
   font-size: 1.5em;
   font-weight: 500;
@@ -39,24 +44,24 @@
   // text-shadow: 2px 2px var(--dark-light);
   // color: #121212;
 
-text-shadow: 2px 7px 5px rgba(0,0,0,0.3),
-    0px -4px 10px rgba(255,255,255,0.3);
+  text-shadow: 2px 7px 5px rgba(0, 0, 0, 0.3),
+    0px -4px 10px rgba(255, 255, 255, 0.3);
   // border-bottom: 1px dotted #000;
   // padding-bottom: 5em !important;
   // padding-left: 1em;
 }
 
 .nav-link[data-bs-toggle].collapsed:before {
-  content: "▾  ";
+  content: '▾  ';
 }
 
 .nav-link[data-bs-toggle]:not(.collapsed):before {
-  content: "▴  ";
+  content: '▴  ';
 }
 .side-nav-default a {
   // padding: 8px 8px 8px 32px;
   text-decoration: none;
-  font-size: 0.90em;
+  font-size: 0.9em;
   color: var(--dark-light);
   display: block;
   transition: 0.3s;
@@ -81,7 +86,33 @@ text-shadow: 2px 7px 5px rgba(0,0,0,0.3),
 //   position: absolute;
 // }
 
+.side-nav-default-portal a {
+  // padding: 8px 8px 8px 32px;
+  text-decoration: none;
+  font-size: 1.125em;
+  font-weight: 400;
+  line-height: 2em;
+  color: #464444;
+  display: block;
+  transition: 0.3s;
+  font-family: 'PoppinsRegular';
+}
 
+/* When you mouse over the navigation links, change their color */
+.side-nav-default-portal a:hover {
+  color: var(--white);
+  background-color: var(--portal-green);
+  transition: 0.3s;
+}
+
+.side-nav-default-portal a:focus {
+  color: var(--white);
+  background-color: var(--portal-green) !important;
+}
+
+.boxShadowBottomPortal {
+  box-shadow: 0px 15px 10px -15px #111;
+}
 /************************************* toolbar ******************************/
 .pageToolbar {
   max-width: 60em;
@@ -118,7 +149,7 @@ text-shadow: 2px 7px 5px rgba(0,0,0,0.3),
 
 .pageToolbar ul li a {
   padding: 10px;
-  font-family: "Lato";
+  font-family: 'Lato';
   color: rgba(0, 0, 0, 0.5);
   text-shadow: 1px 1px 1px rgba(255, 255, 255, 0.4);
   font-size: 1.2em;
@@ -148,14 +179,14 @@ text-shadow: 2px 7px 5px rgba(0,0,0,0.3),
 //   color: var(--light) !important;
 // }
 
-
 /******************************start perfect scrollbar css*********************************/
 
-perfect-scrollbar>.ps.ps--active-y>.ps__rail-y{
+perfect-scrollbar > .ps.ps--active-y > .ps__rail-y {
   background-color: transparent !important;
 }
 
-perfect-scrollbar>.ps.ps--scrolling-x>.ps__rail-x, perfect-scrolling>.ps.ps--scrolling-y>.px__rail-y{
+perfect-scrollbar > .ps.ps--scrolling-x > .ps__rail-x,
+perfect-scrolling > .ps.ps--scrolling-y > .px__rail-y {
   background-color: transparent !important;
 }
 

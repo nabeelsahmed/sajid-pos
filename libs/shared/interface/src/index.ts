@@ -1,6 +1,5 @@
 export * from './lib/shared-interface.module';
 
-
 // pipe filter classes
 export * from './lib/pipe-filter/pipe-search';
 
@@ -16,7 +15,8 @@ export * from './lib/cmis/outlet-interface';
 
 // export umis classes
 export * from './lib/umis/user-login-interface';
-
+export * from './lib/umis/user-interface';
+export * from './lib/umis/role-interface';
 
 // export core classes
 export * from './lib/core/product-interface';
@@ -24,6 +24,7 @@ export * from './lib/core/sale-interface';
 export * from './lib/core/opening-balance-interface';
 export * from './lib/core/bachat-product-interface';
 export * from './lib/core/sale-outlet-interface';
+export * from './lib/core/delivery-interface';
 
 //export config classes
 export * from './lib/config/category-interface';

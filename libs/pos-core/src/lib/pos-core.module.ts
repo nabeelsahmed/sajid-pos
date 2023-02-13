@@ -100,12 +100,11 @@ export const posCoreRoutes: Route[] = [
   { path: 'updtprod', component: UpdateProductDataComponent },
   { path: 'saleoutlet', component: SaleOutletComponent },
   { path: 'portalprice', component: PortalPriceConfigComponent },
-
 ];
 
 @NgModule({
   imports: [
-    CommonModule, 
+    CommonModule,
     RouterModule.forChild(posCoreRoutes),
     MaterialModule,
     FormsModule,
@@ -115,7 +114,7 @@ export const posCoreRoutes: Route[] = [
     TextMaskModule,
     ChartModule,
   ],
-  exports:[
+  exports: [
     RouterModule,
     ProductTableComponent,
     CategoryTableComponent,

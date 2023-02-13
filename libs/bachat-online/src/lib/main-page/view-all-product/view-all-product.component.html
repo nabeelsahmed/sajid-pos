@@ -1,0 +1,105 @@
+<div class="mt-5 mb-5 pt-5">
+  <!-- <div class="d-none d-xl-block">
+    <div class="borderTopPortalGreen pt-5 mt-3"></div>
+  </div>
+  <div class="d-block d-xl-none">
+    <div class="borderTopPortalGreen pt-5 mt-5"></div>
+  </div> -->
+  <div class="row pt-3">
+    <div class="col-md-2">
+      <div class="ms-3 leftportalImg"></div>
+    </div>
+    <div class="col-md-8 text-center">
+      <div class="d-flex flex-column">
+        <h1 class="portalh1 portal-green-text" *ngIf="productType == 'Fruit'">
+          Fruits
+        </h1>
+        <h1
+          class="portalh1 portal-green-text"
+          *ngIf="productType == 'Vegetable'"
+        >
+          Vegetable
+        </h1>
+        <h1
+          class="portalh1 portal-green-text"
+          *ngIf="productType == 'Sungreen Special'"
+        >
+          Sungreen Special
+        </h1>
+
+        <p class="portalP">
+          Your response data will be used to process your order, support your
+          experience throughout this website.
+        </p>
+      </div>
+    </div>
+    <div class="col-md-2">
+      <div class="ms-3 rightportalImg"></div>
+    </div>
+  </div>
+</div>
+<div class="">
+  <!--for large screen-->
+  <div class="d-none d-xl-block">
+    <div class="d-flex flex-wrap ms-4 mt-3 mb-3">
+      <div
+        class="child d-flex flex-column align-items-center me-3 mt-3"
+        *ngFor="let item of allProductList"
+      >
+        <img
+          class="mt-2 ms-2 me-2 bgWhite rounded"
+          [src]="item.imgUrl"
+          height="195px"
+          width="210px"
+        />
+        <label class="ms-4 portalProductLbl text-truncate mt-2 w-50">{{
+          item.productName
+        }}</label>
+        <div class="d-flex flex-row justify-content-center">
+          <div class="d-flex me-4">
+            <div class="priceTagIcon me-2"></div>
+            <label class="portalPriceLbl">Rs: {{ item.salePrice }}</label>
+          </div>
+        </div>
+
+        <button
+          mat-button
+          class="btnAddToCart mt-1"
+          (click)="pushCartItem(item)"
+        >
+          ADD TO CART
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!--for small screen-->
+  <div class="d-block d-xl-none">
+    <div class="d-flex flex-wrap ms-2 mt-3 mb-3">
+      <div
+        class="sm-child d-flex flex-column align-items-center me-2 mt-3"
+        *ngFor="let item of allProductList"
+      >
+        <img
+          class="mt-2 ms-2 me-2 bgWhite rounded"
+          [src]="item.imgUrl"
+          height="111px"
+          width="125px"
+        />
+        <label class="ms-4 sm-portalProductLbl text-truncate mt-2">{{
+          item.productName
+        }}</label>
+        <div class="d-flex flex-row justify-content-center">
+          <div class="d-flex me-4">
+            <div class="sm-priceTagIcon me-2"></div>
+            <label class="sm-portalPriceLbl">Rs: {{ item.salePrice }}</label>
+          </div>
+        </div>
+
+        <button class="sm-btnAddToCart mt-1" (click)="pushCartItem(item)">
+          ADD TO CART
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

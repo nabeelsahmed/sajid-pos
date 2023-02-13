@@ -1,5 +1,8 @@
 import { SharedHelpersFieldValidationsModule } from '@aims-pos/shared/helpers/field-validations';
-import { BachatProductInterface, MyFormField } from '@aims-pos/shared/interface';
+import {
+  BachatProductInterface,
+  MyFormField,
+} from '@aims-pos/shared/interface';
 import { SharedServicesDataModule } from '@aims-pos/shared/services/data';
 import { SharedServicesGlobalDataModule } from '@aims-pos/shared/services/global-data';
 import { DatePipe } from '@angular/common';
@@ -9,20 +12,25 @@ declare var $: any;
 @Component({
   selector: 'aims-pos-bachat-online-stock',
   templateUrl: './bachat-online-stock.component.html',
-  styleUrls: ['./bachat-online-stock.component.scss']
+  styleUrls: ['./bachat-online-stock.component.scss'],
 })
 export class BachatOnlineStockComponent implements OnInit {
-
   tblSearch: any = '';
-  tableData: any = [];
-  orderDetailList: any = [];
 
+  txtDelCharges: any = '';
   txtPin: any = '';
 
-  lblOrder:any = '';
+  lblOrder: any = '';
+  lblOrderID: any = '';
 
-  dtpFromDate: string = '';
-  dtpToDate: string = '';
+  dtpFromDate: any = '';
+  dtpToDate: any = '';
+  dtpDate: any = '';
+
+  tableData: any = [];
+  tempTableData: any = [];
+  orderDetailList: any = [];
+  orderHistoryList: any = [];
 
   pageFields: BachatProductInterface = {
     id: '',
@@ -30,7 +38,7 @@ export class BachatOnlineStockComponent implements OnInit {
     price: '',
     inventory: '',
   };
-  
+
   formFields: MyFormField[] = [
     {
       value: this.pageFields.id,
@@ -71,113 +79,196 @@ export class BachatOnlineStockComponent implements OnInit {
   ngOnInit(): void {
     // this.globalService.setHeaderTitle("Bachat Online Stock");
 
+    this.dtpFromDate = new Date();
+    this.dtpToDate = new Date();
+
     this.getOnlineProduct();
   }
 
-  getOnlineProduct(){
-    this.dataService.getHttp('bachat-online-api/Product/getPlaceOrder', '').subscribe((response: any) => {
-      this.tableData = response;
-    }, (error: any) => {
-      console.log(error);
-    });
+  getOnlineProduct() {
+    this.dataService
+      .getHttp('bachat-online-api/Product/getPlaceOrder', '')
+      .subscribe(
+        (response: any) => {
+          this.tableData = response;
+          this.tempTableData = response;
+        },
+        (error: any) => {
+          console.log(error);
+        }
+      );
   }
 
-  getOrderDetail(item: any){
-    this.dataService.getHttp('bachat-online-api/Product/getOrderDetail?orderID=' + item.orderID, '').subscribe((response: any) => {
-      this.orderDetailList = response;
-      $("#orderDetailModal").modal('show');
-    }, (error: any) => {
-      console.log(error);
-    });
+  onDateChange(item: any) {
+    this.tableData = this.tempTableData;
+
+    var data = this.tableData.filter(
+      (x: { orderDate: any }) =>
+        this.datepipe.transform(x.orderDate, 'yyyy-MM-dd') ==
+        this.datepipe.transform(item, 'yyyy-MM-dd')
+    );
+
+    this.tableData = data;
   }
-  // getAttendance(){
-  //   var fromDate = this.datepipe.transform(this.dtpFromDate, 'dd-MM-yyyy');
-  //   var toDate = this.datepipe.transform(this.dtpToDate, 'dd-MM-yyyy');
 
-  //   this.dataService.getAttendanceHttp('Attendance/getAttendance?fromDate='+ fromDate +'&toDate='+ toDate, '').subscribe((response: any) => {
-  //     this.tableData = response;
-  //   }, (error: any) => {
-  //     console.log(error);
-  //   });
-  // }
+  clearAll() {
+    this.tblSearch = '';
+    this.dtpDate = '';
+    this.tableData = this.tempTableData;
+  }
 
-  checkPin(item: any){
-    if(this.globalService.getPinCode() == null || this.globalService.getPinCode() == '0'){
-      this.valid.apiErrorResponse('Pin not allowed');return;
-    }else{
+  getOrderDetail(item: any) {
+    this.dataService
+      .getHttp(
+        'bachat-online-api/Product/getOrderDetail?orderID=' + item.orderID,
+        ''
+      )
+      .subscribe(
+        (response: any) => {
+          this.orderDetailList = response;
+          // $('#orderHistoryModal').modal('hide');
+          $('#orderDetailModal').modal('show');
+        },
+        (error: any) => {
+          console.log(error);
+        }
+      );
+  }
+
+  orderHistory() {
+    if (this.dtpFromDate > this.dtpToDate) {
+      this.valid.apiInfoResponse('select correct date');
+    } else {
+      this.dataService
+        .getHttp(
+          'bachat-online-api/Product/getOrderHistory?fromDate=' +
+            this.datepipe.transform(this.dtpFromDate, 'yyy-MM-dd') +
+            '&toDate=' +
+            this.datepipe.transform(this.dtpToDate, 'yyy-MM-dd'),
+          ''
+        )
+        .subscribe(
+          (response: any) => {
+            this.orderHistoryList = response;
+          },
+          (error: any) => {
+            console.log(error);
+          }
+        );
+    }
+  }
+
+  checkPin(item: any, value: any) {
+    if (
+      this.globalService.getPinCode() == null ||
+      this.globalService.getPinCode() == '0'
+    ) {
+      this.valid.apiErrorResponse('Pin not allowed');
+      return;
+    } else {
       $('#pinModal').modal('show');
       this.lblOrder = item.orderID;
+      this.status = value;
     }
   }
 
-  pin(){
-    if(this.txtPin == ''){
-      this.valid.apiErrorResponse('enter pin');return;
-    }else{
-      this.dataService.getHttp('user-api/User/getPin?pin=' + this.txtPin + '&userID=' + this.globalService.getUserId(), '').subscribe((response: any) => {
-        if(response.length == 0){
-          this.valid.apiErrorResponse('Invlaid pin');return;
-        }else{
+  pin() {
+    if (this.txtPin == '') {
+      this.valid.apiErrorResponse('enter pin');
+      return;
+    } else {
+      this.dataService
+        .getHttp(
+          'user-api/User/getPin?pin=' +
+            this.txtPin +
+            '&userID=' +
+            this.globalService.getUserId(),
+          ''
+        )
+        .subscribe(
+          (response: any) => {
+            console.log(response);
+            if (response.length == 0) {
+              this.valid.apiErrorResponse('Invalid pin');
+              return;
+            } else {
+              if (this.status == 'delete') {
+                this.delete();
+              } else {
+                var pageFields = {
+                  status: '',
+                  orderID: '',
+                };
 
-          var pageFields = {
-            status: '',
-            orderID: ''
-          };
-      
-          var formFields: MyFormField[] = [
-            {
-              value: pageFields.status,
-              msg: '',
-              type: 'hidden',
-              required: false,
-            },
-            {
-              value: pageFields.orderID,
-              msg: '',
-              type: 'hidden',
-              required: false,
-            }
-          ];
-      
-          formFields[0].value = 'pend';
-          formFields[1].value = this.lblOrder;
-      
-          this.dataService
-            .deleteHttp(
-              pageFields,
-              formFields,
-              'bachat-online-api/Product/placeOrder'
-            )
-            .subscribe(
-              (response: any) => {
-                if(response.message == "Success"){
-                  this.valid.apiInfoResponse('Order placed successfully');
-                  $('#pinModal').modal('hide');
-                  this.lblOrder = '';
-                  this.txtPin = '';
-                  this.getOnlineProduct();
-                }else{
-                  this.valid.apiErrorResponse(response[0]);
-                }
-                
-              },
-              (error: any) => {
-                this.error = error;
-                this.valid.apiErrorResponse(this.error);
+                var formFields: MyFormField[] = [
+                  {
+                    value: pageFields.status,
+                    msg: '',
+                    type: 'hidden',
+                    required: false,
+                  },
+                  {
+                    value: pageFields.orderID,
+                    msg: '',
+                    type: 'hidden',
+                    required: false,
+                  },
+                ];
+
+                formFields[0].value = 'pend';
+                formFields[1].value = this.lblOrder;
+
+                this.dataService
+                  .deleteHttp(
+                    pageFields,
+                    formFields,
+                    'bachat-online-api/Product/acceptOrDeclineOrder'
+                  )
+                  .subscribe(
+                    (response: any) => {
+                      if (response.message == 'Success') {
+                        this.valid.apiInfoResponse('Order placed successfully');
+                        $('#pinModal').modal('hide');
+                        this.lblOrder = '';
+                        this.txtPin = '';
+                        this.getOnlineProduct();
+                      } else {
+                        this.valid.apiErrorResponse(response[0]);
+                      }
+                    },
+                    (error: any) => {
+                      this.error = error;
+                      this.valid.apiErrorResponse(this.error);
+                    }
+                  );
               }
-            );
-        }
-      }, (error: any) => {
-        console.log(error);
-      });
+            }
+          },
+          (error: any) => {
+            console.log(error);
+          }
+        );
     }
   }
 
-  deliverOrder(item: any){
+  addDeliveryCharges(item: any) {
+    this.lblOrderID = item.orderID;
+    $('#deliveryChargesModal').modal('show');
+  }
 
+  deliverOrder() {
+    if (
+      this.txtDelCharges < 0 ||
+      this.txtDelCharges == '' ||
+      this.txtDelCharges == undefined
+    ) {
+      this.valid.apiInfoResponse('enter delivery chargres');
+      return;
+    }
     var pageFields = {
       status: '',
-      orderID: ''
+      orderID: '',
+      deliveryCharges: '',
     };
 
     var formFields: MyFormField[] = [
@@ -192,11 +283,18 @@ export class BachatOnlineStockComponent implements OnInit {
         msg: '',
         type: 'hidden',
         required: false,
-      }
+      },
+      {
+        value: pageFields.deliveryCharges,
+        msg: '',
+        type: 'hidden',
+        required: false,
+      },
     ];
 
     formFields[0].value = 'comp';
-    formFields[1].value = item.orderID;
+    formFields[1].value = this.lblOrderID;
+    formFields[2].value = this.txtDelCharges;
 
     this.dataService
       .deleteHttp(
@@ -206,18 +304,77 @@ export class BachatOnlineStockComponent implements OnInit {
       )
       .subscribe(
         (response: any) => {
-          if(response.message == "Success"){
+          if (response.message == 'Success') {
             this.valid.apiInfoResponse('Order send successfully');
             this.getOnlineProduct();
-          }else{
+
+            this.txtDelCharges = '';
+
+            $('#deliveryChargesModal').modal('hide');
+          } else {
             this.valid.apiErrorResponse(response[0]);
           }
-          
         },
         (error: any) => {
           this.error = error;
           this.valid.apiErrorResponse(this.error);
         }
       );
+  }
+
+  delete() {
+    var pageFields = {
+      status: '',
+      orderID: '',
+    };
+
+    var formFields: MyFormField[] = [
+      {
+        value: pageFields.status,
+        msg: '',
+        type: 'hidden',
+        required: false,
+      },
+      {
+        value: pageFields.orderID,
+        msg: '',
+        type: 'hidden',
+        required: false,
+      },
+    ];
+
+    formFields[0].value = 'cancel';
+    formFields[1].value = this.lblOrder;
+
+    this.dataService
+      .deleteHttp(
+        pageFields,
+        formFields,
+        'bachat-online-api/Product/cancelOrder'
+      )
+      .subscribe(
+        (response: any) => {
+          if (response.message == 'Success') {
+            this.valid.apiInfoResponse('Order placed successfully');
+            $('#pinModal').modal('hide');
+            this.lblOrder = '';
+            this.txtPin = '';
+            this.getOnlineProduct();
+          } else {
+            this.valid.apiErrorResponse(response[0]);
+          }
+        },
+        (error: any) => {
+          this.error = error;
+          this.valid.apiErrorResponse(this.error);
+        }
+      );
+  }
+
+  reset() {
+    this.orderHistoryList = [];
+
+    this.dtpFromDate = new Date();
+    this.dtpToDate = new Date();
   }
 }

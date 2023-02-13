@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Route } from '@angular/router';
 import { TopnavComponent } from './topnav/topnav.component';
@@ -9,6 +10,8 @@ import { PERFECT_SCROLLBAR_CONFIG } from 'ngx-perfect-scrollbar';
 import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { BachatTopnavComponent } from './bachat-topnav/bachat-topnav.component';
+import { BachatSidenavComponent } from './bachat-sidenav/bachat-sidenav.component';
+import { BachatFooterComponent } from './bachat-footer/bachat-footer.component';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true,
@@ -18,9 +21,10 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
 
 @NgModule({
   imports: [
-    CommonModule, 
-    RouterModule, 
-    MaterialModule, 
+    CommonModule,
+    RouterModule,
+    MaterialModule,
+    FormsModule,
     PerfectScrollbarModule,
   ],
   declarations: [
@@ -28,8 +32,17 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     SidenavComponent,
     TopnavComponent,
     BachatTopnavComponent,
+    BachatSidenavComponent,
+    BachatFooterComponent,
   ],
-  exports: [TopnavComponent, SidenavComponent, FooterComponent, BachatTopnavComponent],
+  exports: [
+    TopnavComponent,
+    SidenavComponent,
+    FooterComponent,
+    BachatTopnavComponent,
+    BachatSidenavComponent,
+    BachatFooterComponent,
+  ],
   providers: [
     {
       provide: PERFECT_SCROLLBAR_CONFIG,

@@ -1,122 +1,320 @@
 <div class="bg-dark-light">
-    <div class="container">
-        <div class="d-flex flex-column flex-lg-row flex-md-row flex-xl-row align-items-center pt-2 pb-2">
-            <div class="bachatOnlineIcon"></div>
-            <!-- <h3 class="ms-3 mt-2">Bachat Online Stock</h3> -->
-            <h3 class="ms-3 mt-2">Place Order</h3>
-        </div>
+  <div class="container">
+    <div
+      class="d-flex flex-column flex-lg-row flex-md-row flex-xl-row align-items-center pt-2 pb-2"
+    >
+      <div class="bachatOnlineIcon"></div>
+      <!-- <h3 class="ms-3 mt-2">Bachat Online Stock</h3> -->
+      <h3 class="ms-3 mt-2">Place Order</h3>
     </div>
+  </div>
 </div>
 <div class="container">
-    <div class="d-flex flex-row">
-        <mat-form-field class="w-100 me-2">
-            <mat-label>Search</mat-label>
-            <input
-                matInput [(ngModel)]="tblSearch"
-            />
-        </mat-form-field>
-        
-        <button mat-button class="resetBtn mt-3" (click)="tblSearch = ''">
-            Show All
-        </button>
-    </div>
-    <perfect-scrollbar class="bg-light-grey" style="height: 31em; max-width: 100%;">
-        <table class="table">
-            <thead>
-                <tr>
-                    <th class="col-1 text-center">Sr#</th>
-                    <th class="col-3">Username</th>
-                    <th class="col-2">Mobile</th>
-                    <th class="col-4">Address</th>
-                    <th class="col-2 text-center">Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let item of tableData | filter: tblSearch; let i=index">
-                    <td class="col-1 text-center">{{i+1}}</td>
-                    <td class="col-3">{{item.customerName}}</td>
-                    <td class="col-2">{{item.mobile}}</td>
-                    <td class="col-4">{{item.address}}</td>
-                    <td>
-                        <div class="d-flex flex-row justify-content-center">
-                            <div class="bachatOrderIcon me-2 cursorPointer" (click)="getOrderDetail(item)"></div>
-                            <div class="placeOrderIcon me-2 cursorPointer" *ngIf="item.status == '' || item.status == null" (click)="checkPin(item)"></div>
-                            <div class="cashReceivedIcon cursorPointer" *ngIf="item.status == 'pend'" (click)="deliverOrder(item)"></div>
-                        </div>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </perfect-scrollbar>
-</div>
+  <div class="d-flex flex-row">
+    <mat-form-field class="w-100 me-2">
+      <mat-label>Search</mat-label>
+      <input matInput [(ngModel)]="tblSearch" />
+    </mat-form-field>
+    <mat-form-field class="w-50 me-2">
+      <mat-label>Date</mat-label>
+      <input
+        matInput
+        [(ngModel)]="dtpDate"
+        [matDatepicker]="dtpDatepicker"
+        (ngModelChange)="onDateChange(dtpDate)"
+      />
+      <mat-datepicker-toggle
+        matSuffix
+        [for]="dtpDatepicker"
+      ></mat-datepicker-toggle>
+      <mat-datepicker #dtpDatepicker></mat-datepicker>
+    </mat-form-field>
+  </div>
+  <div class="d-flex">
+    <button mat-button class="resetBtn mt-3 me-2" (click)="clearAll()">
+      Show All
+    </button>
 
+    <button
+      mat-button
+      class="saveBtn mt-3 ps-2"
+      data-bs-toggle="modal"
+      data-bs-target="#orderHistoryModal"
+      (click)="reset()"
+    >
+      Order History
+    </button>
+  </div>
+  <perfect-scrollbar
+    class="bg-light-grey"
+    style="height: 31em; max-width: 100%"
+  >
+    <table class="table">
+      <thead>
+        <tr>
+          <th class="col-1 text-center">Sr#</th>
+          <th class="col-2">Date</th>
+          <th class="col-2">Username</th>
+          <th class="col-2">Mobile</th>
+          <th class="col-3">Address</th>
+          <th class="col-2 text-center">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of tableData | filter: tblSearch; let i = index">
+          <td class="col-1 text-center">{{ i + 1 }}</td>
+          <td class="col-2">{{ item.orderDate | date: 'MMM dd, yyyy' }}</td>
+          <td class="col-2">{{ item.customerName }}</td>
+          <td class="col-2">{{ item.mobile }}</td>
+          <td class="col-3">{{ item.address }}</td>
+          <td>
+            <div class="d-flex flex-row justify-content-center">
+              <div
+                class="bachatOrderIcon me-2 cursorPointer"
+                (click)="getOrderDetail(item)"
+              ></div>
+              <div
+                class="placeOrderIcon me-2 cursorPointer"
+                *ngIf="item.status == '' || item.status == null"
+                (click)="checkPin(item, '')"
+              ></div>
+              <div
+                class="cashReceivedIcon cursorPointer"
+                *ngIf="item.status == 'pend'"
+                (click)="addDeliveryCharges(item)"
+              ></div>
+              <span
+                class="text-danger cursorPointer pe-2"
+                (click)="checkPin(item, 'delete')"
+              >
+                <mat-icon>delete</mat-icon>
+              </span>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </perfect-scrollbar>
+</div>
 
 <!-- Modal -->
 <div class="modal fade" id="pinModal" role="dialog" data-bs-backdrop="false">
-    <div class="modal-dialog modal-md mat-elevation-z20" role="document">
-        <div class="modal-content">
+  <div class="modal-dialog modal-md mat-elevation-z20" role="document">
+    <div class="modal-content">
+      <div class="modal-header d-flex flex-row-reverse bg-dark-grey">
+        <!-- <h4 class="modal-title align-self-center text-white">Sale Return</h4> -->
+        <div class="cancelIcon cursorPointer" data-bs-dismiss="modal"></div>
+      </div>
 
-            <div class="modal-header d-flex flex-row-reverse bg-dark-grey">
-                <!-- <h4 class="modal-title align-self-center text-white">Sale Return</h4> -->
-                <div class="cancelIcon cursorPointer" data-bs-dismiss="modal"></div>
-            </div>
-
-            <div class="modal-body overflow-hidden">
-                <div class="d-flex flex-column align-items-center">
-                    <div class="padLockIcon mb-3"></div>
-                    <mat-form-field>
-                        <input
-                            matInput
-                            placeholder="Enter Pin"
-                            [(ngModel)]="txtPin"
-                            type="password"
-                        />
-                    </mat-form-field>
-                    <button mat-button class="resetBtn ps-5 pe-5" (click)="pin()">
-                        OK
-                    </button>
-                </div>
-            </div>
-
-        </div><!-- modal-content -->
-    </div><!-- modal-dialog -->
-</div><!--modal-->
-
+      <div class="modal-body overflow-hidden">
+        <div class="d-flex flex-column align-items-center">
+          <div class="padLockIcon mb-3"></div>
+          <mat-form-field>
+            <input
+              matInput
+              placeholder="Enter Pin"
+              [(ngModel)]="txtPin"
+              type="password"
+            />
+          </mat-form-field>
+          <button mat-button class="resetBtn ps-5 pe-5" (click)="pin()">
+            OK
+          </button>
+        </div>
+      </div>
+    </div>
+    <!-- modal-content -->
+  </div>
+  <!-- modal-dialog -->
+</div>
+<!--modal-->
 
 <!-- Modal -->
-<div class="modal fade" id="orderDetailModal" role="dialog" data-bs-backdrop="false">
-    <div class="modal-dialog modal-lg mat-elevation-z20" role="document">
-        <div class="modal-content">
+<div
+  class="modal fade zIndex"
+  id="orderDetailModal"
+  role="dialog"
+  data-bs-backdrop="false"
+>
+  <div class="modal-dialog modal-lg mat-elevation-z20" role="document">
+    <div class="modal-content">
+      <div class="modal-header bg-dark-grey">
+        <h4 class="modal-title align-self-center text-white">
+          List of Ordered Items
+        </h4>
+        <div class="cancelIcon cursorPointer" data-bs-dismiss="modal"></div>
+      </div>
 
-            <div class="modal-header bg-dark-grey">
-                <h4 class="modal-title align-self-center text-white">List of Ordered Items</h4>
-                <div class="cancelIcon cursorPointer" data-bs-dismiss="modal"></div>
-            </div>
+      <div class="modal-body overflow-hidden">
+        <perfect-scrollbar
+          class="bg-light-grey"
+          style="height: 31.5em; max-width: 100%"
+        >
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Sr#</th>
+                <th>Product Name</th>
+                <th>Qty</th>
+                <th>Price</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of orderDetailList; let i = index">
+                <td>{{ i + 1 }}</td>
+                <td>{{ item.productName }}</td>
+                <td>{{ item.qty }}</td>
+                <td>{{ item.price | number }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </perfect-scrollbar>
+      </div>
+    </div>
+    <!-- modal-content -->
+  </div>
+  <!-- modal-dialog -->
+</div>
+<!--modal-->
 
-            <div class="modal-body overflow-hidden">
-                <perfect-scrollbar class="bg-light-grey" style="height: 31.5em; max-width: 100%;">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>Sr#</th>
-                                <th>Product Name</th>
-                                <th>Qty</th>
-                                <th>Price</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr *ngFor="let item of orderDetailList; let i=index">
-                                <td>{{i+1}}</td>
-                                <td>{{item.productName}}</td>
-                                <td>{{item.qty}}</td>
-                                <td>{{item.price | number}}</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </perfect-scrollbar>
-            </div>
+<!-- Modal -->
+<div
+  class="modal fade"
+  id="orderHistoryModal"
+  role="dialog"
+  data-bs-backdrop="false"
+>
+  <div class="modal-dialog modal-lg mat-elevation-z20" role="document">
+    <div class="modal-content">
+      <div class="modal-header bg-dark-grey">
+        <h4 class="modal-title align-self-center text-white">Order History</h4>
+        <div class="cancelIcon cursorPointer" data-bs-dismiss="modal"></div>
+      </div>
 
-        </div><!-- modal-content -->
-    </div><!-- modal-dialog -->
-</div><!--modal-->
+      <div class="modal-body overflow-hidden">
+        <div class="row">
+          <div class="col-md-5">
+            <mat-form-field class="w-100 pe-4">
+              <mat-label>From date</mat-label>
+              <input
+                matInput
+                [matDatepicker]="dtpFrompicker"
+                [(ngModel)]="dtpFromDate"
+              />
+              <mat-datepicker-toggle
+                matSuffix
+                [for]="dtpFrompicker"
+              ></mat-datepicker-toggle>
+              <mat-datepicker #dtpFrompicker></mat-datepicker>
+            </mat-form-field>
+          </div>
+          <div class="col-md-5">
+            <mat-form-field class="w-100 pe-4">
+              <mat-label>To date</mat-label>
+              <input
+                matInput
+                [matDatepicker]="dtpTopicker"
+                [(ngModel)]="dtpToDate"
+              />
+              <mat-datepicker-toggle
+                matSuffix
+                [for]="dtpTopicker"
+              ></mat-datepicker-toggle>
+              <mat-datepicker #dtpTopicker></mat-datepicker>
+            </mat-form-field>
+          </div>
+          <div class="col-md-2">
+            <button mat-button class="resetBtn me-2" (click)="orderHistory()">
+              Show All
+            </button>
+          </div>
+        </div>
+        <perfect-scrollbar
+          class="bg-light-grey"
+          style="height: 31.5em; max-width: 100%"
+        >
+          <table class="table">
+            <thead>
+              <tr>
+                <th class="col-1 text-center">Sr#</th>
+                <th class="col-2">Date</th>
+                <th class="col-2">Username</th>
+                <th class="col-2">Mobile</th>
+                <th class="col-3">Address</th>
+                <th class="col-2 text-center">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr
+                *ngFor="
+                  let item of orderHistoryList | filter: tblSearch;
+                  let i = index
+                "
+              >
+                <td class="col-1 text-center">{{ i + 1 }}</td>
+                <td class="col-2">
+                  {{ item.orderDate | date: 'MMM dd, yyyy' }}
+                </td>
+                <td class="col-2">{{ item.customerName }}</td>
+                <td class="col-2">{{ item.mobile }}</td>
+                <td class="col-3">{{ item.address }}</td>
+                <td>
+                  <div class="d-flex flex-row justify-content-center">
+                    <div
+                      class="bachatOrderIcon me-2 cursorPointer"
+                      (click)="getOrderDetail(item)"
+                    ></div>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </perfect-scrollbar>
+      </div>
+    </div>
+    <!-- modal-content -->
+  </div>
+  <!-- modal-dialog -->
+</div>
+<!--modal-->
 
+<!-- Modal -->
+<div
+  id="deliveryChargesModal"
+  class="modal fade"
+  role="dialog"
+  data-bs-backdrop="false"
+>
+  <div class="modal-dialog modal-sm mat-elevation-z20">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header bg-dark-grey">
+        <h4 class="modal-title align-self-center text-white">
+          Add Delivery Charges
+        </h4>
+        <div class="cancelIcon cursorPointer" data-bs-dismiss="modal"></div>
+        <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> -->
+      </div>
+      <div class="modal-body">
+        <div class="d-flex flex-column align-items-center">
+          <!-- <div class="saleReturnIcon mb-3"></div> -->
+          <mat-form-field>
+            <input
+              matInput
+              type="number"
+              placeholder="Enter Delivery Charges"
+              [(ngModel)]="txtDelCharges"
+            />
+          </mat-form-field>
+          <button
+            mat-button
+            class="resetBtn ps-5 pe-5"
+            (click)="deliverOrder()"
+          >
+            Save
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,4 +1,91 @@
-<aims-pos-bachat-topnav> </aims-pos-bachat-topnav>
-<perfect-scrollbar style="min-width: 100%; height: 84%; min-height: 84%">
-  <router-outlet></router-outlet>
-</perfect-scrollbar>
+<mat-drawer-container class="layout-sideNav-container" autosize>
+  <div class="layout-sidenav-content">
+    <!-- <aims-pos-bachat-topnav> </aims-pos-bachat-topnav> -->
+    <perfect-scrollbar
+      style="min-width: 100%; height: 100%; min-height: 100%; background: #fff"
+    >
+      <div class="d-none d-xl-block main-scroll-div">
+        <div class="headerTop">
+          <div class="row">
+            <div class="col-md-1 text-end">
+              <button
+                mat-icon-button
+                class="example-icon bgPortalGreen"
+                aria-label="icon-button with menu icon"
+                (click)="drawer.toggle()"
+              >
+                <mat-icon class="text-white">{{ menu_btn }}</mat-icon>
+              </button>
+            </div>
+            <div class="col-md-7">
+              <img class="" src="assets/ui/company/logo.png" width="300px" />
+            </div>
+            <div class="col-md-4">
+              <div
+                class="d-flex"
+                *ngIf="routerUrl == '/bachat/main' && checkoutFound == false"
+              >
+                <input
+                  type="text"
+                  class="form-control me-5"
+                  [(ngModel)]="txtSearch"
+                  placeholder="Search Items"
+                  (keyup)="searchProductData(txtSearch)"
+                />
+                <div
+                  *ngIf="routerUrl == '/bachat/main' && checkoutFound == false"
+                  [matBadge]="items"
+                  class="portalCartIcon cursorPointer"
+                  matBadgeColor="warn"
+                  (click)="openModal()"
+                ></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="d-block d-xl-none main-scroll-div">
+        <div class="sm-headerTop">
+          <div class="d-flex flex-row justify-content-between ms-3">
+            <button
+              mat-icon-button
+              class="example-icon bgPortalGreen"
+              aria-label="icon-button with menu icon"
+              (click)="drawer.toggle()"
+            >
+              <mat-icon class="text-white">{{ menu_btn }}</mat-icon>
+            </button>
+            <img class="" src="assets/ui/company/logo.png" width="150px" />
+
+            <div
+              *ngIf="routerUrl == '/bachat/main' && checkoutFound == false"
+              [matBadge]="items"
+              class="sm-portalCartIcon cursorPointer"
+              matBadgeColor="warn"
+              (click)="openModal()"
+            ></div>
+          </div>
+          <div
+            class="d-flex flex-row justify-content-center mt-2 ms-4"
+            *ngIf="routerUrl == '/bachat/main' && checkoutFound == false"
+          >
+            <input
+              type="text"
+              class="form-control"
+              [(ngModel)]="txtSearch"
+              placeholder="Search Items"
+              (keyup)="searchProductData(txtSearch)"
+            />
+          </div>
+        </div>
+      </div>
+      <router-outlet></router-outlet>
+      <aims-pos-bachat-footer></aims-pos-bachat-footer>
+    </perfect-scrollbar>
+  </div>
+  <mat-drawer #drawer class="layout-sidenav-nav" mode="side">
+    <aims-pos-bachat-sidenav
+      (checkRouterUrl)="checkRouterUrl($event)"
+    ></aims-pos-bachat-sidenav>
+  </mat-drawer>
+</mat-drawer-container>

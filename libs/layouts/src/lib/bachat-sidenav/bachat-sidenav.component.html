@@ -1,0 +1,54 @@
+<div class="h-100 side-nav-default-portal">
+  <!-- nav header -->
+  <div class="nav-header d-flex flex-column justify-content-end">
+    <img class="ms-2" src="assets/ui/company/logo.png" width="180px" />
+  </div>
+  <!-- nav header -->
+  <!-- <hr /> -->
+  <!-- nav menu -->
+  <!-- <perfect-scrollbar style="max-width: auto; max-height: 85%" [config]="config"> -->
+  <div class="nav-item-container">
+    <!-- /************** New Code **************/ -->
+    <ul
+      *ngFor="let item of menuList"
+      class="nav flex-column flex-nowrap overflow-hidden"
+    >
+      <li class="nav-item" *ngIf="item.children.length == 0">
+        <a
+          class="nav-link text-truncate"
+          href=""
+          routerLinkActive="active"
+          (click)="openLink(item)"
+          routerLink="/{{ item.parentRoute }}/{{ item.routeTitle }}"
+          ><span class="">{{ item.menuTitle }}</span></a
+        >
+      </li>
+      <li class="nav-item" *ngIf="item.children.length != 0">
+        <a
+          class="nav-link collapsed text-truncate"
+          data-bs-toggle="collapse"
+          href="#collapseExample"
+          role="button"
+          aria-expanded="false"
+          aria-controls="subMenuConfig"
+          ><span class="">{{ item.menuTitle }}</span></a
+        >
+        <div class="collapse bg-light-grey shadow" id="collapseExample">
+          <ul class="nav flex-column" *ngFor="let data of item.children">
+            <li class="nav-item">
+              <a
+                class="nav-link text-truncate ps-5"
+                href=""
+                routerLinkActive="active"
+                (click)="openLink(data)"
+                routerLink="/{{ data.parentRoute }}/{{ data.routeTitle }}"
+                ><span class="">{{ data.menuTitle }}</span></a
+              >
+            </li>
+          </ul>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <!-- </perfect-scrollbar> -->
+</div>

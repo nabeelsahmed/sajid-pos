@@ -1,61 +1,156 @@
 <div class="header">
-    <mat-toolbar class="mat-toolbar">
-      <button
-        mat-icon-button
-        class="example-icon"
-        (click)="onToggleDrawer()"
-        aria-label="icon-button with menu icon"
-      >
-        <mat-icon class="text-white">{{ menu_btn }}</mat-icon>
-      </button>
-      <!-- <img
+  <mat-toolbar class="mat-toolbar">
+    <button
+      mat-icon-button
+      class="example-icon"
+      (click)="onToggleDrawer()"
+      aria-label="icon-button with menu icon"
+    >
+      <mat-icon class="text-white">{{ menu_btn }}</mat-icon>
+    </button>
+    <!-- <img
         [src]="logoUrl"
         alt=""
         width="55px"
         height="auto"
       /> -->
-      <!-- <span class="title"> {{ title }}</span> -->
-      <img class="mt-2" src="assets/ui/company/logo.png" width="180px" />
-      <span class="example-spacer"></span>
-  
-      <!-- user menu -->
-      <span class="usernameTxt">
-        {{ userName }}
-      </span>
+    <!-- <span class="title"> {{ title }}</span> -->
+    <img class="mt-2" src="assets/ui/company/logo.png" width="180px" />
+    <span class="example-spacer"></span>
+
+    <!-- user menu -->
+    <span class="usernameTxt">
+      {{ userName }}
+    </span>
+    <button
+      mat-icon-button
+      class="example-icon favorite-icon"
+      [matMenuTriggerFor]="userMenu"
+      aria-label="Example icon-button with heart icon"
+    >
+      <mat-icon class="text-white">person</mat-icon>
+    </button>
+    <mat-menu #userMenu="matMenu">
       <button
-        mat-icon-button
-        class="example-icon favorite-icon"
-        [matMenuTriggerFor]="userMenu"
-        aria-label="Example icon-button with heart icon"
+        mat-menu-item
+        data-bs-toggle="modal"
+        data-bs-target="#deliveryModal"
       >
-        <mat-icon class="text-white">person</mat-icon>
+        <mat-icon class="txtClrLightGreen">local_shipping</mat-icon>
+        <span class="txtClrDarkGrey h6">Delivery charges</span>
       </button>
-      <mat-menu #userMenu="matMenu">
-        <button mat-menu-item (click)="logout()">
-          <mat-icon class="txtClrLightGreen">exit_to_app</mat-icon>
-          <span class="txtClrDarkGrey h6">Log out</span>
-        </button> </mat-menu
-      ><!-- end user menu -->
-  
-      <button
-        mat-icon-button
-        class="example-icon"
-        aria-label="Example icon-button with share icon"
-        [matMenuTriggerFor]="menu"
-      >
-        <mat-icon class="text-white">apps</mat-icon>
-      </button>
-      <mat-menu #menu="matMenu">
-        <div *ngFor="let item of applicationModulesList">
-          <button mat-menu-item (click)="setSidebarMenu(item)">
-            <div class="d-flex flex-row">
-              <div [class]="item.moduleIcon"></div>
-              <span class="txtClrDarkGrey h6 ps-2">{{ item.applicationModuleTitle }}</span>
-            </div>
-            <!-- <mat-icon class="txtClrLightGreen">{{item.moduleIcon}}</mat-icon> -->
-          </button>
+      <button mat-menu-item (click)="logout()">
+        <mat-icon class="txtClrLightGreen">exit_to_app</mat-icon>
+        <span class="txtClrDarkGrey h6">Log out</span>
+      </button> </mat-menu
+    ><!-- end user menu -->
+
+    <button
+      mat-icon-button
+      class="example-icon"
+      aria-label="Example icon-button with share icon"
+      [matMenuTriggerFor]="menu"
+    >
+      <mat-icon class="text-white">apps</mat-icon>
+    </button>
+    <mat-menu #menu="matMenu">
+      <div *ngFor="let item of applicationModulesList">
+        <button mat-menu-item (click)="setSidebarMenu(item)">
+          <div class="d-flex flex-row">
+            <div [class]="item.moduleIcon"></div>
+            <span class="txtClrDarkGrey h6 ps-2">{{
+              item.applicationModuleTitle
+            }}</span>
+          </div>
+          <!-- <mat-icon class="txtClrLightGreen">{{item.moduleIcon}}</mat-icon> -->
+        </button>
+      </div>
+    </mat-menu>
+  </mat-toolbar>
+</div>
+
+<!-- Modal -->
+<div
+  class="modal fade zIndex"
+  id="deliveryModal"
+  role="dialog"
+  data-bs-backdrop="false"
+>
+  <div class="modal-dialog modal-md mat-elevation-z20" role="document">
+    <div class="modal-content">
+      <div class="modal-header bg-dark-grey">
+        <h4 class="modal-title align-self-center text-white">
+          Delivery Charges
+        </h4>
+        <div class="cancelIcon cursorPointer" data-bs-dismiss="modal"></div>
+      </div>
+
+      <div class="modal-body overflow-hidden">
+        <div class="row">
+          <div class="col-md-8">
+            <mat-form-field class="w-100">
+              <input
+                matInput
+                placeholder="Enter Description"
+                [(ngModel)]="formFields[1].value"
+              />
+            </mat-form-field>
+          </div>
+          <div class="col-md-4">
+            <mat-form-field class="w-100">
+              <input
+                matInput
+                placeholder="Enter Amount"
+                [(ngModel)]="formFields[2].value"
+              />
+            </mat-form-field>
+          </div>
         </div>
-      </mat-menu>
-    </mat-toolbar>
+        <div class="row">
+          <div class="col-md-2">
+            <button mat-button class="saveBtn" (click)="saveDelivery()">
+              Save
+            </button>
+          </div>
+          <div class="col-md-2">
+            <button mat-button class="resetBtn" (click)="resetDelivery()">
+              Reset
+            </button>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Sr#</th>
+                  <th>Description</th>
+                  <th>Amount</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of deliveryList; let i = index">
+                  <td>{{ i + 1 }}</td>
+                  <td>{{ item.description }}</td>
+                  <td>{{ item.amount | number }}</td>
+                  <td>
+                    <span
+                      class="txtClrDarkGrey pe-2 cursorPointer"
+                      (click)="editDelivery(item)"
+                    >
+                      <mat-icon>edit</mat-icon>
+                    </span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- modal-content -->
   </div>
-  
+  <!-- modal-dialog -->
+</div>
+<!--modal-->

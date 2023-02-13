@@ -10,6 +10,8 @@ import {
 } from '@aims-pos/shared/interface';
 import { Router } from '@angular/router';
 
+import * as XLSX from 'xlsx';
+
 declare var $: any;
 
 @NgModule({
@@ -19,17 +21,26 @@ export class SharedServicesGlobalDataModule {
   currentUser = {} as UserInterface;
 
   private subject = new Subject<any>();
-  
+
   private cart = new Subject<any>();
-  
+
+  private searchProduct = new BehaviorSubject<string>('');
+  searchProduct$$ = this.searchProduct.asObservable();
+
   private checkFound = new BehaviorSubject<boolean>(false);
   checkFound$$ = this.checkFound.asObservable();
-  
+
+  private allProductFound = new BehaviorSubject<boolean>(false);
+  allProductFound$$ = this.allProductFound.asObservable();
+
   private cartQty = new BehaviorSubject<string>('');
   carQty$$ = this.cartQty.asObservable();
-  
+
   private cartTotal = new BehaviorSubject<string>('0.0');
   cartTotal$$ = this.cartTotal.asObservable();
+
+  private whichProductFound = new BehaviorSubject<string>('');
+  whichProductFound$$ = this.whichProductFound.asObservable();
 
   private _headerTitleSource = new Subject<string>();
   header_title$ = this._headerTitleSource.asObservable();
@@ -37,14 +48,32 @@ export class SharedServicesGlobalDataModule {
   private isLoading$$ = new BehaviorSubject<boolean>(false);
   isLoading$ = this.isLoading$$.asObservable();
 
+  private openDrawer = new BehaviorSubject<string>('');
+  openDrawer$$ = this.openDrawer.asObservable();
+
   constructor(
     private router: Router,
     private authService: SharedServicesAuthModule,
     private dataService: SharedServicesDataModule
   ) {}
 
+  setOpenDrawer(item: string) {
+    this.openDrawer.next(item);
+  }
+
+  setSearchProduct(tblSearch: string) {
+    this.searchProduct.next(tblSearch);
+  }
   setCheckFound(item: boolean): void {
     this.checkFound.next(item);
+  }
+
+  setAllProductFound(item: boolean): void {
+    this.allProductFound.next(item);
+  }
+
+  setWhichProductFound(item: string): void {
+    this.whichProductFound.next(item);
   }
 
   setCartTotal(item: string): void {
@@ -147,6 +176,16 @@ export class SharedServicesGlobalDataModule {
   getPermission(): Observable<any> {
     return this.subject.asObservable();
   }
+  exportExcel(elementName: any, fileName: any) {
+    const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(
+      document.getElementById(elementName)
+    );
+    const wb: XLSX.WorkBook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+
+    / save to file /;
+    XLSX.writeFile(wb, fileName + '.xlsx');
+  }
 
   //print Asset Register Report
   printData(printSection: string) {
@@ -239,19 +278,7 @@ export class SharedServicesGlobalDataModule {
   }
 
   phoneMask(): any {
-    return [
-      /\d/,
-      /\d/,
-      /\d/,
-      '-',
-      /\d/,
-      /\d/,
-      /\d/,
-      /\d/,
-      /\d/,
-      /\d/,
-      /\d/,
-    ];
+    return [/\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/, /\d/, /\d/, /\d/];
   }
 
   ntnMask(): any {

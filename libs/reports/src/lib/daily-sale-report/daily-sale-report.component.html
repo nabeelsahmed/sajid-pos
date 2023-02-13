@@ -1,114 +1,143 @@
-<div class="bg-dark-light"> 
-    <div class="container">
-        <div class="d-flex flex-column flex-lg-row flex-md-row flex-xl-row align-items-center pt-2 pb-2">
-            <div class="BankDetailsIcon"></div>
-            <h3 class="ms-3 mt-2">Daily Sales Report</h3>
-            <label class=" ms-4 mt-3 me-lg-auto"></label>
-            <button mat-button class="resetBtn me-2" styleSheetFile="assets/printstyles.css" printSectionId="section" ngxPrint [disabled]="reportList.length == 0">Print</button>
-            <button mat-button class="saveBtn" (click)="showReport()">Show</button>
-        </div>
+<div class="bg-dark-light">
+  <div class="container">
+    <div
+      class="d-flex flex-column flex-lg-row flex-md-row flex-xl-row align-items-center pt-2 pb-2"
+    >
+      <div class="BankDetailsIcon"></div>
+      <h3 class="ms-3 mt-2">Daily Sales Report</h3>
+      <label class="ms-4 mt-3 me-lg-auto"></label>
+      <button
+        mat-button
+        class="saleReturnBtn me-2"
+        ngxPrint
+        [disabled]="reportList.length == 0"
+        (click)="exportExcel()"
+      >
+        <span class="fa fa-file-excel-o me-2"> Download</span>
+      </button>
+      <button
+        mat-button
+        class="resetBtn me-2"
+        styleSheetFile="assets/printstyles.css"
+        printSectionId="section"
+        ngxPrint
+        [disabled]="reportList.length == 0"
+      >
+        Print
+      </button>
+      <button mat-button class="saveBtn" (click)="showReport()">Show</button>
     </div>
+  </div>
 </div>
 <div class="container">
-    <div class="row">
-        <div class="col-md-4">
-            <!-- <mat-form-field class="w-100 pt-3 pe-4" *ngIf="outletID == '1'"> -->
-            <mat-form-field class="w-100 pt-3 pe-4">
-                <mat-select class="matInput" [(ngModel)]="cmbOutlet" placeholder="Select outlet">
-                    <mat-option *ngFor="let item of outletList"
-                        [value]="item.outletID"
-                        >
-                        {{ item.outletName }}
-                    </mat-option>
-                </mat-select>
-            </mat-form-field>
-            <!-- <h3 class="pt-4 ps-3" *ngIf="outletID > '1'">{{lblOutletName}}</h3> -->
-        </div>
-        <div class="col-md-4">
-            <mat-form-field class="w-100 pt-3 pe-4">
-                <mat-label>From date</mat-label>
-                <input matInput [matDatepicker]="picker" [(ngModel)]="dtpFromDate"/>
-                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                <mat-datepicker #picker></mat-datepicker>
-            </mat-form-field>
-        </div>
-        <div class="col-md-4">
-            <mat-form-field class="w-100 pt-3">
-                <mat-label>To date</mat-label>
-                <input matInput [matDatepicker]="picker2" [(ngModel)]="dtpToDate"/>
-                <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
-                <mat-datepicker #picker2></mat-datepicker>
-            </mat-form-field>
-        </div>
+  <div class="row">
+    <div class="col-md-4">
+      <!-- <mat-form-field class="w-100 pt-3 pe-4" *ngIf="outletID == '1'"> -->
+      <mat-form-field class="w-100 pt-3 pe-4">
+        <mat-select
+          class="matInput"
+          [(ngModel)]="cmbOutlet"
+          placeholder="Select outlet"
+        >
+          <mat-option *ngFor="let item of outletList" [value]="item.outletID">
+            {{ item.outletName }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <!-- <h3 class="pt-4 ps-3" *ngIf="outletID > '1'">{{lblOutletName}}</h3> -->
     </div>
+    <div class="col-md-4">
+      <mat-form-field class="w-100 pt-3 pe-4">
+        <mat-label>From date</mat-label>
+        <input matInput [matDatepicker]="picker" [(ngModel)]="dtpFromDate" />
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+    </div>
+    <div class="col-md-4">
+      <mat-form-field class="w-100 pt-3">
+        <mat-label>To date</mat-label>
+        <input matInput [matDatepicker]="picker2" [(ngModel)]="dtpToDate" />
+        <mat-datepicker-toggle
+          matSuffix
+          [for]="picker2"
+        ></mat-datepicker-toggle>
+        <mat-datepicker #picker2></mat-datepicker>
+      </mat-form-field>
+    </div>
+  </div>
 </div>
 <div class="container mt-2" id="section">
-    <div class="row d-none border-bottom-4px">
-        <div class="col-md-6 text-left">
-            <div class="h1Main">Daily Sales Report</div>
-            <div class="h3Report txtDarkGrey">From Date: <b>{{dtpFromDate | date: 'MMM dd, yyyy'}}</b></div>
-            <div class="h3Report txtDarkGrey">To Date: <b>{{dtpToDate | date: 'MMM dd, yyyy'}}</b></div>
-        </div>
-        <div class="col-md-6 text-right">
-            <img src="assets/ui/company/logo.png" width="300px" />
-            <!-- <div class="posReportIcon"></div> -->
-            <div class="h1Report txtDarkGrey">Phone # 051-5917112</div>
-            <div class="h1Report txtDarkGrey">Mobile # 0311-1444261</div>
-        </div>
+  <div class="row d-none border-bottom-4px">
+    <div class="col-md-6 text-left">
+      <div class="h1Main">Daily Sales Report</div>
+      <div class="h3Report txtDarkGrey">
+        From Date: <b>{{ dtpFromDate | date: 'MMM dd, yyyy' }}</b>
+      </div>
+      <div class="h3Report txtDarkGrey">
+        To Date: <b>{{ dtpToDate | date: 'MMM dd, yyyy' }}</b>
+      </div>
     </div>
-    <!-- <div class="row d-none">
+    <div class="col-md-6 text-right">
+      <img src="assets/ui/company/logo.png" width="300px" />
+      <!-- <div class="posReportIcon"></div> -->
+      <div class="h1Report txtDarkGrey">Phone # 051-5917112</div>
+      <div class="h1Report txtDarkGrey">Mobile # 0311-1444261</div>
+    </div>
+  </div>
+  <!-- <div class="row d-none">
         <div class="col-md-12">
             <img src="assets/ui/ReportPictures/GradientBar.svg" height="20px" width="100%" />
         </div>
     </div> -->
-    
-    <div class="row">
-        <div class="col-md-12">
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th class="text-center border-bottom-green">Sr#</th>
-                        <th class="text-start border-bottom-green">Invoice No</th>
-                        <th class="text-start border-bottom-green">Invoice Date</th>
-                        <th class="text-start border-bottom-green">Product Name</th>
-                        <th class="text-center border-bottom-green">Quantity</th>
-                        <th class="text-end border-bottom-green">Sale Price</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let item of reportList let i = index;">
-                        <td class="text-center">{{i + 1}}</td>
-                        <td>{{item.invoiceNo}}</td>
-                        <td>{{item.invoiceDate | date: 'dd-MM-yyyy'}}</td>
-                        <td>{{item.productName}}</td>
-                        <td class="text-center">{{item.qty | number}}</td>
-                        <td class="text-end">{{item.salePrice | number}}</td>
-                    </tr>
-                    <tr *ngIf="reportList.length > 0" class="">
-                        <td class="text-center">{{reportList.length + 1}}</td>
-                        <td></td>
-                        <td></td>
-                        <td>
-                            <div class="h1Report">
-                                <b>Grand Total</b>
-                            </div>
-                        </td>
-                        <td class="text-center">
-                            <div class="h1Report">
-                                <b>{{lblTotalQty | number}}</b>
-                            </div>
-                        </td>
-                        <td class="text-end">
-                            <div class="h1Report">
-                                <b>{{lblTotalSalePrice | number}}</b>
-                            </div>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th class="text-center border-bottom-green">Sr#</th>
+            <th class="text-start border-bottom-green">Invoice No</th>
+            <th class="text-start border-bottom-green">Invoice Date</th>
+            <th class="text-start border-bottom-green">Product Name</th>
+            <th class="text-center border-bottom-green">Quantity</th>
+            <th class="text-end border-bottom-green">Sale Price</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of reportList; let i = index">
+            <td class="text-center">{{ i + 1 }}</td>
+            <td>{{ item.invoiceNo }}</td>
+            <td>{{ item.invoiceDate | date: 'dd-MM-yyyy' }}</td>
+            <td>{{ item.productName }}</td>
+            <td class="text-center">{{ item.qty | number }}</td>
+            <td class="text-end">{{ item.salePrice * item.qty | number }}</td>
+          </tr>
+          <tr *ngIf="reportList.length > 0" class="">
+            <td class="text-center">{{ reportList.length + 1 }}</td>
+            <td></td>
+            <td></td>
+            <td>
+              <div class="h1Report">
+                <b>Grand Total</b>
+              </div>
+            </td>
+            <td class="text-center">
+              <div class="h1Report">
+                <b>{{ lblTotalQty | number }}</b>
+              </div>
+            </td>
+            <td class="text-end">
+              <div class="h1Report">
+                <b>{{ lblTotalSalePrice | number }}</b>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
-<!--         
+  </div>
+  <!--         
     <div class="row mt-2 mb-2 d-none">
         <div class="col-md-3">
             <div class="borderTopGrey borderBottomGrey pb-01">

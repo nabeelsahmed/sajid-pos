@@ -10,14 +10,13 @@ declare var $: any;
 @Component({
   selector: 'aims-pos-purchase',
   templateUrl: './purchase.component.html',
-  styleUrls: ['./purchase.component.scss']
+  styleUrls: ['./purchase.component.scss'],
 })
 export class PurchaseComponent implements OnInit {
-
   @ViewChild(ProductPurchaseTableComponent) productPurchaseTable: any;
-  
-  searchProduct:any = '';
-  searchPurProduct:any = '';
+
+  searchProduct: any = '';
+  searchPurProduct: any = '';
   cmbProduct: any = '';
   lblTotal: any = 0;
   lblCash: any = 0;
@@ -38,7 +37,7 @@ export class PurchaseComponent implements OnInit {
     outletid: '',
     json: '',
   };
-  
+
   formFields: MyFormField[] = [
     {
       value: this.pageFields.invoiceNo,
@@ -144,57 +143,65 @@ export class PurchaseComponent implements OnInit {
     this.getParty();
   }
 
-  getProduct(){
+  getProduct() {
     this.productList = [];
 
-    this.dataService.getHttp('core-api/Product/getAllProduct', '').subscribe((response: any) => {
-      // this.productList = response;
-      this.productList = [];
-      for(var i = 0; i < response.length; i++){
-        this.productList.push({
-          productID: response[i].productID,
-          barcode1: response[i].barcode1,
-          productName: response[i].productName,
-          qty: 1,
-          costPrice: '0',
-          salePrice: '0',
-          laborCost: '0',
-          noOfBoxes: '0',
-          freightCharges: '0',
-          locationID: response[i].locationID,
-          total: response[i].salePrice,
-        })
+    this.dataService.getHttp('core-api/Product/getAllProduct', '').subscribe(
+      (response: any) => {
+        // this.productList = response;
+        this.productList = [];
+        for (var i = 0; i < response.length; i++) {
+          this.productList.push({
+            productID: response[i].productID,
+            barcode1: response[i].barcode1,
+            productName: response[i].productName,
+            qty: 1,
+            costPrice: '0',
+            salePrice: '0',
+            laborCost: '0',
+            noOfBoxes: '0',
+            freightCharges: '0',
+            locationID: response[i].locationID,
+            total: response[i].salePrice,
+          });
+        }
+      },
+      (error: any) => {
+        console.log(error);
       }
-      
-    }, (error: any) => {
-      console.log(error);
-    });
-  }
-  
-  getParty(){
-    this.dataService.getHttp('core-api/Party/getParty', '').subscribe((response: any) => {
-      this.partyList = response;
-    }, (error: any) => {
-      console.log(error);
-    });
+    );
   }
 
-  getWeightLoss(){
-
-    this.dataService.getHttp('core-api/Purchase/getPurchase', '').subscribe((response: any) => {
-      $("#weightLossModal").modal("show");
-      
-      this.purchaseList = response;
-    }, (error: any) => {
-      console.log(error);
-    });
+  getParty() {
+    this.dataService.getHttp('core-api/Party/getParty', '').subscribe(
+      (response: any) => {
+        this.partyList = response;
+      },
+      (error: any) => {
+        console.log(error);
+      }
+    );
   }
 
-  pushProduct(item: any){
-    var data = this.productList.filter((x: {productID: any}) => 
-                                        x.productID == item );
-    
-    if(this.productPurchaseTable.tableData.length == 0){
+  getWeightLoss() {
+    this.dataService.getHttp('core-api/Purchase/getPurchase', '').subscribe(
+      (response: any) => {
+        $('#weightLossModal').modal('show');
+
+        this.purchaseList = response;
+      },
+      (error: any) => {
+        console.log(error);
+      }
+    );
+  }
+
+  pushProduct(item: any) {
+    var data = this.productList.filter(
+      (x: { productID: any }) => x.productID == item
+    );
+
+    if (this.productPurchaseTable.tableData.length == 0) {
       this.productPurchaseTable.tableData.push({
         productID: data[0].productID,
         barcode1: data[0].barcode1,
@@ -207,24 +214,29 @@ export class PurchaseComponent implements OnInit {
         freightCharges: data[0].freightCharges,
         locationID: data[0].locationID,
         total: data[0].salePrice,
-      })
-    }else{
-
+      });
+    } else {
       var found = false;
       var index = 0;
-      for(var i = 0; i < this.productPurchaseTable.tableData.length; i++){
-        if(this.productPurchaseTable.tableData[i].productID == item){
+      for (var i = 0; i < this.productPurchaseTable.tableData.length; i++) {
+        if (this.productPurchaseTable.tableData[i].productID == item) {
           found = true;
           index = i;
           i = this.productPurchaseTable.tableData.length + 1;
         }
       }
 
-      if(found == true){
-        this.productPurchaseTable.tableData[index].qty = parseInt(this.productPurchaseTable.tableData[index].qty) + 1;
-        this.productPurchaseTable.tableData[index].total = parseInt(this.productPurchaseTable.tableData[index].costPrice) + (parseInt(this.productPurchaseTable.tableData[index].laborCost) + parseInt(this.productPurchaseTable.tableData[index].freightCharges));
-      }else{
-        this.productPurchaseTable.tableData.push({
+      if (found == true) {
+        this.productPurchaseTable.tableData[index].qty =
+          parseInt(this.productPurchaseTable.tableData[index].qty) + 1;
+        this.productPurchaseTable.tableData[index].total =
+          parseInt(this.productPurchaseTable.tableData[index].costPrice) +
+          (parseInt(this.productPurchaseTable.tableData[index].laborCost) +
+            parseInt(
+              this.productPurchaseTable.tableData[index].freightCharges
+            ));
+      } else {
+        this.productPurchaseTable.tableData.unshift({
           productID: data[0].productID,
           barcode1: data[0].barcode1,
           productName: data[0].productName,
@@ -236,177 +248,189 @@ export class PurchaseComponent implements OnInit {
           freightCharges: data[0].freightCharges,
           locationID: data[0].locationID,
           total: data[0].salePrice,
-        })
+        });
       }
     }
 
     this.lblTotal = 0;
-    for(var i = 0; i < this.productPurchaseTable.tableData.length; i++){
-
+    for (var i = 0; i < this.productPurchaseTable.tableData.length; i++) {
       this.lblTotal += parseInt(this.productPurchaseTable.tableData[i].total);
     }
 
     this.formFields[8].value = -this.lblTotal;
   }
 
-  totalBill(){
-
+  totalBill() {
     this.lblTotal = 0;
 
-    for(var i = 0; i < this.productPurchaseTable.tableData.length; i++){
+    for (var i = 0; i < this.productPurchaseTable.tableData.length; i++) {
       this.lblTotal += parseInt(this.productPurchaseTable.tableData[i].total);
     }
 
     this.formFields[8].value = -this.lblTotal;
   }
 
-  changeValue(){
-    if(this.formFields[8].value == ''){
+  changeValue() {
+    if (this.formFields[8].value == '') {
       this.formFields[8].value = 0;
     }
-    if(this.formFields[6].value == ''){
+    if (this.formFields[6].value == '') {
       this.formFields[6].value = 0;
     }
-    if(this.formFields[7].value == ''){
+    if (this.formFields[7].value == '') {
       this.formFields[7].value = 0;
     }
 
-    this.formFields[8].value = (parseInt(this.formFields[6].value) + parseInt(this.formFields[7].value)) - this.lblTotal;
-
+    this.formFields[8].value =
+      parseInt(this.formFields[6].value) +
+      parseInt(this.formFields[7].value) -
+      this.lblTotal;
   }
 
   // save(printSection: string) {
   save() {
-
     this.lblCash = this.formFields[7].value;
 
-    this.formFields[12].value = JSON.stringify(this.productPurchaseTable.tableData);
+    this.formFields[12].value = JSON.stringify(
+      this.productPurchaseTable.tableData
+    );
     this.formFields[11].value = this.globalService.getOutletId().toString();
 
-    if(this.productPurchaseTable.tableData.length == 0){
-      this.valid.apiInfoResponse("enter products");
+    if (this.productPurchaseTable.tableData.length == 0) {
+      this.valid.apiInfoResponse('enter products');
       return;
     }
-    if((this.formFields[3].value == '' || this.formFields[3].value == '0') && (this.formFields[7].value == 0)){
-      this.valid.apiInfoResponse("enter cash");
+    if (
+      (this.formFields[3].value == '' || this.formFields[3].value == '0') &&
+      this.formFields[7].value == 0
+    ) {
+      this.valid.apiInfoResponse('enter cash');
       return;
     }
 
-    if(this.formFields[3].value == ''){
-      var cash = parseInt(this.formFields[6].value) + parseInt(this.formFields[7].value);
-      if(this.lblTotal > cash){
-        this.valid.apiInfoResponse("enter correct cash");
+    if (this.formFields[3].value == '') {
+      var cash =
+        parseInt(this.formFields[6].value) + parseInt(this.formFields[7].value);
+      if (this.lblTotal > cash) {
+        this.valid.apiInfoResponse('enter correct cash');
         return;
       }
     }
-    
 
-    if(this.lblTotal < parseInt(this.formFields[6].value)){
-      this.formFields[6].value = parseInt(this.formFields[6].value) - parseInt(this.formFields[8].value);
+    if (this.lblTotal < parseInt(this.formFields[6].value)) {
+      this.formFields[6].value =
+        parseInt(this.formFields[6].value) - parseInt(this.formFields[8].value);
     }
 
     this.dataService
-    .savetHttp(
-      this.pageFields,
-      this.formFields,
-      'core-api/Purchase/savePurchase'
-    )
-    .subscribe(
-      (response: any) => {
-        console.log(response);
-        if(response.message == 'Success'){
+      .savetHttp(
+        this.pageFields,
+        this.formFields,
+        'core-api/Purchase/savePurchase'
+      )
+      .subscribe(
+        (response: any) => {
+          console.log(response);
+          if (response.message == 'Success') {
+            this.valid.apiInfoResponse('record saved successfully');
 
-          this.valid.apiInfoResponse('record saved successfully');
+            // this.printSale.tableData = this.productSaleTable.tableData;
 
-          // this.printSale.tableData = this.productSaleTable.tableData;
+            // this.printSale.lblInvoice = response.invoiceNo;
+            // this.printSale.lblDate = date;
+            // this.printSale.lblGTotal = this.lblTotal;
+            // this.printSale.lblDiscount = this.formFields[6].value;
+            // this.printSale.lblCash = this.lblCash;
+            // this.printSale.lblChange = this.formFields[8].value;
 
-          // this.printSale.lblInvoice = response.invoiceNo;
-          // this.printSale.lblDate = date;
-          // this.printSale.lblGTotal = this.lblTotal;
-          // this.printSale.lblDiscount = this.formFields[6].value;
-          // this.printSale.lblCash = this.lblCash;
-          // this.printSale.lblChange = this.formFields[8].value;
-      
-          // setTimeout(()=> this.globalService.printData(printSection), 200);
-          this.reset();
-        }else{
-          this.valid.apiErrorResponse(response.toString());
+            // setTimeout(()=> this.globalService.printData(printSection), 200);
+            this.reset();
+          } else {
+            this.valid.apiErrorResponse(response.toString());
+          }
+        },
+        (error: any) => {
+          this.error = error;
+          this.valid.apiErrorResponse(this.error);
         }
-      },
-      (error: any) => {
-        this.error = error;
-        this.valid.apiErrorResponse(this.error);
-      }
-    );    
+      );
   }
 
-  checkPurchaseReturn(){
-
-    if(this.productPurchaseTable.tableData.length == 0){
-      this.valid.apiInfoResponse("enter products");
+  checkPurchaseReturn() {
+    if (this.productPurchaseTable.tableData.length == 0) {
+      this.valid.apiInfoResponse('enter products');
       return;
     }
 
-    $("#purchaseReturnModal").modal("show");
+    $('#purchaseReturnModal').modal('show');
   }
 
-  purchaseReturn(){
-    this.dataService.getHttp('core-api/Purchase/getPurchaseReturn?invoiceNo=' + this.lblInvoiceNo, '').subscribe((response: any) => {
-      if(response.length == 0){
-        this.valid.apiInfoResponse('no invoice found');
-        return;
-      }else{
-        let result = this.productPurchaseTable.tableData.filter
-                      ((r1: {productID: any, qty: any}) => 
-                      response.some((r2: {productID: any, qty: any}) => 
-                      r1.productID === r2.productID && r1.qty <= r2.qty));
+  purchaseReturn() {
+    this.dataService
+      .getHttp(
+        'core-api/Purchase/getPurchaseReturn?invoiceNo=' + this.lblInvoiceNo,
+        ''
+      )
+      .subscribe(
+        (response: any) => {
+          if (response.length == 0) {
+            this.valid.apiInfoResponse('no invoice found');
+            return;
+          } else {
+            let result = this.productPurchaseTable.tableData.filter(
+              (r1: { productID: any; qty: any }) =>
+                response.some(
+                  (r2: { productID: any; qty: any }) =>
+                    r1.productID === r2.productID && r1.qty <= r2.qty
+                )
+            );
 
-        if(this.productPurchaseTable.tableData.length == result.length){
+            if (this.productPurchaseTable.tableData.length == result.length) {
+              this.lblCash = this.formFields[7].value;
 
-          this.lblCash = this.formFields[7].value;
+              this.formFields[3].value = this.lblInvoiceNo;
+              this.formFields[4].value = new Date();
 
-          this.formFields[3].value = this.lblInvoiceNo;
-          this.formFields[4].value = new Date();
+              this.formFields[12].value = JSON.stringify(
+                this.productPurchaseTable.tableData
+              );
 
-          this.formFields[12].value = JSON.stringify(this.productPurchaseTable.tableData);
-          
-          // console.log(this.formFields[11].value)
-          this.dataService
-          .savetHttp(
-            this.pageFields,
-            this.formFields,
-            'core-api/Purchase/savePurchaseReturn'
-          )
-          .subscribe(
-            (response: any) => {
-              console.log(response);
-              if(response.message == "Success"){
-    
-                this.valid.apiInfoResponse('record saved successfully');
-    
-                this.reset();
-              }else{
-                this.valid.apiErrorResponse(response.toString());
-              }
-            },
-            (error: any) => {
-              this.error = error;
-              this.valid.apiErrorResponse(this.error);
+              // console.log(this.formFields[11].value)
+              this.dataService
+                .savetHttp(
+                  this.pageFields,
+                  this.formFields,
+                  'core-api/Purchase/savePurchaseReturn'
+                )
+                .subscribe(
+                  (response: any) => {
+                    console.log(response);
+                    if (response.message == 'Success') {
+                      this.valid.apiInfoResponse('record saved successfully');
+
+                      this.reset();
+                    } else {
+                      this.valid.apiErrorResponse(response.toString());
+                    }
+                  },
+                  (error: any) => {
+                    this.error = error;
+                    this.valid.apiErrorResponse(this.error);
+                  }
+                );
+            } else {
+              this.valid.apiErrorResponse('product not found in sale invoice');
+              return;
             }
-          );
-    
-        }else{
-          this.valid.apiErrorResponse('product not found in sale invoice');
-          return;
+          }
+        },
+        (error: any) => {
+          console.log(error);
         }
-      }
-    }, (error: any) => {
-      console.log(error);
-    });
+      );
   }
 
-  updateWeight(item: any){
-
+  updateWeight(item: any) {
     var pageFields = {
       invoiceNo: '0',
       userID: '',
@@ -479,20 +503,15 @@ export class PurchaseComponent implements OnInit {
     formFields[7].value = item.freightcharges;
 
     this.dataService
-      .savetHttp(
-        pageFields,
-        formFields,
-        'core-api/Purchase/updatePurchase'
-      )
+      .savetHttp(pageFields, formFields, 'core-api/Purchase/updatePurchase')
       .subscribe(
         (response: any) => {
-          if(response.message == "Success"){
+          if (response.message == 'Success') {
             this.valid.apiInfoResponse('Record updated successfully');
-            $("#weightLossModal").modal("hide");
-          }else{
+            $('#weightLossModal').modal('hide');
+          } else {
             this.valid.apiErrorResponse(response[0]);
           }
-          
         },
         (error: any) => {
           this.error = error;
@@ -501,7 +520,7 @@ export class PurchaseComponent implements OnInit {
       );
   }
 
-  reset(){
+  reset() {
     this.formFields = this.valid.resetFormFields(this.formFields);
 
     this.formFields[0].value = '0';
@@ -520,8 +539,7 @@ export class PurchaseComponent implements OnInit {
     this.lblTotal = 0;
     this.lblCash = 0;
     this.productPurchaseTable.tableData = [];
-    
-    $("#purchaseReturnModal").modal("hide");
-  }
 
+    $('#purchaseReturnModal').modal('hide');
+  }
 }

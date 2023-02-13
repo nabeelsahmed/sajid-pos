@@ -7,42 +7,45 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 @Component({
   selector: 'aims-pos-product-table',
   templateUrl: './product-table.component.html',
-  styleUrls: ['./product-table.component.scss']
+  styleUrls: ['./product-table.component.scss'],
 })
 export class ProductTableComponent implements OnInit {
-
   @Output() eventEmitter = new EventEmitter();
   @Output() eventEmitterDelete = new EventEmitter();
 
+  tblSearch: any = '';
+
   error: any;
   tableData: any = [];
-  
+
   constructor(
     private dataService: SharedServicesDataModule,
     private globalService: SharedServicesGlobalDataModule,
     private valid: SharedHelpersFieldValidationsModule
-  ) { }
+  ) {}
 
   ngOnInit(): void {
-    this.getProduct()
+    this.getProduct();
   }
-  
-  getProduct(){
-    this.dataService.getHttp('core-api/Product/getAllProduct', '').subscribe((response: any) => {
-      this.tableData = response;
-      console.log(response)
-    }, (error: any) => {
-      console.log(error);
-    });
+
+  getProduct() {
+    this.dataService.getHttp('core-api/Product/getAllProduct', '').subscribe(
+      (response: any) => {
+        this.tableData = response;
+      },
+      (error: any) => {
+        console.log(error);
+      }
+    );
   }
-  
-  edit(item: any){
+
+  edit(item: any) {
     this.eventEmitter.emit(item);
   }
 
-  delete(item: any){
+  delete(item: any) {
     this.eventEmitterDelete.emit(item);
-    
+
     var pageFields = {
       productID: '0',
       userID: '',
@@ -67,20 +70,15 @@ export class ProductTableComponent implements OnInit {
     formFields[1].value = this.globalService.getUserId().toString();
 
     this.dataService
-      .deleteHttp(
-        pageFields,
-        formFields,
-        'core-api/Product/deleteProduct'
-      )
+      .deleteHttp(pageFields, formFields, 'core-api/Product/deleteProduct')
       .subscribe(
         (response: any) => {
-          if(response.message == "Success"){
+          if (response.message == 'Success') {
             this.valid.apiInfoResponse('Record deleted successfully');
             this.getProduct();
-          }else{
+          } else {
             this.valid.apiErrorResponse(response[0]);
           }
-          
         },
         (error: any) => {
           this.error = error;
@@ -88,5 +86,4 @@ export class ProductTableComponent implements OnInit {
         }
       );
   }
-
 }

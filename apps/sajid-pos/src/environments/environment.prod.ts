@@ -1,7 +1,8 @@
 export const environment = {
   production: true,
   envName: 'prod',
-  apiUrl: 'http://135.181.62.34:7050/',
+  // apiUrl: 'https://135.181.62.60:443/',
+  apiUrl: 'https://portal2.sungreenfresh.com/',
   imageUrl: 'C:/inetpub/wwwroot/SajidPosProject/sajid-pos/assets/ui/',
-  imageSavedPath: 'http://135.181.62.34:7060/assets/ui/',
+  imageSavedPath: 'https://image.sungreenfresh.com:7061/assets/ui/',
 };

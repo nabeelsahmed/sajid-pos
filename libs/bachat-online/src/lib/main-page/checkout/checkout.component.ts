@@ -7,14 +7,17 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 @Component({
   selector: 'aims-pos-checkout',
   templateUrl: './checkout.component.html',
-  styleUrls: ['./checkout.component.scss']
+  styleUrls: ['./checkout.component.scss'],
 })
 export class CheckoutComponent implements OnInit {
-  
   @Output() eventEmitter = new EventEmitter();
 
   @Input() checkOutList: any = [];
   @Input() totalPrice: any = 0;
+
+  status: any = '';
+
+  lblDescription: any = '';
 
   pageFields: CheckoutInterface = {
     customerName: '',
@@ -24,7 +27,7 @@ export class CheckoutComponent implements OnInit {
     status: '',
     json: '',
   };
-  
+
   formFields: MyFormField[] = [
     {
       value: this.pageFields.customerName,
@@ -70,51 +73,62 @@ export class CheckoutComponent implements OnInit {
   constructor(
     private dataService: SharedServicesDataModule,
     private globalService: SharedServicesGlobalDataModule,
-    private valid: SharedHelpersFieldValidationsModule,
-  ) { }
+    private valid: SharedHelpersFieldValidationsModule
+  ) {}
 
   ngOnInit(): void {
+    this.getDelivery();
   }
 
-  returnToMain(){
+  getDelivery() {
+    this.dataService
+      .getHttp('bachat-online-api/Product/getDeliveryCharges', '')
+      .subscribe(
+        (response: any) => {
+          this.lblDescription = response[0].description;
+        },
+        (error: any) => {
+          console.log(error);
+        }
+      );
+  }
+
+  returnToMain() {
     this.globalService.setCheckFound(false);
   }
 
-  checkOut(){
-
-    if(this.checkOutList.length == 0){
+  checkOut() {
+    if (this.checkOutList.length == 0) {
       this.valid.apiErrorResponse('enter list items');
       return;
     }
     this.formFields[5].value = JSON.stringify(this.checkOutList);
     this.dataService
-    .savetHttp(
-      this.pageFields,
-      this.formFields,
-      'bachat-online-api/Product/checkout'
-    )
-    .subscribe(
-      (response: any) => {
-        console.log(response);
-        if(response.message == 'Success'){
+      .savetHttp(
+        this.pageFields,
+        this.formFields,
+        'bachat-online-api/Product/checkout'
+      )
+      .subscribe(
+        (response: any) => {
+          console.log(response);
+          if (response.message == 'Success') {
+            this.valid.apiInfoResponse('Your order placed successfully');
 
-          this.valid.apiInfoResponse('Your order placed successfully');
-
-          this.eventEmitter.emit();
-          this.reset();
-        }else{
-          this.valid.apiErrorResponse(response.toString());
+            this.eventEmitter.emit();
+            this.reset();
+          } else {
+            this.valid.apiErrorResponse(response.toString());
+          }
+        },
+        (error: any) => {
+          this.error = error;
+          this.valid.apiErrorResponse(this.error);
         }
-      },
-      (error: any) => {
-        this.error = error;
-        this.valid.apiErrorResponse(this.error);
-      }
-    );
+      );
   }
 
-  reset(){
-
+  reset() {
     this.formFields = this.valid.resetFormFields(this.formFields);
 
     this.globalService.setCheckFound(false);

@@ -5,11 +5,12 @@ import { first } from 'rxjs/operators';
 import { SharedHelpersFieldValidationsModule } from '@aims-pos/shared/helpers/field-validations';
 import { SharedServicesDataModule } from '@aims-pos/shared/services/data';
 import { environment } from 'apps/sajid-pos/src/environments/environment';
+import { LIVE_ANNOUNCER_ELEMENT_TOKEN } from '@angular/cdk/a11y';
 
 @Component({
   selector: 'aims-pos-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+  styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements OnInit {
   logoImg: any = '';
@@ -20,7 +21,7 @@ export class LoginComponent implements OnInit {
   password = '';
   error = '';
   logoUrl: any = 'assets/ui/company/logo.png';
-  
+
   constructor(
     private authService: SharedServicesAuthModule,
     private toastr: SharedHelpersFieldValidationsModule,
@@ -78,6 +79,12 @@ export class LoginComponent implements OnInit {
             this.toastr.apiErrorResponse('user name or password in invalid');
           }
         );
+    }
+  }
+
+  onChange(event: any) {
+    if (event.keyCode == 13) {
+      this.login();
     }
   }
 }

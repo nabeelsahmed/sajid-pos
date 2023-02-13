@@ -6,27 +6,31 @@ declare var $: any;
 @Component({
   selector: 'aims-pos-bachat-topnav',
   templateUrl: './bachat-topnav.component.html',
-  styleUrls: ['./bachat-topnav.component.scss']
+  styleUrls: ['./bachat-topnav.component.scss'],
 })
 export class BachatTopnavComponent implements OnInit {
-
+  searchProduct: any = '';
   items: any;
-  totalPrice: any = 0.00;
+  totalPrice: any = 0.0;
 
   // clickEventSubscription: Subscription;
 
-  constructor(
-    private globalService: SharedServicesGlobalDataModule,
-  ) {}
+  constructor(private globalService: SharedServicesGlobalDataModule) {}
 
   ngOnInit(): void {
-    this.globalService.carQty$$.subscribe(value => this.items = value);
-    this.globalService.cartTotal$$.subscribe(value => this.totalPrice = value);
+    this.globalService.carQty$$.subscribe((value) => (this.items = value));
+    this.globalService.cartTotal$$.subscribe(
+      (value) => (this.totalPrice = value)
+    );
   }
 
-  openModal(){
-    if(this.totalPrice > 0){
-      $('#cartModal').modal("show");
+  openModal() {
+    if (this.totalPrice > 0) {
+      $('#cartModal').modal('show');
     }
+  }
+
+  searchProductData(item: any) {
+    this.globalService.setSearchProduct(item);
   }
 }

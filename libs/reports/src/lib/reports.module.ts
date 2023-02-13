@@ -13,7 +13,6 @@ import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 
 import { NgxPrintModule } from 'ngx-print';
-
 import { DailySaleReportComponent } from './daily-sale-report/daily-sale-report.component';
 import { LedgerReportComponent } from './ledger-report/ledger-report.component';
 import { ProfitLossReportComponent } from './profit-loss-report/profit-loss-report.component';
@@ -25,6 +24,10 @@ import { PeriodicCategorySaleReportComponent } from './periodic-category-sale-re
 import { TrialBalanceComponent } from './trial-balance/trial-balance.component';
 import { JournalVoucherComponent } from './journal-voucher/journal-voucher.component';
 import { BalanceSheetComponent } from './balance-sheet/balance-sheet.component';
+import { DailySaleProductWiseReportComponent } from './daily-sale-product-wise-report/daily-sale-product-wise-report.component';
+import { DailySaleInvoiceWiseReportComponent } from './daily-sale-invoice-wise-report/daily-sale-invoice-wise-report.component';
+import { InOutStockReportComponent } from './in-out-stock-report/in-out-stock-report.component';
+import { OpClOutletReportComponent } from './op-cl-outlet-report/op-cl-outlet-report.component';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true,
@@ -32,6 +35,8 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
 
 export const reportsRoutes: Route[] = [
   { path: 'dailysalerpt', component: DailySaleReportComponent },
+  { path: 'saleproductrpt', component: DailySaleProductWiseReportComponent },
+  { path: 'saleinvoicerpt', component: DailySaleInvoiceWiseReportComponent },
   { path: 'ledgerrpt', component: LedgerReportComponent },
   { path: 'profitlossrpt', component: ProfitLossReportComponent },
   { path: 'partyledgerrpt', component: PartyLedgerReportComponent },
@@ -42,6 +47,8 @@ export const reportsRoutes: Route[] = [
   { path: 'trialbalrpt', component: TrialBalanceComponent },
   { path: 'balsheetrpt', component: BalanceSheetComponent },
   { path: 'jourvoucherrpt', component: JournalVoucherComponent },
+  { path: 'inoutstockrpt', component: InOutStockReportComponent },
+  { path: 'opcloutletrpt', component: OpClOutletReportComponent },
 ];
 
 @NgModule({
@@ -53,7 +60,7 @@ export const reportsRoutes: Route[] = [
     Ng2SearchPipeModule,
     NgxMatSelectSearchModule,
     PerfectScrollbarModule,
-    NgxPrintModule
+    NgxPrintModule,
   ],
   declarations: [
     DailySaleReportComponent,
@@ -67,13 +74,16 @@ export const reportsRoutes: Route[] = [
     TrialBalanceComponent,
     JournalVoucherComponent,
     BalanceSheetComponent,
+    DailySaleProductWiseReportComponent,
+    DailySaleInvoiceWiseReportComponent,
+    InOutStockReportComponent,
+    OpClOutletReportComponent,
   ],
   providers: [
     {
       provide: PERFECT_SCROLLBAR_CONFIG,
       useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG,
     },
-    
   ],
 })
 export class ReportsModule {}
